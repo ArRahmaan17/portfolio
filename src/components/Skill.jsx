@@ -49,7 +49,7 @@ const Skill = (props) => {
             style={props.customStyle}
           ></div>
         </div>
-        <div className="mx-50 md:mx-20 lg:mx-40 max-w-auto py-8 md:py-28">
+        <div className="mx-50 md:mx-20 lg:mx-10 max-w-auto py-8 md:py-28">
           <p className="text-center pt-8 pb-10 text-6xl text-white">
             Tech Stack
           </p>
