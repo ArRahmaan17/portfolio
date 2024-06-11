@@ -4,6 +4,7 @@ import laravel from "../laravel.svg";
 import expressjs from "../expressjs.svg";
 import react from "../react.svg";
 import nodejs from "../nodejs.svg";
+import docker from "../docker.svg";
 const Skill = (props) => {
   const skills = [
     {
@@ -36,6 +37,12 @@ const Skill = (props) => {
       experience: "7 months",
       imageUrl: nodejs,
     },
+    {
+      name: "Docker",
+      level: "Beginner",
+      experience: "3 months",
+      imageUrl: docker,
+    },
   ];
   return (
     <div className="bg-gray-700" id="stack">
@@ -49,7 +56,7 @@ const Skill = (props) => {
             style={props.customStyle}
           ></div>
         </div>
-        <div className="mx-50 md:mx-20 lg:mx-10 max-w-auto py-8 md:py-28">
+        <div className="mx-50 md:mx-20 lg:mx-5 max-w-auto py-8 md:py-16">
           <p className="text-center pt-8 pb-10 text-6xl text-white">
             Tech Stack
           </p>
