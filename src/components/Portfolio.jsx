@@ -1,6 +1,6 @@
 import React from "react";
 import simpkl from "../assets/portfolio/sim-pkl.png";
-import publicchat from "../assets/portfolio/sim-pkl.png";
+import publicchat from "../assets/portfolio/public-chat.png";
 
 export default function Portfolio(props) {
   const projects = [
