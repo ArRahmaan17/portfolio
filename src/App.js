@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import Skill from "./components/Skill";
 import { Fab } from "react-tiny-fab";
 import { animateScroll as scroll } from "react-scroll";
+import Portfolio from "./components/Portfolio";
 function App() {
   let style1 = {
     clipPath:
@@ -22,7 +23,7 @@ function App() {
     window.addEventListener('scroll', headerOffscreen);
 
     const typed = new Typed(el.current, {
-      strings: ["Ardhi Rahmaan", "Software Engineer"],
+      strings: ["Software Engineer", "Ardhi Rahmaan"],
       typeSpeed: 100,
       loop: true,
       showCursor: false,
@@ -42,6 +43,7 @@ function App() {
     <div className="App select-none" >
       <Header  {...params} />
       <Skill {...params} />
+      <Portfolio {...params} />
       <Fab icon="&uarr;" onClick={scrollToTop} style={styleFab}></Fab>
     </div >
   );

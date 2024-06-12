@@ -59,10 +59,10 @@ const Home = (props) => {
             </Link>
             <Link
               smooth={true}
-              to="projects"
+              to="portfolio"
               className="text-sm font-semibold leading-6 text-gray-400 cursor-pointer"
             >
-              Projects
+              Portfolio
             </Link>
             <Link
               smooth={true}
@@ -139,7 +139,7 @@ const Home = (props) => {
                     href="#"
                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-200 hover:bg-gray-50"
                   >
-                    Projects
+                    Portfolio
                   </a>
                   <a
                     href="#"

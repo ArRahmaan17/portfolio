@@ -1,10 +1,11 @@
 import React from "react";
-import tailwindcss from "../tailwindcss.svg";
-import laravel from "../laravel.svg";
-import expressjs from "../expressjs.svg";
-import react from "../react.svg";
-import nodejs from "../nodejs.svg";
-import docker from "../docker.svg";
+import tailwindcss from "../assets/stack-logos/tailwindcss.svg";
+import laravel from "../assets/stack-logos/laravel.svg";
+import expressjs from "../assets/stack-logos/expressjs.svg";
+import react from "../assets/stack-logos/react.svg";
+import nodejs from "../assets/stack-logos/nodejs.svg";
+import docker from "../assets/stack-logos/docker.svg";
+import bootstrap from "../assets/stack-logos/bootstrap.svg";
 const Skill = (props) => {
   const skills = [
     {
@@ -42,6 +43,12 @@ const Skill = (props) => {
       level: "Beginner",
       experience: "3 months",
       imageUrl: docker,
+    },
+    {
+      name: "Bootstrap",
+      level: "Intermediate",
+      experience: "2 years",
+      imageUrl: bootstrap,
     },
   ];
   return (
