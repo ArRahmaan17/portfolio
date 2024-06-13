@@ -7,7 +7,9 @@ const Home = (props) => {
   };
   return (
     <div className="bg-black">
-      <header className="fixed md:absolute inset-x-0 top-0 z-50">
+      <header
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-1000 ease-in-out ${props.classNavbar}`}
+      >
         {/* navbar */}
         <nav
           id="navbar-menu"
