@@ -67,7 +67,7 @@ const Skill = (props) => {
           <p className="text-center pt-8 pb-10 text-2xl md:text-4xl lg:text-6xl text-white">
             Tech Stack
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-10 gap-x-4 pt-10 pb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-10 gap-x-4 pt-10 pb-36">
             {skills.map((skill) => (
               <div
                 key={skill.name}
