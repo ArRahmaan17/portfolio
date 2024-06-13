@@ -38,8 +38,8 @@ export default function Portfolio(props) {
             style={props.customStyle}
           ></div>
         </div>
-        <div className="mx-10 md:mx-50 lg:mx-30 max-w-auto py-8 md:py-16">
-          <p className="text-center pt-8 pb-10 text-6xl text-white">
+        <div className="mx-10 md:mx-50 lg:mx-30 max-w-auto py-8 md:py-12">
+          <p className="text-center pt-8 pb-10 text-2xl md:text-4xl lg:text-6xl text-white">
             Portfolio
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 pt-10 pb-8">
@@ -64,12 +64,10 @@ export default function Portfolio(props) {
                     <div className="mt-5 truncate text-sm flex flex-row gap-2 flex-wrap">
                       {project.types.map((type) => (
                         <p
-                          className="basis-1 text-sm font-sx text-gray-400 mt-1 group-hover:text-blue-400"
+                          className="basis-1 text-sm font-sx text-gray-400 mt-1 group-hover:text-gray-100"
                           key={type.id}
                         >
-                          <a href={type.link} target="_blank" rel="noreferrer">
-                            {type.name}
-                          </a>
+                          {type.name}
                         </p>
                       ))}
                     </div>

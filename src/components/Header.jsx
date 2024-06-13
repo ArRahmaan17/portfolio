@@ -66,7 +66,7 @@ const Home = (props) => {
             </Link>
             <Link
               smooth={true}
-              to="Contact"
+              to="contact"
               className="text-sm font-semibold leading-6 text-gray-400 cursor-pointer"
             >
               Contact
@@ -181,13 +181,13 @@ const Home = (props) => {
                 I'm &nbsp;
               </h1>
               <h1
-                className="text-lg font-bold text-gray-400 sm:text-2xl"
+                className="text-lg font-bold text-gray-100 sm:text-2xl"
                 ref={props.node}
               >
                 &nbsp;
               </h1>
             </div>
-            <p className="mt-6 text-sm leading-8 text-gray-300">
+            <p className="mt-6 text-sm leading-8 text-gray-400">
               As a software engineer, I focus on creating user-friendly
               solutions for complex challenges. I'm passionate about coding and
               staying updated on new tech trends. My goal is to deliver

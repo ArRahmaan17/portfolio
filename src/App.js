@@ -5,6 +5,7 @@ import Skill from "./components/Skill";
 import { Fab } from "react-tiny-fab";
 import { animateScroll as scroll } from "react-scroll";
 import Portfolio from "./components/Portfolio";
+import Contact from "./components/Contact";
 function App() {
   let style1 = {
     clipPath:
@@ -41,10 +42,11 @@ function App() {
   }
   return (
     <>
-      <div className="App select-none flex flex-col divide-y-2 divide-blue-400/25">
+      <div className="App select-none flex flex-col divide-y-2 divide-double divide-blue-400/25">
         <Header  {...params} />
         <Skill {...params} />
         <Portfolio {...params} />
+        <Contact {...params} />
       </div >
       <Fab icon="&uarr;" onClick={scrollToTop} style={styleFab}></Fab>
     </>
