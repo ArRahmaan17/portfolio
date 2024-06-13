@@ -5,24 +5,29 @@ import publicchat from "../assets/portfolio/public-chat.png";
 export default function Portfolio(props) {
   const projects = [
     {
+      id: 1,
       name: "SIM PKL",
       link: "http://simpkl.rahmaanms.my.id",
       image: simpkl,
-      types: [{ name: "Laravel" }, { name: "Bootstrap" }],
+      types: [
+        { id: 1, name: "Laravel", link: "https://laravel.com" },
+        { id: 2, name: "Bootstrap", link: "https://getbootstrap.com" },
+      ],
     },
     {
+      id: 2,
       name: "Public Chat",
       link: "http://chat.rahmaanms.my.id",
       image: publicchat,
       types: [
-        { name: "Node Js" },
-        { name: "Express Js" },
-        { name: "React Js" },
+        { id: 1, name: "Node Js", link: "https://nodejs.org" },
+        { id: 2, name: "Express Js", link: "https://expressjs.com" },
+        { id: 3, name: "React Js", link: "https://react.dev" },
       ],
     },
   ];
   return (
-    <div className="bg-slate-900" id="portfolio">
+    <div className="bg-black" id="portfolio">
       <div className="relative isolate px-6 py-28 lg:px-8">
         <div
           className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
@@ -41,7 +46,7 @@ export default function Portfolio(props) {
             {projects.map((project) => (
               <a
                 href={project.link}
-                key={project.name}
+                key={project.id}
                 rel="noreferrer"
                 target="_blank"
                 className="bg-slate-700/60 p-3 rounded-md hover:bg-slate-700/80 cursor-pointer group transition-all delay-50 duration-300 ease-in-out min-w-56"
@@ -53,16 +58,21 @@ export default function Portfolio(props) {
                     alt={project.name}
                   />
                   <div className="min-w-0 flex-auto">
-                    <p className="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-300 mt-1">
+                    <p className="text-2xl font-semibold leading-6 text-gray-300  mt-1">
                       {project.name}
                     </p>
-                    <p className="mt-1 truncate text-sm leading-5 text-gray-300 flex flex-row gap-2 flex-wrap">
+                    <div className="mt-5 truncate text-sm flex flex-row gap-2 flex-wrap">
                       {project.types.map((type) => (
-                        <p className="basis-1 text-sm font-sx text-gray-300 dark:text-gray-300 mt-1">
-                          {type.name}
+                        <p
+                          className="basis-1 text-sm font-sx text-gray-400 mt-1 group-hover:text-blue-400"
+                          key={type.id}
+                        >
+                          <a href={type.link} target="_blank" rel="noreferrer">
+                            {type.name}
+                          </a>
                         </p>
                       ))}
-                    </p>
+                    </div>
                   </div>
                 </div>
               </a>

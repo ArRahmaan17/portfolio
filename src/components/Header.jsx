@@ -161,7 +161,7 @@ const Home = (props) => {
           </div>
         </div>
       </header>
-      <div className="relative isolate px-6 py-48 lg:px-8">
+      <div className="relative isolate px-6 py-56 lg:px-8">
         <div
           className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
           aria-hidden="true"
@@ -183,7 +183,9 @@ const Home = (props) => {
               <h1
                 className="text-lg font-bold text-gray-400 sm:text-2xl"
                 ref={props.node}
-              ></h1>
+              >
+                &nbsp;
+              </h1>
             </div>
             <p className="mt-6 text-sm leading-8 text-gray-300">
               As a software engineer, I focus on creating user-friendly

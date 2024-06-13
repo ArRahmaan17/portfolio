@@ -52,7 +52,7 @@ const Skill = (props) => {
     },
   ];
   return (
-    <div className="bg-gray-700" id="stack">
+    <div className="bg-black" id="stack">
       <div className="relative isolate px-6 py-28 lg:px-8">
         <div
           className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"

@@ -40,12 +40,14 @@ function App() {
     scroll.scrollToTop()
   }
   return (
-    <div className="App select-none" >
-      <Header  {...params} />
-      <Skill {...params} />
-      <Portfolio {...params} />
+    <>
+      <div className="App select-none flex flex-col divide-y-2 divide-blue-400/25">
+        <Header  {...params} />
+        <Skill {...params} />
+        <Portfolio {...params} />
+      </div >
       <Fab icon="&uarr;" onClick={scrollToTop} style={styleFab}></Fab>
-    </div >
+    </>
   );
 }
 
