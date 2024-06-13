@@ -31,7 +31,7 @@ const contacts = [
 
 export default function Contact() {
   return (
-    <div className="bg-black py-24 sm:py-32" id="contact">
+    <div className="bg-black py-40 lg:py-72" id="contact">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:text-center">
           <h2 className="text-center pt-8 text-2xl md:text-4xl lg:text-6xl text-white">

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-scroll";
+import { Link, animateScroll as scroll } from "react-scroll";
 const Home = (props) => {
   let [stateOffCanvas, setStateOffCanvas] = useState(false);
   const changeOffCanvas = () => {
@@ -7,7 +7,7 @@ const Home = (props) => {
   };
   return (
     <div className="bg-black">
-      <header className="absolute inset-x-0 top-0 z-50">
+      <header className="fixed md:absolute inset-x-0 top-0 z-50">
         {/* navbar */}
         <nav
           id="navbar-menu"
@@ -48,13 +48,15 @@ const Home = (props) => {
             </button>
           </div>
           <div className="hidden lg:flex lg:gap-x-12">
-            <Link
-              smooth={true}
+            <div
               to="navbar-menu"
+              onClick={() => {
+                scroll.scrollToTop();
+              }}
               className="text-sm font-semibold leading-6 text-gray-400 cursor-pointer"
             >
               Home
-            </Link>
+            </div>
             <Link
               smooth={true}
               to="stack"
@@ -129,17 +131,20 @@ const Home = (props) => {
             <div className="mt-6 flow-root">
               <div className="-my-6">
                 <div className="space-y-2 py-6">
-                  <Link
-                    to="navbar-menu"
-                    smooth={true}
+                  <div
                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-200 hover:text-black hover:bg-gray-50"
+                    onClick={() => {
+                      scroll.scrollToTop();
+                      changeOffCanvas(!stateOffCanvas);
+                    }}
                   >
                     Home
-                  </Link>
+                  </div>
                   <Link
                     to="stack"
                     smooth={true}
                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-200 hover:text-black hover:bg-gray-50"
+                    onClick={changeOffCanvas}
                   >
                     Stack
                   </Link>
@@ -147,6 +152,7 @@ const Home = (props) => {
                     to="portfolio"
                     smooth={true}
                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-200 hover:text-black hover:bg-gray-50"
+                    onClick={changeOffCanvas}
                   >
                     Portfolio
                   </Link>
@@ -154,6 +160,7 @@ const Home = (props) => {
                     to="contact"
                     smooth={true}
                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-200 hover:text-black hover:bg-gray-50"
+                    onClick={changeOffCanvas}
                   >
                     Contact
                   </Link>
@@ -171,7 +178,7 @@ const Home = (props) => {
           </div>
         </div>
       </header>
-      <div className="relative isolate px-6 py-56 lg:px-8">
+      <div className="relative isolate px-6 py-48 lg:py-56 lg:px-8">
         <div
           className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
           aria-hidden="true"
@@ -198,12 +205,13 @@ const Home = (props) => {
               </h1>
             </div>
             <p className="mt-6 text-sm leading-8 text-gray-400">
-              As a software engineer, I focus on creating user-friendly
-              solutions for complex challenges. I'm passionate about coding and
-              staying updated on new tech trends. My goal is to deliver
-              top-notch software that exceeds expectations, whether I'm working
-              solo or with a team. I thrive in innovative environments, always
-              looking to enhance my skills and push technology forward.
+              As a software engineer with 2.5 years experience, I focus on
+              creating user-friendly solutions for complex challenges. I'm
+              passionate about coding and staying updated on new tech trends. My
+              goal is to deliver top-notch software that exceeds expectations,
+              whether I'm working solo or with a team. I thrive in innovative
+              environments, always looking to enhance my skills and push
+              technology forward.
             </p>
           </div>
         </div>

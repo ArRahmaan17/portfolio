@@ -28,7 +28,7 @@ export default function Portfolio(props) {
   ];
   return (
     <div className="bg-black" id="portfolio">
-      <div className="relative isolate px-6 py-28 lg:px-8">
+      <div className="relative isolate px-1 py-16 lg:px-8 lg:py-56">
         <div
           className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
           aria-hidden="true"
