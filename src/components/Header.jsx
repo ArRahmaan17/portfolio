@@ -13,7 +13,7 @@ const Home = (props) => {
         {/* navbar */}
         <nav
           id="navbar-menu"
-          className="flex items-center justify-between p-6 lg:px-8 "
+          className="flex items-center justify-between p-6 lg:px-8"
           aria-label="Global"
         >
           <div className="flex lg:flex-1">
@@ -55,28 +55,28 @@ const Home = (props) => {
               onClick={() => {
                 scroll.scrollToTop();
               }}
-              className="text-sm font-semibold leading-6 text-white cursor-pointer"
+              className="cursor-pointer text-sm font-semibold leading-6 text-white"
             >
               Home
             </div>
             <Link
               smooth={true}
               to="stack"
-              className="text-sm font-semibold leading-6 text-white cursor-pointer"
+              className="cursor-pointer text-sm font-semibold leading-6 text-white"
             >
               Stack
             </Link>
             <Link
               smooth={true}
               to="portfolio"
-              className="text-sm font-semibold leading-6 text-white cursor-pointer"
+              className="cursor-pointer text-sm font-semibold leading-6 text-white"
             >
               Portfolio
             </Link>
             <Link
               smooth={true}
               to="contact"
-              className="text-sm font-semibold leading-6 text-white cursor-pointer"
+              className="cursor-pointer text-sm font-semibold leading-6 text-white"
             >
               Contact
             </Link>
@@ -131,7 +131,7 @@ const Home = (props) => {
               <div className="-my-6">
                 <div className="space-y-2 py-6">
                   <div
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-200 hover:text-black hover:bg-gray-50"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-200 hover:bg-gray-50 hover:text-black"
                     onClick={() => {
                       scroll.scrollToTop();
                       changeOffCanvas(!stateOffCanvas);
@@ -142,7 +142,7 @@ const Home = (props) => {
                   <Link
                     to="stack"
                     smooth={true}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-200 hover:text-black hover:bg-gray-50"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-200 hover:bg-gray-50 hover:text-black"
                     onClick={changeOffCanvas}
                   >
                     Stack
@@ -150,7 +150,7 @@ const Home = (props) => {
                   <Link
                     to="portfolio"
                     smooth={true}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-200 hover:text-black hover:bg-gray-50"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-200 hover:bg-gray-50 hover:text-black"
                     onClick={changeOffCanvas}
                   >
                     Portfolio
@@ -158,7 +158,7 @@ const Home = (props) => {
                   <Link
                     to="contact"
                     smooth={true}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-200 hover:text-black hover:bg-gray-50"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-200 hover:bg-gray-50 hover:text-black"
                     onClick={changeOffCanvas}
                   >
                     Contact
@@ -167,7 +167,7 @@ const Home = (props) => {
                 <div className="py-6">
                   <Link
                     to="#"
-                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-200 hover:text-black hover:bg-gray-50"
+                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-200 hover:bg-gray-50 hover:text-black"
                   >
                     Log in
                   </Link>
@@ -177,7 +177,7 @@ const Home = (props) => {
           </div>
         </div>
       </header>
-      <div className="relative isolate px-6 py-48 lg:py-56 lg:px-8">
+      <div className="relative isolate px-6 py-48 lg:px-8 lg:py-56">
         <div
           className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
           aria-hidden="true"
@@ -188,16 +188,16 @@ const Home = (props) => {
           ></div>
         </div>
         <div className="mx-auto max-w-4xl py-32 sm:py-48 lg:py-56">
-          <div className="lg:text-center text-left">
+          <div className="text-left lg:text-center">
             <h1 className="text-4xl font-bold text-gray-400 sm:text-6xl">
               Introduction.
             </h1>
-            <div className="flex lg:justify-center justify-start">
+            <div className="flex justify-start lg:justify-center">
               <h1 className="text-lg font-bold text-gray-400 sm:text-2xl">
                 I'm &nbsp;
               </h1>
               <h1
-                className="text-lg font-bold text-gray-100 sm:text-2xl"
+                className="text-lg font-bold text-indigo-600 sm:text-2xl"
                 ref={props.node}
               >
                 &nbsp;

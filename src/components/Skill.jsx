@@ -63,19 +63,19 @@ const Skill = (props) => {
             style={props.customStyle}
           ></div>
         </div>
-        <div className="mx-50 md:mx-20 lg:mx-5 max-w-auto py-8 md:py-16">
-          <p className="text-center pt-8 pb-10 text-2xl md:text-4xl lg:text-6xl text-white">
+        <div className="mx-50 max-w-auto py-8 md:mx-20 md:py-16 lg:mx-5">
+          <p className="pb-10 pt-8 text-center text-2xl text-white md:text-4xl lg:text-6xl">
             Tech Stack
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-10 gap-x-4 pt-10 pb-36">
+          <div className="grid grid-cols-1 gap-x-4 gap-y-10 pb-36 pt-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {skills.map((skill) => (
               <div
                 key={skill.name}
-                className="bg-slate-700/60 p-3 rounded-md hover:bg-slate-500/80 cursor-pointer group transition-all delay-50 duration-300 ease-in-out"
+                className="delay-50 group cursor-pointer rounded-md bg-slate-700/60 p-3 transition-all duration-300 ease-out hover:bg-slate-500/80 hover:outline hover:outline-offset-4 hover:outline-indigo-500"
               >
                 <div className="flex min-w-0 gap-x-4">
                   <img
-                    className="h-12 w-12 flex-none group-hover:scale-125 transition duration-75 scale-100"
+                    className="h-12 w-12 flex-none scale-100 transition duration-75 group-hover:scale-125"
                     src={skill.imageUrl}
                     alt={skill.name}
                   />
@@ -83,10 +83,10 @@ const Skill = (props) => {
                     <p className="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-300">
                       {skill.name}
                     </p>
-                    <p className="mt-1 truncate text-xs leading-5 text-gray-300 group-hover:hidden ease-in group-hover:ease-out group-hover:scale-y-0 transition-all delay-100 group-hover:delay-300 group-hover:duration-300 duration-300">
+                    <p className="mt-1 truncate text-xs leading-5 text-gray-300 transition-all delay-100 duration-300 ease-in group-hover:hidden group-hover:scale-y-0 group-hover:delay-300 group-hover:duration-300 group-hover:ease-out">
                       {skill.level}
                     </p>
-                    <p className="mt-1 truncate text-xs leading-5 text-gray-300 hidden group-hover:block ease-out group-hover:ease-out group-hover:scale-y-100 transition-all delay-100 group-hover:delay-300 group-hover:duration-300 duration-300">
+                    <p className="mt-1 hidden truncate text-xs leading-5 text-gray-300 transition-all delay-100 duration-300 ease-out group-hover:block group-hover:scale-y-100 group-hover:delay-300 group-hover:duration-300 group-hover:ease-out">
                       {skill.experience} experience
                     </p>
                   </div>

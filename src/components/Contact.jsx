@@ -34,7 +34,7 @@ export default function Contact() {
     <div className="bg-black py-40 lg:py-72" id="contact">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-4xl lg:text-center">
-          <h2 className="text-center pt-8 text-2xl md:text-4xl lg:text-6xl text-white">
+          <h2 className="pt-8 text-center text-2xl text-white md:text-4xl lg:text-6xl">
             Contact Me
           </h2>
           <p className="mt-6 text-lg leading-8 text-gray-400">

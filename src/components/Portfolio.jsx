@@ -38,33 +38,33 @@ export default function Portfolio(props) {
             style={props.customStyle}
           ></div>
         </div>
-        <div className="mx-10 md:mx-50 lg:mx-30 max-w-auto py-8 md:py-12">
-          <p className="text-center pt-8 pb-10 text-2xl md:text-4xl lg:text-6xl text-white">
+        <div className="md:mx-50 lg:mx-30 max-w-auto mx-10 py-8 md:py-12">
+          <p className="pb-10 pt-8 text-center text-2xl text-white md:text-4xl lg:text-6xl">
             Portfolio
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 pt-10 pb-8">
+          <div className="grid grid-cols-1 gap-10 pb-8 pt-10 sm:grid-cols-2 md:grid-cols-3">
             {projects.map((project) => (
               <a
                 href={project.link}
                 key={project.id}
                 rel="noreferrer"
                 target="_blank"
-                className="bg-slate-700/60 p-3 rounded-md hover:bg-slate-700/80 cursor-pointer group transition-all delay-50 duration-300 ease-in-out min-w-56"
+                className="delay-50 group min-w-56 cursor-pointer rounded-md bg-slate-700/60 p-3 transition-all duration-300 ease-out hover:bg-slate-700/80 hover:outline hover:outline-offset-4 hover:outline-indigo-500"
               >
-                <div className="flex flex-col min-w-0 gap-x-4">
+                <div className="flex min-w-0 flex-col gap-x-4">
                   <img
-                    className="flex-1 h-full w-auto rounded-md"
+                    className="h-full w-auto flex-1 rounded-md"
                     src={project.image}
                     alt={project.name}
                   />
                   <div className="min-w-0 flex-auto">
-                    <p className="text-2xl font-semibold leading-6 text-gray-300  mt-1">
+                    <p className="mt-1 text-2xl font-semibold leading-6 text-gray-300">
                       {project.name}
                     </p>
-                    <div className="mt-5 truncate text-sm flex flex-row gap-2 flex-wrap">
+                    <div className="mt-5 flex flex-row flex-wrap gap-2 truncate text-sm">
                       {project.types.map((type) => (
                         <p
-                          className="basis-1 text-sm font-sx text-gray-400 mt-1 group-hover:text-gray-100"
+                          className="font-sx mt-1 basis-1 text-sm text-gray-400 group-hover:text-gray-100"
                           key={type.id}
                         >
                           {type.name}
