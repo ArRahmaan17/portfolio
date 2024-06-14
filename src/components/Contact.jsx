@@ -33,7 +33,7 @@ export default function Contact() {
   return (
     <div className="bg-black py-40 lg:py-72" id="contact">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl lg:text-center">
+        <div className="mx-auto max-w-4xl lg:text-center">
           <h2 className="text-center pt-8 text-2xl md:text-4xl lg:text-6xl text-white">
             Contact Me
           </h2>

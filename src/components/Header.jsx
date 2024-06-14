@@ -55,37 +55,34 @@ const Home = (props) => {
               onClick={() => {
                 scroll.scrollToTop();
               }}
-              className="text-sm font-semibold leading-6 text-gray-400 cursor-pointer"
+              className="text-sm font-semibold leading-6 text-white cursor-pointer"
             >
               Home
             </div>
             <Link
               smooth={true}
               to="stack"
-              className="text-sm font-semibold leading-6 text-gray-400 cursor-pointer"
+              className="text-sm font-semibold leading-6 text-white cursor-pointer"
             >
               Stack
             </Link>
             <Link
               smooth={true}
               to="portfolio"
-              className="text-sm font-semibold leading-6 text-gray-400 cursor-pointer"
+              className="text-sm font-semibold leading-6 text-white cursor-pointer"
             >
               Portfolio
             </Link>
             <Link
               smooth={true}
               to="contact"
-              className="text-sm font-semibold leading-6 text-gray-400 cursor-pointer"
+              className="text-sm font-semibold leading-6 text-white cursor-pointer"
             >
               Contact
             </Link>
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <Link
-              to="#"
-              className="text-sm font-semibold leading-6 text-gray-400"
-            >
+            <Link to="#" className="text-sm font-semibold leading-6 text-white">
               Log in <span aria-hidden="true">&rarr;</span>
             </Link>
           </div>
