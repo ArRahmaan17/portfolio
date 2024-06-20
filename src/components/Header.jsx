@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import { Link, animateScroll as scroll } from "react-scroll";
+import { LANGUAGES } from "../constants";
+import { useTranslation } from "react-i18next";
 const Home = (props) => {
+  const { i18n, t } = useTranslation();
   let [stateOffCanvas, setStateOffCanvas] = useState(false);
+  let [stateDropdown, setStateDropdown] = useState(false);
+  let [lang, setLang] = useState("EN");
+  let [stateLangOffCanvas, setStateLangOffCanvas] = useState(false);
   const changeOffCanvas = () => {
     stateOffCanvas = setStateOffCanvas(!stateOffCanvas);
   };
   return (
     <div className="bg-black">
-      <header
-        className={`fixed inset-x-0 top-0 z-50 transition-all duration-1000 ease-in-out ${props.classNavbar}`}
-      >
+      <header className={`fixed inset-x-0 top-0 z-50`}>
         {/* navbar */}
         <nav
           id="navbar-menu"
@@ -30,7 +34,7 @@ const Home = (props) => {
             <button
               onClick={changeOffCanvas}
               type="button"
-              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white"
+              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-slate-300"
             >
               <span className="sr-only">Open main menu</span>
               <svg
@@ -49,42 +53,73 @@ const Home = (props) => {
               </svg>
             </button>
           </div>
-          <div className="hidden lg:flex lg:gap-x-12">
+          <div
+            className={`hidden p-5 transition-all duration-300 ease-in-out ${props.classNavbar} lg:flex lg:gap-x-12`}
+          >
             <div
               to="navbar-menu"
               onClick={() => {
                 scroll.scrollToTop();
               }}
-              className="cursor-pointer text-sm font-semibold leading-6 text-white"
+              className="cursor-pointer text-sm font-semibold leading-6 text-slate-300"
             >
-              Home
+              {t("home")}
             </div>
             <Link
               smooth={true}
               to="stack"
-              className="cursor-pointer text-sm font-semibold leading-6 text-white"
+              className="cursor-pointer text-sm font-semibold leading-6 text-slate-300"
             >
               Stack
             </Link>
             <Link
               smooth={true}
               to="portfolio"
-              className="cursor-pointer text-sm font-semibold leading-6 text-white"
+              className="cursor-pointer text-sm font-semibold leading-6 text-slate-300"
             >
-              Portfolio
+              {t("portfolio")}
             </Link>
             <Link
               smooth={true}
               to="contact"
-              className="cursor-pointer text-sm font-semibold leading-6 text-white"
+              className="cursor-pointer text-sm font-semibold leading-6 text-slate-300"
             >
-              Contact
+              {t("contact")}
             </Link>
           </div>
-          <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <Link to="#" className="text-sm font-semibold leading-6 text-white">
-              Log in <span aria-hidden="true">&rarr;</span>
-            </Link>
+          <div className="hidden gap-1 lg:flex lg:flex-1 lg:justify-end">
+            <div
+              className="cursor-pointer text-sm font-semibold leading-6 text-slate-300"
+              onClick={() => {
+                setStateDropdown(!stateDropdown);
+              }}
+            >
+              {lang}
+            </div>
+            {/* dropdown */}
+            <div
+              className={`right-6 z-10 mt-8 ${stateDropdown ? "absolute" : "hidden"} w-48 origin-top-left rounded-md bg-slate-800 py-1 shadow-md shadow-slate-200/15 ring-1 ring-black ring-opacity-5 hover:outline-none`}
+              role="menu"
+              aria-orientation="vertical"
+              aria-labelledby="user-menu-button"
+              tabIndex="-1"
+            >
+              {LANGUAGES.map(({ code, label }) => (
+                <div
+                  onClick={() => {
+                    i18n.changeLanguage(code);
+                    setStateDropdown(!stateDropdown);
+                    lang = setLang(code.toUpperCase());
+                  }}
+                  className="block px-4 py-2 text-sm text-gray-400 hover:bg-slate-800 hover:text-gray-100"
+                  role="menuitem"
+                  tabIndex="-1"
+                  key={code}
+                >
+                  {label}
+                </div>
+              ))}
+            </div>
           </div>
         </nav>
         {/* offcanvas */}
@@ -108,7 +143,7 @@ const Home = (props) => {
               <button
                 onClick={changeOffCanvas}
                 type="button"
-                className="-m-2.5 rounded-md p-2.5 text-white"
+                className="-m-2.5 rounded-md p-2.5 text-slate-300"
               >
                 <span className="sr-only">Close menu</span>
                 <svg
@@ -165,12 +200,30 @@ const Home = (props) => {
                   </Link>
                 </div>
                 <div className="py-6">
-                  <Link
-                    to="#"
+                  <div
+                    onClick={() => {
+                      setStateLangOffCanvas(!stateLangOffCanvas);
+                    }}
                     className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-200 hover:bg-gray-50 hover:text-black"
                   >
-                    Log in
-                  </Link>
+                    {lang}
+                  </div>
+                  {LANGUAGES.map(({ code, label }) => (
+                    <div
+                      onClick={() => {
+                        i18n.changeLanguage(code);
+                        lang = setLang(code.toUpperCase());
+                        setStateLangOffCanvas(!stateLangOffCanvas);
+                        changeOffCanvas();
+                      }}
+                      className={`${stateLangOffCanvas ? "block translate-y-6" : "-translate-y-1/4 opacity-0"} transform px-4 py-2 text-sm text-gray-400 delay-100 duration-500 ease-out hover:bg-slate-800 hover:text-gray-100`}
+                      role="menuitem"
+                      tabIndex="-1"
+                      key={code}
+                    >
+                      {label}
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -190,11 +243,11 @@ const Home = (props) => {
         <div className="mx-auto max-w-4xl py-32 sm:py-48 lg:py-56">
           <div className="text-left lg:text-center">
             <h1 className="text-4xl font-bold text-gray-400 sm:text-6xl">
-              Introduction.
+              {t("introduction")}
             </h1>
             <div className="flex justify-start lg:justify-center">
               <h1 className="text-lg font-bold text-gray-400 sm:text-2xl">
-                I'm &nbsp;
+                {t("im")} &nbsp;
               </h1>
               <h1
                 className="text-lg font-bold text-indigo-600 sm:text-2xl"
@@ -204,13 +257,7 @@ const Home = (props) => {
               </h1>
             </div>
             <p className="mt-6 text-sm leading-8 text-gray-400">
-              As a software engineer with 2.5 years experience, I focus on
-              creating user-friendly solutions for complex challenges. I'm
-              passionate about coding and staying updated on new tech trends. My
-              goal is to deliver top-notch software that exceeds expectations,
-              whether I'm working solo or with a team. I thrive in innovative
-              environments, always looking to enhance my skills and push
-              technology forward.
+              {t("short_intro")}
             </p>
           </div>
         </div>

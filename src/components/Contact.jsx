@@ -1,65 +1,40 @@
 import React from "react";
-import {
-  ChatBubbleLeftRightIcon,
-  PhoneIcon,
-  AtSymbolIcon,
-  ChatBubbleOvalLeftEllipsisIcon,
-} from "@heroicons/react/24/outline";
-
-const contacts = [
-  {
-    name: "Email",
-    description: "ardrah17@gmail.com",
-    icon: AtSymbolIcon,
-  },
-  {
-    name: "WhatsApp",
-    description: "(+62)89522983270",
-    icon: ChatBubbleLeftRightIcon,
-  },
-  {
-    name: "Telegram",
-    description: "(+62)89522983270",
-    icon: ChatBubbleOvalLeftEllipsisIcon,
-  },
-  {
-    name: "Phone",
-    description: "(+62)89522983270",
-    icon: PhoneIcon,
-  },
-];
+import { useTranslation } from "react-i18next";
 
 export default function Contact() {
+  let { t } = useTranslation();
+  const contacts = [
+    {
+      name: "Email",
+      description: "ardrah17@gmail.com",
+    },
+    {
+      name: "WhatsApp",
+      description: "(+62) 895 228 327 0",
+    },
+  ];
+
   return (
     <div className="bg-black py-40 lg:py-72" id="contact">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-4xl lg:text-center">
           <h2 className="pt-8 text-center text-2xl text-white md:text-4xl lg:text-6xl">
-            Contact Me
+            {t("contact")}
           </h2>
           <p className="mt-6 text-lg leading-8 text-gray-400">
-            Feel free to contact me for a chat or just some casual chit-chat!
-            I'm always up for a conversation. You can reach me at
+            {t("short_contact")}
           </p>
         </div>
-        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
-          <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-2 lg:max-w-none lg:grid-cols-4 lg:gap-y-16">
-            {contacts.map((feature) => (
-              <div key={feature.name} className="relative pl-16">
-                <dt className="text-base font-semibold leading-7 text-gray-300">
-                  <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
-                    <feature.icon
-                      className="h-6 w-6 text-white"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  {`${feature.name}`}
-                  <br />
-                  {`${feature.description}`}
+        <div className="mx-auto mt-16 w-full max-w-max">
+          <dl className="flex flex-row flex-wrap justify-center justify-items-stretch gap-2">
+            {contacts.map((contact) => (
+              <div
+                key={contact.name}
+                className="md:basis-1/8 group grow basis-1/12 pt-5 ease-linear"
+              >
+                <dt className="min-w-max text-base font-semibold leading-7 text-gray-300">
+                  <div className="text-sm text-slate-600 delay-300 duration-100 ease-linear group-hover:text-slate-100">{`${contact.description}`}</div>
                 </dt>
-                {/* <dd className="mt-2 text-base leading-7 text-gray-600">
-                  {feature.description}
-                </dd> */}
               </div>
             ))}
           </dl>

@@ -6,48 +6,50 @@ import react from "../assets/stack-logos/react.svg";
 import nodejs from "../assets/stack-logos/nodejs.svg";
 import docker from "../assets/stack-logos/docker.svg";
 import bootstrap from "../assets/stack-logos/bootstrap.svg";
+import { useTranslation } from "react-i18next";
 const Skill = (props) => {
+  const { i18n, t } = useTranslation();
   const skills = [
     {
       name: "Laravel",
-      level: "Intermediate",
-      experience: "2 years",
+      level: t("intermediate"),
+      experience: "2 " + t("years"),
       imageUrl: laravel,
     },
     {
       name: "Tailwind Css",
-      level: "Elementary",
-      experience: "5 months",
+      level: t("beginner"),
+      experience: "5 " + t("month"),
       imageUrl: tailwindcss,
     },
     {
       name: "Express Js",
-      level: "Beginner",
-      experience: "5 months",
+      level: t("beginner"),
+      experience: "5 " + t("month"),
       imageUrl: expressjs,
     },
     {
       name: "React Js",
-      level: "Beginner",
-      experience: "5 months",
+      level: t("beginner"),
+      experience: "5 " + t("month"),
       imageUrl: react,
     },
     {
       name: "Node Js",
-      level: "Beginner",
-      experience: "7 months",
+      level: t("beginner"),
+      experience: "7 " + t("month"),
       imageUrl: nodejs,
     },
     {
       name: "Docker",
-      level: "Beginner",
-      experience: "3 months",
+      level: t("beginner"),
+      experience: "3 " + t("month"),
       imageUrl: docker,
     },
     {
       name: "Bootstrap",
-      level: "Intermediate",
-      experience: "2 years",
+      level: t("intermediate"),
+      experience: "2 " + t("years"),
       imageUrl: bootstrap,
     },
   ];
@@ -65,7 +67,7 @@ const Skill = (props) => {
         </div>
         <div className="mx-50 max-w-auto py-8 md:mx-20 md:py-16 lg:mx-5">
           <p className="pb-10 pt-8 text-center text-2xl text-white md:text-4xl lg:text-6xl">
-            Tech Stack
+            {t("stack")}
           </p>
           <div className="grid grid-cols-1 gap-x-4 gap-y-10 pb-36 pt-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {skills.map((skill) => (
@@ -87,7 +89,7 @@ const Skill = (props) => {
                       {skill.level}
                     </p>
                     <p className="mt-1 hidden truncate text-xs leading-5 text-gray-300 transition-all delay-100 duration-300 ease-out group-hover:block group-hover:scale-y-100 group-hover:delay-300 group-hover:duration-300 group-hover:ease-out">
-                      {skill.experience} experience
+                      {skill.experience} {t("experience")}
                     </p>
                   </div>
                 </div>

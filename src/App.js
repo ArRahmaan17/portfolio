@@ -14,7 +14,7 @@ function App() {
   useEffect(() => {
     const headerOffscreen = () => {
       if (window.pageYOffset > 25) {
-        classNavbar = setclassNavbar('bg-indigo-400 bg-opacity-20 shadow-lg shadow-indigo-950')
+        classNavbar = setclassNavbar('rounded-full bg-white bg-opacity-20 backdrop-blur-3xl')
       } else {
         classNavbar = setclassNavbar('bg-transparent');
       }

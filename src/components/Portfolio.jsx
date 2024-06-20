@@ -10,8 +10,8 @@ export default function Portfolio(props) {
       link: "http://simpkl.rahmaanms.my.id",
       image: simpkl,
       types: [
-        { id: 1, name: "Laravel", link: "https://laravel.com" },
-        { id: 2, name: "Bootstrap", link: "https://getbootstrap.com" },
+        { id: 1, name: "Laravel" },
+        { id: 2, name: "Bootstrap" },
       ],
     },
     {
@@ -20,9 +20,9 @@ export default function Portfolio(props) {
       link: "http://chat.rahmaanms.my.id",
       image: publicchat,
       types: [
-        { id: 1, name: "Node Js", link: "https://nodejs.org" },
-        { id: 2, name: "Express Js", link: "https://expressjs.com" },
-        { id: 3, name: "React Js", link: "https://react.dev" },
+        { id: 1, name: "Node Js" },
+        { id: 2, name: "Express Js" },
+        { id: 3, name: "React Js" },
       ],
     },
   ];
@@ -42,14 +42,14 @@ export default function Portfolio(props) {
           <p className="pb-10 pt-8 text-center text-2xl text-white md:text-4xl lg:text-6xl">
             Portfolio
           </p>
-          <div className="grid grid-cols-1 gap-10 pb-8 pt-10 sm:grid-cols-2 md:grid-cols-3">
+          <div className="flex flex-wrap justify-center gap-10 pb-8 pt-10">
             {projects.map((project) => (
               <a
                 href={project.link}
                 key={project.id}
                 rel="noreferrer"
                 target="_blank"
-                className="delay-50 group min-w-56 cursor-pointer rounded-md bg-slate-700/60 p-3 transition-all duration-300 ease-out hover:bg-slate-700/80 hover:outline hover:outline-offset-4 hover:outline-indigo-500"
+                className="delay-50 lg:basis-4/3 group min-w-56 basis-full cursor-pointer rounded-md bg-slate-700/60 p-3 transition-all duration-300 ease-out hover:bg-slate-700/80 hover:outline hover:outline-offset-4 hover:outline-indigo-700 md:basis-1/3"
               >
                 <div className="flex min-w-0 flex-col gap-x-4">
                   <img
@@ -58,7 +58,7 @@ export default function Portfolio(props) {
                     alt={project.name}
                   />
                   <div className="min-w-0 flex-auto">
-                    <p className="mt-1 text-2xl font-semibold leading-6 text-gray-300">
+                    <p className="mt-5 text-2xl font-semibold leading-6 text-gray-300">
                       {project.name}
                     </p>
                     <div className="mt-5 flex flex-row flex-wrap gap-2 truncate text-sm">
