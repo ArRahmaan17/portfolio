@@ -8,7 +8,7 @@ import docker from "../assets/stack-logos/docker.svg";
 import bootstrap from "../assets/stack-logos/bootstrap.svg";
 import { useTranslation } from "react-i18next";
 const Skill = (props) => {
-  const { i18n, t } = useTranslation();
+  const { t } = useTranslation();
   const skills = [
     {
       name: "Laravel",
