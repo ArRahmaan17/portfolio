@@ -30,7 +30,7 @@ export default function Contact() {
             {contacts.map((contact) => (
               <div
                 key={contact.name}
-                className="md:basis-1/8 group grow basis-1/12 pt-5 ease-linear"
+                className="md:basis-1/8 group grow basis-1/12 cursor-pointer pt-5 ease-linear"
               >
                 <dt className="min-w-max text-base font-semibold leading-7 text-gray-300">
                   <div className="text-sm text-slate-600 delay-300 duration-100 ease-linear group-hover:text-slate-100">{`${contact.description}`}</div>

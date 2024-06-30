@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, animateScroll as scroll } from "react-scroll";
 import { LANGUAGES } from "../constants";
 import { useTranslation } from "react-i18next";
+import logo from "../assets/logo.png";
 const Home = (props) => {
   const { i18n, t } = useTranslation();
   let [stateOffCanvas, setStateOffCanvas] = useState(false);
@@ -14,7 +15,6 @@ const Home = (props) => {
   return (
     <div className="bg-black">
       <header className={`fixed inset-x-0 top-0 z-50`}>
-        {/* navbar */}
         <nav
           id="navbar-menu"
           className="flex items-center justify-between p-6 lg:px-8"
@@ -23,11 +23,7 @@ const Home = (props) => {
           <div className="flex lg:flex-1">
             <Link to="navbar-menu" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt=""
-              ></img>
+              <img className="h-8 w-auto" src={logo} alt=""></img>
             </Link>
           </div>
           <div className="flex lg:hidden">
