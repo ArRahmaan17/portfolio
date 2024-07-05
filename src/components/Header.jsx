@@ -14,7 +14,6 @@ const Home = (props) => {
   );
   let [stateLangOffCanvas, setStateLangOffCanvas] = useState(false);
   const change = async () => {
-    console.log("tes");
     await i18n.changeLanguage(sessionStorage.getItem("i18nextLng"));
   };
   useEffect(() => {
