@@ -7,11 +7,7 @@ const Home = (props) => {
   const { i18n, t } = useTranslation();
   let [stateOffCanvas, setStateOffCanvas] = useState(false);
   let [stateDropdown, setStateDropdown] = useState(false);
-  let [lang, setLang] = useState(
-    sessionStorage.getItem("i18nextLng") !== null
-      ? sessionStorage.getItem("i18nextLng")
-      : "en",
-  );
+  let [lang, setLang] = useState(sessionStorage.getItem("i18nextLng") ?? "en");
   let [stateLangOffCanvas, setStateLangOffCanvas] = useState(false);
   const change = async () => {
     await i18n.changeLanguage(sessionStorage.getItem("i18nextLng"));
