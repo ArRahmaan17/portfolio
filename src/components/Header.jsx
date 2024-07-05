@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, animateScroll as scroll } from "react-scroll";
 import { LANGUAGES } from "../constants";
 import { useTranslation } from "react-i18next";
@@ -7,8 +7,19 @@ const Home = (props) => {
   const { i18n, t } = useTranslation();
   let [stateOffCanvas, setStateOffCanvas] = useState(false);
   let [stateDropdown, setStateDropdown] = useState(false);
-  let [lang, setLang] = useState("EN");
+  let [lang, setLang] = useState(
+    sessionStorage.getItem("i18nextLng") !== null
+      ? sessionStorage.getItem("i18nextLng")
+      : "en",
+  );
   let [stateLangOffCanvas, setStateLangOffCanvas] = useState(false);
+  const change = async () => {
+    console.log("tes");
+    await i18n.changeLanguage(sessionStorage.getItem("i18nextLng"));
+  };
+  useEffect(() => {
+    change();
+  }, [sessionStorage.getItem("i18nextLng")]);
   const changeOffCanvas = () => {
     stateOffCanvas = setStateOffCanvas(!stateOffCanvas);
   };
@@ -90,7 +101,7 @@ const Home = (props) => {
                 setStateDropdown(!stateDropdown);
               }}
             >
-              {lang}
+              {lang.toUpperCase()}
             </div>
             {/* dropdown */}
             <div
@@ -105,7 +116,8 @@ const Home = (props) => {
                   onClick={() => {
                     i18n.changeLanguage(code);
                     setStateDropdown(!stateDropdown);
-                    lang = setLang(code.toUpperCase());
+                    lang = setLang(code);
+                    sessionStorage.setItem("i18nextLng", code);
                   }}
                   className="block px-4 py-2 text-sm text-gray-400 hover:bg-slate-800 hover:text-gray-100"
                   role="menuitem"
@@ -208,7 +220,8 @@ const Home = (props) => {
                     <div
                       onClick={() => {
                         i18n.changeLanguage(code);
-                        lang = setLang(code.toUpperCase());
+                        lang = setLang(code);
+                        sessionStorage.setItem("i18nextLng", code);
                         setStateLangOffCanvas(!stateLangOffCanvas);
                         changeOffCanvas();
                       }}
