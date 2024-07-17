@@ -9,7 +9,7 @@ export default function Contact() {
       description: "ardrah17@gmail.com",
     },
     {
-      name: "WhatsApp",
+      name: "Phone",
       description: "(+62) 895 228 327 0",
     },
   ];
