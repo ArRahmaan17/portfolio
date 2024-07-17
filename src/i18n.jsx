@@ -47,7 +47,7 @@ i18n
           intermediate: "Menengah",
           im: "Saya",
           short_intro:
-            "Sebagai pengembang aplikasi dengan pengalaman 2,5 tahun, Saya fokus untuk menciptakan solusi yang ramah pengguna untuk tantangan yang kompleks, Saya antusias tentang pengkodean dan mempelajari teknologi baru. Tujuan saya adalah menghadirkan perangkat lunak terbaik yang melebihi ekspektasi. apakah saya bekerja sendiri atau dengan tim. Saya berkembang dalam lingkungan yang inovatif, selalu berupaya meningkatkan keterampilan saya dan mendorong kemajuan teknologi.",
+            "Sebagai pengembang aplikasi dengan pengalaman 2,5 tahun, Saya fokus untuk menciptakan solusi yang ramah pengguna untuk tantangan yang kompleks, Saya antusias tentang pengkodean dan mempelajari teknologi baru. Tujuan saya adalah menghadirkan perangkat lunak terbaik yang melebihi ekspektasi. saya dapat bekerja sendiri atau dengan tim. Saya berkembang dalam lingkungan yang inovatif, selalu berupaya meningkatkan keterampilan saya dan mendorong kemajuan teknologi.",
           short_contact:
             "Jangan ragu untuk menghubungi saya untuk ngobrol atau sekedar ngobrol santai! Anda dapat menghubungi saya di",
         },
