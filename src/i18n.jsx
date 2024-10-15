@@ -27,7 +27,7 @@ i18n
           intermediate: "Intermediate",
           im: "I'm",
           short_intro:
-            "As a software engineer with 2.5 years experience, I focus on creating user-friendly solutions for complex challenges. I'm passionate about coding and staying updated on new tech trends. My goal is to deliver top-notch software that exceeds expectations, whether I'm working solo or with a team. I thrive in innovative environments, always looking to enhance my skills and push technology forward.",
+            "As a software engineer with 2.5 years experience, I focus on creating user-friendly solutions for complex challenges. I'm passionate about coding and staying updated on new tech trends. My goal is to deliver top-notch software that exceeds expectations, whether I'm working solo or with a team. I thrive in innovative environments, always looking to enhance my skills.",
           short_contact:
             "Feel free to contact me for a chat or just some casual chit-chat and i'm open to work! You can reach me at",
         },
@@ -47,7 +47,7 @@ i18n
           intermediate: "Menengah",
           im: "Saya",
           short_intro:
-            "Sebagai pengembang aplikasi dengan pengalaman 2,5 tahun, Saya fokus untuk menciptakan solusi yang ramah pengguna untuk tantangan yang kompleks, Saya antusias tentang pengkodean dan mempelajari teknologi baru. Tujuan saya adalah menghadirkan perangkat lunak terbaik yang melebihi ekspektasi. saya dapat bekerja sendiri atau dengan tim. Saya berkembang dalam lingkungan yang inovatif, selalu berupaya meningkatkan keterampilan saya dan mendorong kemajuan teknologi.",
+            "Sebagai pengembang aplikasi dengan pengalaman 2,5 tahun, Saya fokus untuk menciptakan solusi yang ramah pengguna dari perkerjaan yang kompleks, Saya antusias tentang pemrograman dan mempelajari teknologi baru. Tujuan saya adalah menghadirkan perangkat lunak terbaik yang melebihi ekspektasi. saya dapat bekerja sendiri atau dengan tim. Saya berkembang dalam lingkungan yang inovatif, selalu berupaya meningkatkan keterampilan saya.",
           short_contact:
             "Jangan ragu untuk menghubungi saya untuk ngobrol atau sekedar ngobrol santai dan saya siap menjadi bagian dari tim anda! Anda dapat menghubungi saya di",
         },

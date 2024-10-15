@@ -9,7 +9,7 @@ export default function Contact() {
       description: "ardrah17@gmail.com",
     },{
       name: "Github",
-      description: "ardrah17@gmail.com",
+      description: "github.com/ArRahmaan17",
     },
     {
       name: "Phone",
