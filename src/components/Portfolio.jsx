@@ -36,20 +36,20 @@ export default function Portfolio(props) {
       ],
     },{
       id: 4,
-      name: "Wa Services Presensi PKL",
-      link: "https://github.com/ArRahmaan17/simpkl-whatsappblast-services",
-      image: notfound,
-      types: [
-        { id: 1, name: "Node Js" },
-        { id: 2, name: "Express Js" },
-      ],
-    },,{
-      id: 5,
       name: "Simple Rest Api (Sanctum)",
       link: "https://github.com/ArRahmaan17/todolist-auth-sanctum",
       image: restapisanctum,
       types: [
         { id: 1, name: "Laravel" },
+      ],
+    },{
+      id: 5,
+      name: "Wa Services Presensi PKL (API)",
+      link: "https://github.com/ArRahmaan17/simpkl-whatsappblast-services",
+      image: notfound,
+      types: [
+        { id: 1, name: "Node Js" },
+        { id: 2, name: "Express Js" },
       ],
     },
   ];
