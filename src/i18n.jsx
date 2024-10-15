@@ -49,7 +49,7 @@ i18n
           short_intro:
             "Sebagai pengembang aplikasi dengan pengalaman 2,5 tahun, Saya fokus untuk menciptakan solusi yang ramah pengguna untuk tantangan yang kompleks, Saya antusias tentang pengkodean dan mempelajari teknologi baru. Tujuan saya adalah menghadirkan perangkat lunak terbaik yang melebihi ekspektasi. saya dapat bekerja sendiri atau dengan tim. Saya berkembang dalam lingkungan yang inovatif, selalu berupaya meningkatkan keterampilan saya dan mendorong kemajuan teknologi.",
           short_contact:
-            "Jangan ragu untuk menghubungi saya untuk ngobrol atau sekedar ngobrol santai dan saya siap berkerja! Anda dapat menghubungi saya di",
+            "Jangan ragu untuk menghubungi saya untuk ngobrol atau sekedar ngobrol santai dan saya siap menjadi bagian dari tim anda! Anda dapat menghubungi saya di",
         },
       },
     },

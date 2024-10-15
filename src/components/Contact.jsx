@@ -7,6 +7,9 @@ export default function Contact() {
     {
       name: "Email",
       description: "ardrah17@gmail.com",
+    },{
+      name: "Github",
+      description: "ardrah17@gmail.com",
     },
     {
       name: "Phone",
