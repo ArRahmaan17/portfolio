@@ -1,13 +1,15 @@
 import React from "react";
 import simpkl from "../assets/portfolio/sim-pkl.png";
 import publicchat from "../assets/portfolio/public-chat.png";
+import notfound from "../assets/portfolio/not-found.jpg";
+import restapisanctum from "../assets/portfolio/rest-api-sanctum.png";
 
 export default function Portfolio(props) {
   const projects = [
     {
       id: 1,
       name: "SIM PKL",
-      link: "http://simpkl.rahmaanms.my.id",
+      link: "https://github.com/ArRahmaan17/sim_pkl",
       image: simpkl,
       types: [
         { id: 1, name: "Laravel" },
@@ -16,13 +18,38 @@ export default function Portfolio(props) {
     },
     {
       id: 2,
-      name: "Public Chat",
-      link: "http://chat.rahmaanms.my.id",
+      name: "Frontend Public Chat",
+      link: "https://github.com/ArRahmaan17/frontend-sim-pkl",
+      image: publicchat,
+      types: [
+        { id: 1, name: "Node Js" },
+        { id: 3, name: "React Js" },
+      ],
+    },{
+      id: 3,
+      name: "Backend Public Chat",
+      link: "https://github.com/ArRahmaan17/backend-sim-pkl",
       image: publicchat,
       types: [
         { id: 1, name: "Node Js" },
         { id: 2, name: "Express Js" },
-        { id: 3, name: "React Js" },
+      ],
+    },{
+      id: 4,
+      name: "Wa Services Presensi PKL",
+      link: "https://github.com/ArRahmaan17/simpkl-whatsappblast-services",
+      image: notfound,
+      types: [
+        { id: 1, name: "Node Js" },
+        { id: 2, name: "Express Js" },
+      ],
+    },,{
+      id: 5,
+      name: "Simple Rest Api (Sanctum)",
+      link: "https://github.com/ArRahmaan17/todolist-auth-sanctum",
+      image: restapisanctum,
+      types: [
+        { id: 1, name: "Laravel" },
       ],
     },
   ];
