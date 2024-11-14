@@ -19,23 +19,28 @@ const Home = (props) => {
     stateOffCanvas = setStateOffCanvas(!stateOffCanvas);
   };
   return (
-    <div className="bg-black">
+    <div className="dark:bg-black">
       <header className={`fixed inset-x-0 top-0 z-50`}>
         <nav
           id="navbar-menu"
           className="flex items-center justify-between p-6 lg:px-8"
           aria-label="Global"
         >
-          <div className="flex lg:flex-1">
-            <Link to="navbar-menu" className="-m-1.5 p-1.5">
-              <img className="h-8 w-auto" src={logo} alt=""></img>
-            </Link>
+          <div className="flex lg:flex-1 cursor-pointer">
+            <div
+              onClick={() => {
+                scroll.scrollToTop();
+              }}
+              className="-m-1.5 p-1.5"
+            >
+              <img className="h-8 w-auto grayscale dark:grayscale-0" src={logo} alt=""></img>
+            </div>
           </div>
           <div className="flex lg:hidden">
             <button
               onClick={changeOffCanvas}
               type="button"
-              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-slate-300"
+              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-black dark:text-indigo-400"
             >
               <span className="sr-only">Open main menu</span>
               <svg
@@ -58,39 +63,38 @@ const Home = (props) => {
             className={`hidden p-5 transition-all duration-300 ease-in-out ${props.classNavbar} lg:flex lg:gap-x-12`}
           >
             <div
-              to="navbar-menu"
               onClick={() => {
                 scroll.scrollToTop();
               }}
-              className="cursor-pointer text-sm font-semibold leading-6 text-slate-300"
+              className="cursor-pointer text-sm font-semibold leading-6 text-black dark:text-indigo-400"
             >
               {t("home")}
             </div>
             <Link
               smooth={true}
               to="stack"
-              className="cursor-pointer text-sm font-semibold leading-6 text-slate-300"
+              className="cursor-pointer text-sm font-semibold leading-6 text-black dark:text-indigo-400"
             >
               Stack
             </Link>
             <Link
               smooth={true}
               to="portfolio"
-              className="cursor-pointer text-sm font-semibold leading-6 text-slate-300"
+              className="cursor-pointer text-sm font-semibold leading-6 text-black dark:text-indigo-400"
             >
               {t("portfolio")}
             </Link>
             <Link
               smooth={true}
               to="contact"
-              className="cursor-pointer text-sm font-semibold leading-6 text-slate-300"
+              className="cursor-pointer text-sm font-semibold leading-6 text-black dark:text-indigo-400"
             >
               {t("contact")}
             </Link>
           </div>
           <div className="hidden gap-1 lg:flex lg:flex-1 lg:justify-end">
             <div
-              className="cursor-pointer text-sm font-semibold leading-6 text-slate-300"
+              className="cursor-pointer text-sm font-semibold leading-6 text-black dark:text-indigo-400"
               onClick={() => {
                 setStateDropdown(!stateDropdown);
               }}
@@ -135,16 +139,12 @@ const Home = (props) => {
           <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-black px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
             <div className="flex items-center justify-between">
               <button to="#" className="-m-1.5 p-1.5 opacity-100 sm:opacity-0">
-                <img
-                  className="h-8 w-auto"
-                  src={logo}
-                  alt=""
-                ></img>
+                <img className="h-8 w-auto" src={logo} alt=""></img>
               </button>
               <button
                 onClick={changeOffCanvas}
                 type="button"
-                className="-m-2.5 rounded-md p-2.5 text-slate-300"
+                className="-m-2.5 rounded-md p-2.5 text-black dark:text-indigo-400"
               >
                 <span className="sr-only">Close menu</span>
                 <svg
@@ -244,21 +244,20 @@ const Home = (props) => {
         </div>
         <div className="mx-auto max-w-4xl py-32 sm:py-48 lg:py-56">
           <div className="text-left lg:text-center">
-            <h1 className="text-4xl font-bold text-gray-400 sm:text-6xl">
+            <h1 className="text-4xl font-bold dark:text-gray-400 sm:text-6xl">
               {t("introduction")}
             </h1>
             <div className="flex justify-start lg:justify-center">
-              <h1 className="text-lg font-bold text-gray-400 sm:text-2xl">
-                {t("im")} &nbsp;
+              <h1 className="text-lg font-bold dark:text-gray-400 sm:text-2xl">
+                {t("im")}
               </h1>
+              &nbsp;
               <h1
-                className="text-lg font-bold text-indigo-600 sm:text-2xl"
+                className="text-lg font-bold text-indigo-400 sm:text-2xl"
                 ref={props.node}
-              >
-                &nbsp;
-              </h1>
+              ></h1>
             </div>
-            <p className="mt-6 text-sm leading-8 text-gray-400">
+            <p className="text-md mt-6 leading-8 dark:text-gray-400 sm:text-sm/9">
               {t("short_intro")}
             </p>
           </div>

@@ -29,7 +29,7 @@ i18n
           short_intro:
             "As a software engineer with 2.5 years experience, I focus on creating user-friendly solutions for complex challenges. I'm passionate about coding and staying updated on new tech trends. My goal is to deliver top-notch software that exceeds expectations, whether I'm working solo or with a team. I thrive in innovative environments, always looking to enhance my skills.",
           short_contact:
-            "Feel free to contact me for a chat or just some casual chit-chat and i'm open to work! You can reach me at",
+            "Feel free to contact me for a discussion or just some casual chit-chat and i'm open to work! You can reach me at",
         },
       },
       id: {

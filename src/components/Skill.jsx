@@ -54,7 +54,7 @@ const Skill = (props) => {
     },
   ];
   return (
-    <div className="bg-black" id="stack">
+    <div className="dark:bg-black" id="stack">
       <div className="relative isolate px-6 py-16 lg:px-8 lg:py-56">
         <div
           className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
@@ -73,22 +73,22 @@ const Skill = (props) => {
             {skills.map((skill) => (
               <div
                 key={skill.name}
-                className="delay-50 group cursor-pointer rounded-md bg-slate-700/60 p-3 transition-all duration-300 ease-out hover:bg-slate-500/80 hover:outline hover:outline-offset-4 hover:outline-indigo-500"
+                className="delay-50 group cursor-pointer rounded-md bg-slate-100 dark:bg-slate-500/60 p-3 duration-500 hover:duration-100 transition-all hover:transition-all ease-in-out outline outline-offset-0 outline-slate-100 dark:outline-slate-500/60 hover:outline-indigo-200 hover:dark:bg-slate-400/80 hover:outline hover:outline-offset-4 hover:dark:outline-indigo-500"
               >
                 <div className="flex min-w-0 gap-x-4">
                   <img
-                    className="h-12 w-12 flex-none scale-100 transition duration-75 group-hover:scale-125"
+                    className="h-12 w-12 md:grayscale flex-none scale-100 transition duration-75 group-hover:scale-125 group-hover:md:grayscale-0"
                     src={skill.imageUrl}
                     alt={skill.name}
                   />
                   <div className="min-w-0 flex-auto">
-                    <p className="text-sm font-semibold leading-6 text-gray-300">
+                    <p className="text-sm font-semibold leading-6 dark:text-gray-300">
                       {skill.name}
                     </p>
-                    <p className="mt-1 truncate text-xs leading-5 text-gray-300 transition-all delay-100 duration-300 ease-in group-hover:hidden group-hover:scale-y-0 group-hover:delay-300 group-hover:duration-300 group-hover:ease-out">
+                    <p className="scale-y-100 mt-1 block truncate text-xs leading-5 dark:text-gray-300 transition-transform delay-100 duration-300 ease-in-out group-hover:hidden group-hover:scale-y-0 group-hover:delay-300 group-hover:duration-300 group-hover:ease-out">
                       {skill.level}
                     </p>
-                    <p className="mt-1 hidden truncate text-xs leading-5 text-gray-300 transition-all delay-100 duration-300 ease-out group-hover:block group-hover:scale-y-100 group-hover:delay-300 group-hover:duration-300 group-hover:ease-out">
+                    <p className="scale-y-0 mt-1 hidden truncate text-xs leading-5 dark:text-gray-300 transition-transform delay-100 duration-300 ease-in-out group-hover:block group-hover:scale-y-100 group-hover:delay-300 group-hover:duration-300 group-hover:ease-out">
                       {skill.experience} {t("experience")}
                     </p>
                   </div>
