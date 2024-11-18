@@ -3,8 +3,9 @@ import simpkl from "../assets/portfolio/sim-pkl.png";
 import publicchat from "../assets/portfolio/public-chat.png";
 import notfound from "../assets/portfolio/not-found.jpg";
 import restapisanctum from "../assets/portfolio/rest-api-sanctum.png";
-
+import { useTranslation } from "react-i18next";
 export default function Portfolio(props) {
+  const { t } = useTranslation();
   const projects = [
     {
       id: 1,
@@ -25,7 +26,8 @@ export default function Portfolio(props) {
         { id: 1, name: "Node Js" },
         { id: 3, name: "React Js" },
       ],
-    },{
+    },
+    {
       id: 3,
       name: "Backend Public Chat",
       link: "https://github.com/ArRahmaan17/backend-sim-pkl",
@@ -34,15 +36,15 @@ export default function Portfolio(props) {
         { id: 1, name: "Node Js" },
         { id: 2, name: "Express Js" },
       ],
-    },{
+    },
+    {
       id: 4,
       name: "Simple Rest Api (Sanctum)",
       link: "https://github.com/ArRahmaan17/todolist-auth-sanctum",
       image: restapisanctum,
-      types: [
-        { id: 1, name: "Laravel" },
-      ],
-    },{
+      types: [{ id: 1, name: "Laravel" }],
+    },
+    {
       id: 5,
       name: "Wa Services Presensi PKL (API)",
       link: "https://github.com/ArRahmaan17/simpkl-whatsappblast-services",
@@ -66,8 +68,8 @@ export default function Portfolio(props) {
           ></div>
         </div>
         <div className="md:mx-50 lg:mx-30 max-w-auto mx-10 py-8 md:py-12">
-          <p className="pb-10 pt-8 text-center text-2xl text-white md:text-4xl lg:text-6xl">
-            Portfolio
+          <p className="pb-10 pt-8 text-center text-2xl dark:text-white md:text-4xl lg:text-6xl">
+            {t("portfolio")}
           </p>
           <div className="flex flex-wrap justify-center gap-10 pb-8 pt-10">
             {projects.map((project) => (
@@ -76,22 +78,22 @@ export default function Portfolio(props) {
                 key={project.id}
                 rel="noreferrer"
                 target="_blank"
-                className="delay-50 lg:basis-4/3 group min-w-56 basis-full cursor-pointer rounded-md bg-slate-700/60 p-3 transition-all duration-300 ease-out hover:bg-slate-700/80 hover:outline hover:outline-offset-4 hover:outline-indigo-700 md:basis-1/3"
+                className="delay-50 lg:basis-4/3 group min-w-56 basis-full cursor-pointer rounded-md bg-slate-100 p-3 outline outline-offset-0 outline-slate-100 transition-all duration-300 ease-out hover:outline hover:outline-offset-4 hover:outline-indigo-300 hover:transition-all hover:duration-300 md:basis-1/3 dark:bg-slate-700/60 dark:outline-slate-700/60 hover:dark:bg-slate-700/80"
               >
-                <div className="flex min-w-0 flex-col gap-x-4">
+                <div className="flex min-w-0 flex-col gap-x-1">
                   <img
-                    className="h-full w-auto flex-1 rounded-md"
+                    className="h-full w-auto flex-1 rounded-md grayscale group-hover:grayscale-0"
                     src={project.image}
                     alt={project.name}
                   />
                   <div className="min-w-0 flex-auto">
-                    <p className="mt-5 text-2xl font-semibold leading-6 text-gray-300">
+                    <p className="mt-5 text-2xl font-semibold leading-6 dark:text-gray-300">
                       {project.name}
                     </p>
                     <div className="mt-5 flex flex-row flex-wrap gap-2 truncate text-sm">
                       {project.types.map((type) => (
                         <p
-                          className="font-sx mt-1 basis-1 text-sm text-gray-400 group-hover:text-gray-100"
+                          className="font-sx mt-1 basis-1 text-sm text-gray-400 group-hover:text-black dark:text-gray-400 group-hover:dark:text-gray-100"
                           key={type.id}
                         >
                           {type.name}

@@ -1,23 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { Link, animateScroll as scroll } from "react-scroll";
-import { LANGUAGES } from "../constants";
+import { LANGUAGES, themes } from "../constants";
 import { useTranslation } from "react-i18next";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import logo from "../assets/logo.png";
+import { faMoon, faSun } from "@fortawesome/free-regular-svg-icons";
 const Home = (props) => {
   const { i18n, t } = useTranslation();
   let [stateOffCanvas, setStateOffCanvas] = useState(false);
-  let [stateDropdown, setStateDropdown] = useState(false);
+  let [stateLangDropdown, setStateLangDropdown] = useState(false);
+  let [stateThemeDropdown, setStateThemeDropdown] = useState(false);
   let [lang, setLang] = useState(sessionStorage.getItem("i18nextLng") ?? "en");
   let [stateLangOffCanvas, setStateLangOffCanvas] = useState(false);
-  const change = async () => {
+  const changeLanguage = async () => {
     await i18n.changeLanguage(sessionStorage.getItem("i18nextLng"));
   };
-  useEffect(() => {
-    change();
-  }, [sessionStorage.getItem("i18nextLng")]);
+  const changeTheme = async () => {
+    props.changeTheme(sessionStorage.getItem("theme"));
+  };
+
   const changeOffCanvas = () => {
     stateOffCanvas = setStateOffCanvas(!stateOffCanvas);
   };
+  useEffect(() => {
+    changeLanguage();
+    changeTheme();
+  }, [sessionStorage.getItem("theme")]);
   return (
     <div className="dark:bg-black">
       <header className={`fixed inset-x-0 top-0 z-50`}>
@@ -26,14 +34,18 @@ const Home = (props) => {
           className="flex items-center justify-between p-6 lg:px-8"
           aria-label="Global"
         >
-          <div className="flex lg:flex-1 cursor-pointer">
+          <div className="flex cursor-pointer lg:flex-1">
             <div
               onClick={() => {
                 scroll.scrollToTop();
               }}
               className="-m-1.5 p-1.5"
             >
-              <img className="h-8 w-auto grayscale dark:grayscale-0" src={logo} alt=""></img>
+              <img
+                className="h-8 w-auto grayscale dark:grayscale-0"
+                src={logo}
+                alt=""
+              ></img>
             </div>
           </div>
           <div className="flex lg:hidden">
@@ -92,18 +104,21 @@ const Home = (props) => {
               {t("contact")}
             </Link>
           </div>
-          <div className="hidden gap-1 lg:flex lg:flex-1 lg:justify-end">
+          <div className="hidden gap-x-3 lg:flex lg:flex-1 lg:justify-end">
             <div
               className="cursor-pointer text-sm font-semibold leading-6 text-black dark:text-indigo-400"
               onClick={() => {
-                setStateDropdown(!stateDropdown);
+                setStateLangDropdown(!stateLangDropdown);
+                if (stateThemeDropdown == true) {
+                  setStateThemeDropdown(!stateThemeDropdown);
+                }
               }}
             >
               {lang.toUpperCase()}
             </div>
             {/* dropdown */}
             <div
-              className={`right-6 z-10 mt-8 ${stateDropdown ? "absolute" : "hidden"} w-48 origin-top-left rounded-md bg-slate-800 py-1 shadow-md shadow-slate-200/15 ring-1 ring-black ring-opacity-5 hover:outline-none`}
+              className={`right-6 z-10 mt-8 ${stateLangDropdown ? "absolute" : "hidden"} w-48 origin-top-left rounded-md py-1 shadow-md shadow-slate-200/15 ring-1 ring-black ring-opacity-5 hover:outline-none dark:bg-slate-800`}
               role="menu"
               aria-orientation="vertical"
               aria-labelledby="user-menu-button"
@@ -113,11 +128,12 @@ const Home = (props) => {
                 <div
                   onClick={() => {
                     i18n.changeLanguage(code);
-                    setStateDropdown(!stateDropdown);
+                    setStateLangDropdown(!stateLangDropdown);
                     lang = setLang(code);
                     sessionStorage.setItem("i18nextLng", code);
+                    changeLanguage(code);
                   }}
-                  className="block px-4 py-2 text-sm text-gray-400 hover:bg-slate-800 hover:text-gray-100"
+                  className="block cursor-pointer px-4 py-2 text-sm text-gray-800 dark:text-gray-400 hover:bg-slate-100 hover:dark:bg-slate-800 hover:dark:text-gray-100"
                   role="menuitem"
                   tabIndex="-1"
                   key={code}
@@ -126,19 +142,60 @@ const Home = (props) => {
                 </div>
               ))}
             </div>
+            <div
+              className="cursor-pointer text-sm font-semibold leading-6 text-black dark:text-indigo-400"
+              onClick={() => {
+                setStateThemeDropdown(!stateThemeDropdown);
+                if (stateLangDropdown == true) {
+                  setStateLangDropdown(!stateLangDropdown);
+                }
+              }}
+            >
+              {props.theme == "Dark" ? (
+                <FontAwesomeIcon icon={faMoon} size={"lg"} />
+              ) : (
+                <FontAwesomeIcon icon={faSun} size={"lg"} />
+              )}
+            </div>
+            {/* dropdown */}
+            <div
+              className={`right-6 z-10 mt-8 ${stateThemeDropdown ? "absolute" : "hidden"} w-48 origin-top-left rounded-md py-1 shadow-md shadow-slate-200/15 ring-1 ring-black ring-opacity-5 hover:outline-none dark:bg-slate-800`}
+              role="menu"
+              aria-orientation="vertical"
+              aria-labelledby="user-menu-button"
+              tabIndex="-1"
+            >
+              {themes.map(({ icon, label }) => (
+                <div
+                  onClick={() => {
+                    setStateThemeDropdown(!stateThemeDropdown);
+                    sessionStorage.setItem("theme", label);
+                  }}
+                  className="block cursor-pointer px-4 py-2 text-sm text-gray-800 dark:text-gray-400 hover:bg-slate-100 hover:dark:bg-slate-800 hover:dark:text-gray-100"
+                  role="menuitem"
+                  tabIndex="-1"
+                  key={label}
+                >
+                  <FontAwesomeIcon icon={icon} size={"lg"} /> {label}
+                </div>
+              ))}
+            </div>
           </div>
         </nav>
         {/* offcanvas */}
         <div
           id="offcanvas-menu"
-          className={stateOffCanvas ? "lg:hidden" : "hidden lg:hidden"}
+          className={`${stateOffCanvas ? "lg:hidden" : "hidden lg:hidden"} transition-all duration-300 delay-0`}
           role="dialog"
           aria-modal="true"
         >
           <div className="fixed inset-0 z-50"></div>
-          <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-black px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+          <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 dark:bg-black">
             <div className="flex items-center justify-between">
-              <button to="#" className="-m-1.5 p-1.5 opacity-100 sm:opacity-0">
+              <button
+                to="#"
+                className="-m-1.5 cursor-default p-1.5 opacity-100 sm:opacity-0"
+              >
                 <img className="h-8 w-auto" src={logo} alt=""></img>
               </button>
               <button
@@ -167,7 +224,7 @@ const Home = (props) => {
               <div className="-my-6">
                 <div className="space-y-2 py-6">
                   <div
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-200 hover:bg-gray-50 hover:text-black"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 dark:hover:bg-indigo-400 hover:text-black dark:text-indigo-400 hover:bg-slate-300"
                     onClick={() => {
                       scroll.scrollToTop();
                       changeOffCanvas(!stateOffCanvas);
@@ -178,7 +235,7 @@ const Home = (props) => {
                   <Link
                     to="stack"
                     smooth={true}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-200 hover:bg-gray-50 hover:text-black"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 dark:hover:bg-indigo-400 hover:text-black dark:text-indigo-400 hover:bg-slate-300"
                     onClick={changeOffCanvas}
                   >
                     Stack
@@ -186,7 +243,7 @@ const Home = (props) => {
                   <Link
                     to="portfolio"
                     smooth={true}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-200 hover:bg-gray-50 hover:text-black"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 dark:hover:bg-indigo-400 hover:text-black dark:text-indigo-400 hover:bg-slate-300"
                     onClick={changeOffCanvas}
                   >
                     Portfolio
@@ -194,7 +251,7 @@ const Home = (props) => {
                   <Link
                     to="contact"
                     smooth={true}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-200 hover:bg-gray-50 hover:text-black"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 dark:hover:bg-indigo-400 hover:text-black dark:text-indigo-400 hover:bg-slate-300"
                     onClick={changeOffCanvas}
                   >
                     Contact
@@ -205,7 +262,7 @@ const Home = (props) => {
                     onClick={() => {
                       setStateLangOffCanvas(!stateLangOffCanvas);
                     }}
-                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-200 hover:bg-gray-50 hover:text-black"
+                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 dark:hover:bg-indigo-400 hover:text-black dark:text-indigo-400 hover:bg-slate-300"
                   >
                     {lang.toUpperCase()}
                   </div>
@@ -218,7 +275,7 @@ const Home = (props) => {
                         setStateLangOffCanvas(!stateLangOffCanvas);
                         changeOffCanvas();
                       }}
-                      className={`${stateLangOffCanvas ? "block translate-y-6" : "-translate-y-1/4 opacity-0"} transform px-4 py-2 text-sm text-gray-400 delay-100 duration-500 ease-out hover:bg-slate-800 hover:text-gray-100`}
+                      className={`${stateLangOffCanvas ? "opacity-100 translate-y-6" : "-translate-y-1/4 opacity-0"} transform px-4 py-2 text-sm text-gray-400 delay-100 duration-500 ease-out hover:bg-slate-300 dark:hover:bg-indigo-400 hover:text-black hover:rounded-lg`}
                       role="menuitem"
                       tabIndex="-1"
                       key={code}
@@ -244,11 +301,11 @@ const Home = (props) => {
         </div>
         <div className="mx-auto max-w-4xl py-32 sm:py-48 lg:py-56">
           <div className="text-left lg:text-center">
-            <h1 className="text-4xl font-bold dark:text-gray-400 sm:text-6xl">
+            <h1 className="text-4xl font-bold sm:text-6xl dark:text-gray-400">
               {t("introduction")}
             </h1>
             <div className="flex justify-start lg:justify-center">
-              <h1 className="text-lg font-bold dark:text-gray-400 sm:text-2xl">
+              <h1 className="text-lg font-bold sm:text-2xl dark:text-gray-400">
                 {t("im")}
               </h1>
               &nbsp;
@@ -257,7 +314,7 @@ const Home = (props) => {
                 ref={props.node}
               ></h1>
             </div>
-            <p className="text-md mt-6 leading-8 dark:text-gray-400 sm:text-sm/9">
+            <p className="text-md mt-6 leading-8 sm:text-sm/9 dark:text-gray-400">
               {t("short_intro")}
             </p>
           </div>

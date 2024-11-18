@@ -66,7 +66,7 @@ const Skill = (props) => {
           ></div>
         </div>
         <div className="mx-50 max-w-auto py-8 md:mx-20 md:py-16 lg:mx-5">
-          <p className="pb-10 pt-8 text-center text-2xl text-white md:text-4xl lg:text-6xl">
+          <p className="pb-10 pt-8 text-center text-2xl dark:text-white md:text-4xl lg:text-6xl">
             {t("stack")}
           </p>
           <div className="grid grid-cols-1 gap-x-4 gap-y-10 pb-36 pt-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -85,10 +85,10 @@ const Skill = (props) => {
                     <p className="text-sm font-semibold leading-6 dark:text-gray-300">
                       {skill.name}
                     </p>
-                    <p className="scale-y-100 mt-1 block truncate text-xs leading-5 dark:text-gray-300 transition-transform delay-100 duration-300 ease-in-out group-hover:hidden group-hover:scale-y-0 group-hover:delay-300 group-hover:duration-300 group-hover:ease-out">
+                    <p className="scale-y-100 mt-1 block truncate text-xs leading-5 dark:text-gray-300 transition-transform group-hover:transition-transform delay-100 duration-300 ease-in-out group-hover:hidden group-hover:scale-y-0 group-hover:delay-300 group-hover:duration-1000 group-hover:ease-in-out">
                       {skill.level}
                     </p>
-                    <p className="scale-y-0 mt-1 hidden truncate text-xs leading-5 dark:text-gray-300 transition-transform delay-100 duration-300 ease-in-out group-hover:block group-hover:scale-y-100 group-hover:delay-300 group-hover:duration-300 group-hover:ease-out">
+                    <p className="scale-y-0 mt-1 hidden truncate text-xs leading-5 dark:text-gray-300 transition-transform group-hover:transition-transform delay-100 duration-300 ease-in-out group-hover:block group-hover:scale-y-100 group-hover:delay-300 group-hover:duration-1000 group-hover:ease-in-out">
                       {skill.experience} {t("experience")}
                     </p>
                   </div>
