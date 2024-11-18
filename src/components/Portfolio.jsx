@@ -46,7 +46,7 @@ export default function Portfolio(props) {
     },
     {
       id: 5,
-      name: "Wa Services Presensi PKL (API)",
+      name: "Wa Services Presensi PKL",
       link: "https://github.com/ArRahmaan17/simpkl-whatsappblast-services",
       image: notfound,
       types: [
@@ -68,7 +68,7 @@ export default function Portfolio(props) {
           ></div>
         </div>
         <div className="md:mx-50 lg:mx-30 max-w-auto mx-10 py-8 md:py-12">
-          <p className="pb-10 pt-8 text-center text-2xl dark:text-white md:text-4xl lg:text-6xl">
+          <p className="pb-10 pt-8 text-center text-2xl dark:text-gray-400 md:text-4xl lg:text-6xl">
             {t("portfolio")}
           </p>
           <div className="flex flex-wrap justify-center gap-10 pb-8 pt-10">
@@ -87,7 +87,7 @@ export default function Portfolio(props) {
                     alt={project.name}
                   />
                   <div className="min-w-0 flex-auto">
-                    <p className="mt-5 text-2xl font-semibold leading-6 dark:text-gray-300">
+                    <p className="mt-5 text-2xl font-semibold leading-6 dark:text-gray-600 dark:group-hover:text-gray-400">
                       {project.name}
                     </p>
                     <div className="mt-5 flex flex-row flex-wrap gap-2 truncate text-sm">

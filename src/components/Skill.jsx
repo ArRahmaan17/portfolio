@@ -66,7 +66,7 @@ const Skill = (props) => {
           ></div>
         </div>
         <div className="mx-50 max-w-auto py-8 md:mx-20 md:py-16 lg:mx-5">
-          <p className="pb-10 pt-8 text-center text-2xl dark:text-white md:text-4xl lg:text-6xl">
+          <p className="pb-10 pt-8 text-center text-2xl dark:text-gray-400 md:text-4xl lg:text-6xl">
             {t("stack")}
           </p>
           <div className="grid grid-cols-1 gap-x-4 gap-y-10 pb-36 pt-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">

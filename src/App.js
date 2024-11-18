@@ -13,6 +13,7 @@ function App() {
   let [theme, setTheme] = useState(sessionStorage.getItem("theme"));
   let [classNavbar, setClassNavbar] = useState('bg-transparent');
   const changeTheme = async (theme) => {
+console.log(theme)
     setTheme(theme)
   };
   useEffect(() => {
@@ -41,7 +42,7 @@ function App() {
   let params = { node: el, customStyle: style1, classNavbar: classNavbar, changeTheme, theme }
   return (
     <>
-      <div className={`App select-none flex flex-col divide-y-2 divide-double divide-blue-400/25 font-mono ${theme == 'Dark' ? 'dark' : ''}`}>
+      <div className={`App select-none flex flex-col divide-y-2 divide-double divide-blue-400/25 font-mono ${theme === 'Dark' ? 'dark' : ''}`}>
         <Header  {...params} />
         <Skill {...params} />
         <Portfolio {...params} />

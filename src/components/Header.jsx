@@ -109,7 +109,7 @@ const Home = (props) => {
               className="cursor-pointer text-sm font-semibold leading-6 text-black dark:text-indigo-400"
               onClick={() => {
                 setStateLangDropdown(!stateLangDropdown);
-                if (stateThemeDropdown == true) {
+                if (stateThemeDropdown === true) {
                   setStateThemeDropdown(!stateThemeDropdown);
                 }
               }}
@@ -133,7 +133,7 @@ const Home = (props) => {
                     sessionStorage.setItem("i18nextLng", code);
                     changeLanguage(code);
                   }}
-                  className="block cursor-pointer px-4 py-2 text-sm text-gray-800 dark:text-gray-400 hover:bg-slate-100 hover:dark:bg-slate-800 hover:dark:text-gray-100"
+                  className="block cursor-pointer px-4 py-2 text-sm text-gray-800 hover:bg-slate-100 dark:text-gray-400 hover:dark:bg-slate-800 hover:dark:text-gray-100"
                   role="menuitem"
                   tabIndex="-1"
                   key={code}
@@ -146,12 +146,12 @@ const Home = (props) => {
               className="cursor-pointer text-sm font-semibold leading-6 text-black dark:text-indigo-400"
               onClick={() => {
                 setStateThemeDropdown(!stateThemeDropdown);
-                if (stateLangDropdown == true) {
+                if (stateLangDropdown === true) {
                   setStateLangDropdown(!stateLangDropdown);
                 }
               }}
             >
-              {props.theme == "Dark" ? (
+              {props.theme === "Dark" ? (
                 <FontAwesomeIcon icon={faMoon} size={"lg"} />
               ) : (
                 <FontAwesomeIcon icon={faSun} size={"lg"} />
@@ -171,7 +171,7 @@ const Home = (props) => {
                     setStateThemeDropdown(!stateThemeDropdown);
                     sessionStorage.setItem("theme", label);
                   }}
-                  className="block cursor-pointer px-4 py-2 text-sm text-gray-800 dark:text-gray-400 hover:bg-slate-100 hover:dark:bg-slate-800 hover:dark:text-gray-100"
+                  className={`block cursor-pointer px-4 py-2 text-sm text-gray-800 hover:bg-slate-100 dark:text-indigo-400 hover:dark:bg-slate-700 hover:dark:text-indigo-500`}
                   role="menuitem"
                   tabIndex="-1"
                   key={label}
@@ -185,7 +185,7 @@ const Home = (props) => {
         {/* offcanvas */}
         <div
           id="offcanvas-menu"
-          className={`${stateOffCanvas ? "lg:hidden" : "hidden lg:hidden"} transition-all duration-300 delay-0`}
+          className={`${stateOffCanvas ? "lg:hidden" : "hidden lg:hidden"} transition-all delay-0 duration-300`}
           role="dialog"
           aria-modal="true"
         >
@@ -222,9 +222,9 @@ const Home = (props) => {
             </div>
             <div className="mt-6 flow-root">
               <div className="-my-6">
-                <div className="space-y-2 py-6">
+                <div className="cursor-pointer space-y-2 py-6">
                   <div
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 dark:hover:bg-indigo-400 hover:text-black dark:text-indigo-400 hover:bg-slate-300"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-slate-300 hover:text-black dark:text-indigo-400 dark:hover:bg-indigo-400"
                     onClick={() => {
                       scroll.scrollToTop();
                       changeOffCanvas(!stateOffCanvas);
@@ -235,7 +235,7 @@ const Home = (props) => {
                   <Link
                     to="stack"
                     smooth={true}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 dark:hover:bg-indigo-400 hover:text-black dark:text-indigo-400 hover:bg-slate-300"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-slate-300 hover:text-black dark:text-indigo-400 dark:hover:bg-indigo-400"
                     onClick={changeOffCanvas}
                   >
                     Stack
@@ -243,7 +243,7 @@ const Home = (props) => {
                   <Link
                     to="portfolio"
                     smooth={true}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 dark:hover:bg-indigo-400 hover:text-black dark:text-indigo-400 hover:bg-slate-300"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-slate-300 hover:text-black dark:text-indigo-400 dark:hover:bg-indigo-400"
                     onClick={changeOffCanvas}
                   >
                     Portfolio
@@ -251,18 +251,36 @@ const Home = (props) => {
                   <Link
                     to="contact"
                     smooth={true}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 dark:hover:bg-indigo-400 hover:text-black dark:text-indigo-400 hover:bg-slate-300"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-slate-300 hover:text-black dark:text-indigo-400 dark:hover:bg-indigo-400"
                     onClick={changeOffCanvas}
                   >
                     Contact
                   </Link>
+                  <div
+                    onClick={() => {
+                      changeOffCanvas();
+                      if (props.theme === "Dark") {
+                        sessionStorage.setItem("theme", "Light");
+                      } else if (props.theme === "Light") {
+                        sessionStorage.setItem("theme", "Dark");
+                      }
+                    }}
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-slate-300 hover:text-black dark:text-indigo-400 dark:hover:bg-indigo-400"
+                  >
+                    {props.theme === "Dark" ? (
+                      <FontAwesomeIcon icon={faMoon} size={"lg"} />
+                    ) : (
+                      <FontAwesomeIcon icon={faSun} size={"lg"} />
+                    )}{" "}
+                    {props.theme}
+                  </div>
                 </div>
-                <div className="py-6">
+                <div className="cursor-pointer pt-3">
                   <div
                     onClick={() => {
                       setStateLangOffCanvas(!stateLangOffCanvas);
                     }}
-                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 dark:hover:bg-indigo-400 hover:text-black dark:text-indigo-400 hover:bg-slate-300"
+                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 hover:bg-slate-300 hover:text-black dark:text-indigo-400 dark:hover:bg-indigo-400"
                   >
                     {lang.toUpperCase()}
                   </div>
@@ -275,7 +293,7 @@ const Home = (props) => {
                         setStateLangOffCanvas(!stateLangOffCanvas);
                         changeOffCanvas();
                       }}
-                      className={`${stateLangOffCanvas ? "opacity-100 translate-y-6" : "-translate-y-1/4 opacity-0"} transform px-4 py-2 text-sm text-gray-400 delay-100 duration-500 ease-out hover:bg-slate-300 dark:hover:bg-indigo-400 hover:text-black hover:rounded-lg`}
+                      className={`${stateLangOffCanvas ? "translate-y-6 opacity-100" : "-translate-y-1/4 opacity-0"} transform px-4 py-2 text-sm text-gray-400 delay-100 duration-500 ease-out hover:rounded-lg hover:bg-slate-300 hover:text-black dark:hover:bg-indigo-400`}
                       role="menuitem"
                       tabIndex="-1"
                       key={code}
