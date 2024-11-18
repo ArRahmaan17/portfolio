@@ -13,7 +13,6 @@ function App() {
   let [theme, setTheme] = useState(sessionStorage.getItem("theme"));
   let [classNavbar, setClassNavbar] = useState('bg-transparent');
   const changeTheme = async (theme) => {
-console.log(theme)
     setTheme(theme)
   };
   useEffect(() => {
