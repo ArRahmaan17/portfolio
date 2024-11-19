@@ -41,7 +41,7 @@ function App() {
   let params = { node: el, customStyle: style1, classNavbar: classNavbar, changeTheme, theme }
   return (
     <>
-      <div className={`App select-none flex flex-col divide-y-2 divide-double divide-blue-400/25 font-mono ${theme === 'Dark' ? 'dark' : ''}`}>
+      <div className={`App select-none flex flex-col font-mono ${theme === 'Dark' ? 'dark' : ''}`}>
         <Header  {...params} />
         <Skill {...params} />
         <Portfolio {...params} />
