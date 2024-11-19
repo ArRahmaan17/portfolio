@@ -133,7 +133,7 @@ const Home = (props) => {
                     sessionStorage.setItem("i18nextLng", code);
                     changeLanguage(code);
                   }}
-                  className="block cursor-pointer px-4 py-2 text-sm text-gray-800 hover:bg-slate-100 dark:text-gray-400 hover:dark:bg-slate-800 hover:dark:text-gray-100"
+                  className="block cursor-pointer px-4 py-2 text-sm text-gray-800 hover:bg-slate-100 dark:text-indigo-400 hover:dark:bg-slate-700 hover:dark:text-indigo-500"
                   role="menuitem"
                   tabIndex="-1"
                   key={code}
