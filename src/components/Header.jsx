@@ -261,7 +261,7 @@ const Home = (props) => {
                       changeOffCanvas();
                       if (props.theme === "Dark") {
                         sessionStorage.setItem("theme", "Light");
-                      } else if (props.theme === "Light") {
+                      } else {
                         sessionStorage.setItem("theme", "Dark");
                       }
                     }}
