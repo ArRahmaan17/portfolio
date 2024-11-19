@@ -272,7 +272,7 @@ const Home = (props) => {
                     ) : (
                       <FontAwesomeIcon icon={faSun} size={"lg"} />
                     )}{" "}
-                    {props.theme}
+                    {props.theme?? 'Light'}
                   </div>
                 </div>
                 <div className="cursor-pointer pt-3">
