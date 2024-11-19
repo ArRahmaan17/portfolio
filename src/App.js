@@ -37,7 +37,7 @@ function App() {
       typed.destroy();
     };
 
-  }, [theme]);
+  }, []);
   let params = { node: el, customStyle: style1, classNavbar: classNavbar, changeTheme, theme }
   return (
     <>
