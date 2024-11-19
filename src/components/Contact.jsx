@@ -35,7 +35,7 @@ export default function Contact() {
                 className="md:basis-1/8 group grow basis-1/12 cursor-pointer pt-5 ease-linear"
               >
                 <dt className="min-w-max text-base font-semibold leading-7">
-                  <a href={contact.link} target="_blank" className="text-slate-300 dark:text-slate-600 delay-300 duration-100 ease-linear hover:text-slate-600 hover:dark:text-slate-300">{`${contact.description}`}</a>
+                  <a href={contact.link} target="_blank" className="text-gray-400 dark:text-gray-400 delay-300 duration-100 ease-linear hover:text-gray-600 hover:dark:text-gray-300">{`${contact.description}`}</a>
                 </dt>
               </div>
             ))}
