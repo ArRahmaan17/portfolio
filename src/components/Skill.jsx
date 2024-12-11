@@ -73,11 +73,11 @@ const Skill = (props) => {
             {skills.map((skill) => (
               <div
                 key={skill.name}
-                className="delay-50 group cursor-pointer rounded-md bg-slate-100 dark:bg-slate-500/60 p-3 duration-500 hover:duration-100 transition-all hover:transition-all ease-in-out outline outline-offset-0 outline-slate-100 dark:outline-slate-500/60 hover:outline-indigo-200 hover:dark:bg-slate-400/80 hover:outline hover:outline-offset-4 hover:dark:outline-indigo-500"
+                className="delay-50 group cursor-pointer rounded-md bg-slate-100 dark:bg-slate-500/80 p-3 duration-500 hover:duration-100 transition-all hover:transition-all ease-in-out outline outline-offset-0 outline-slate-100 dark:outline-slate-500/60 hover:outline-indigo-200 hover:dark:bg-slate-500/40 hover:outline hover:outline-offset-4 hover:dark:outline-indigo-500"
               >
                 <div className="flex min-w-0 gap-x-4">
                   <img
-                    className="h-12 w-12 md:grayscale flex-none scale-100 transition duration-75 group-hover:scale-125 group-hover:md:grayscale-0"
+                    className="h-12 w-12 md:grayscale flex-none scale-100 transition duration-500 group-hover:scale-125 group-hover:md:grayscale-0"
                     src={skill.imageUrl}
                     alt={skill.name}
                   />

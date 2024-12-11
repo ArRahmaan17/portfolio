@@ -16,7 +16,7 @@ const Home = (props) => {
     await i18n.changeLanguage(sessionStorage.getItem("i18nextLng"));
   };
   const changeTheme = async () => {
-    props.changeTheme(sessionStorage.getItem("theme"));
+    props.changeTheme(localStorage.getItem("theme"));
   };
 
   const changeOffCanvas = () => {
@@ -25,7 +25,7 @@ const Home = (props) => {
   useEffect(() => {
     changeLanguage();
     changeTheme();
-  }, [sessionStorage.getItem("theme")]);
+  }, [localStorage.getItem("theme")]);
   return (
     <div className="dark:bg-black">
       <header className={`fixed inset-x-0 top-0 z-50`}>
@@ -169,7 +169,7 @@ const Home = (props) => {
                 <div
                   onClick={() => {
                     setStateThemeDropdown(!stateThemeDropdown);
-                    sessionStorage.setItem("theme", label);
+                    localStorage.setItem("theme", label);
                   }}
                   className={`block cursor-pointer px-4 py-2 text-sm text-gray-800 hover:bg-slate-100 dark:text-indigo-400 hover:dark:bg-slate-700 hover:dark:text-indigo-500`}
                   role="menuitem"
@@ -260,9 +260,9 @@ const Home = (props) => {
                     onClick={() => {
                       changeOffCanvas();
                       if (props.theme === "Dark") {
-                        sessionStorage.setItem("theme", "Light");
+                        localStorage.setItem("theme", "Light");
                       } else {
-                        sessionStorage.setItem("theme", "Dark");
+                        localStorage.setItem("theme", "Dark");
                       }
                     }}
                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-slate-300 hover:text-black dark:text-indigo-400 dark:hover:bg-indigo-400"

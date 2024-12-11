@@ -16,6 +16,7 @@ i18n
         translation: {
           home: "Home",
           stack: "Stack",
+          learn: "Learn Progress",
           portfolio: "Portfolio",
           contact: "Contact",
           introduction: "Introduction",
@@ -36,6 +37,7 @@ i18n
         translation: {
           home: "Home",
           stack: "Teknologi",
+learn: "Progres belajar",
           portfolio: "Portofolio",
           contact: "Kontak",
           introduction: "Perkenalkan",
