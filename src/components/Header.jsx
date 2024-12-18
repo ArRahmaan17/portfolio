@@ -14,6 +14,7 @@ const Home = (props) => {
   let [stateLangOffCanvas, setStateLangOffCanvas] = useState(false);
   const changeLanguage = async () => {
     await i18n.changeLanguage(sessionStorage.getItem("i18nextLng"));
+    props.changeLanguage(sessionStorage.getItem("i18nextLng"));
   };
   const changeTheme = async () => {
     props.changeTheme(localStorage.getItem("theme"));
