@@ -18,7 +18,6 @@ const Home = (props) => {
   const changeTheme = async () => {
     props.changeTheme(localStorage.getItem("theme"));
   };
-
   const changeOffCanvas = () => {
     stateOffCanvas = setStateOffCanvas(!stateOffCanvas);
   };
@@ -272,7 +271,7 @@ const Home = (props) => {
                     ) : (
                       <FontAwesomeIcon icon={faSun} size={"lg"} />
                     )}{" "}
-                    {props.theme?? 'Light'}
+                    {props.theme ?? "Light"}
                   </div>
                 </div>
                 <div className="cursor-pointer pt-3">
