@@ -10,7 +10,7 @@ const Home = (props) => {
   let [stateOffCanvas, setStateOffCanvas] = useState(false);
   let [stateLangDropdown, setStateLangDropdown] = useState(false);
   let [stateThemeDropdown, setStateThemeDropdown] = useState(false);
-  let [lang, setLang] = useState(localStorage.getItem("i18nextLng"));
+  let [lang, setLang] = useState(props.lang);
   let [stateLangOffCanvas, setStateLangOffCanvas] = useState(false);
   const changeLanguage = async (_lang) => {
     setLang(_lang);
@@ -26,13 +26,13 @@ const Home = (props) => {
   useEffect(() => {
     changeLanguage(lang);
     changeTheme();
-  }, [localStorage.getItem("theme")]);
+  }, []);
   return (
     <div className="dark:bg-black">
       <header className={`fixed inset-x-0 top-0 z-50`}>
         <nav
           id="navbar-menu"
-          className="bg-black dark:shadow-2xl dark:shadow-indigo-500/50 sm:dark:shadow-none md:bg-transparent flex items-center justify-between p-6 lg:px-8"
+          className="flex items-center justify-between p-6 lg:px-8"
           aria-label="Global"
         >
           <div className="flex cursor-pointer lg:flex-1">
@@ -128,10 +128,9 @@ const Home = (props) => {
               {LANGUAGES.map(({ code, label }) => (
                 <div
                   onClick={() => {
-                    i18n.changeLanguage(code);
                     setStateLangDropdown(!stateLangDropdown);
                     setLang(code);
-                    localStorage.setItem("i18nextLng", code);
+                    sessionStorage.setItem("i18nextLng", code);
                     changeLanguage(code);
                   }}
                   className="block cursor-pointer px-4 py-2 text-sm text-gray-800 hover:bg-slate-100 dark:text-indigo-400 hover:dark:bg-slate-700 hover:dark:text-indigo-500"
@@ -288,11 +287,11 @@ const Home = (props) => {
                   {LANGUAGES.map(({ code, label }) => (
                     <div
                       onClick={() => {
-                        i18n.changeLanguage(code);
                         setLang(code);
-                        localStorage.setItem("i18nextLng", code);
+                        sessionStorage.setItem("i18nextLng", code);
                         setStateLangOffCanvas(!stateLangOffCanvas);
                         changeOffCanvas();
+                        changeLanguage(code);
                       }}
                       className={`${stateLangOffCanvas ? "translate-y-6 opacity-100" : "-translate-y-1/4 opacity-0"} transform px-4 py-2 text-sm text-gray-400 delay-100 duration-500 ease-out hover:rounded-lg hover:bg-slate-300 hover:text-black dark:hover:bg-indigo-400`}
                       role="menuitem"

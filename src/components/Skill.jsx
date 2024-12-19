@@ -3,55 +3,12 @@ import { skill } from "../constants";
 import { useTranslation } from "react-i18next";
 import moment from "moment/min/moment-with-locales";
 const Skill = (props) => {
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
   const skills = skill;
   useEffect(() => {
+    i18n.changeLanguage(props.lang);
     moment.locale(`${props.lang}`);
   }, [props.lang]);
-  // const skills = [
-  //   {
-  //     name: "Laravel",
-  //     level: t("intermediate"),
-  //     experience: "2 " + t("years"),
-  //     imageUrl: laravel,
-  //   },
-  //   {
-  //     name: "Tailwind Css",
-  //     level: t("beginner"),
-  //     experience: "5 " + t("month"),
-  //     imageUrl: tailwindcss,
-  //   },
-  //   {
-  //     name: "Express Js",
-  //     level: t("beginner"),
-  //     experience: "5 " + t("month"),
-  //     imageUrl: expressjs,
-  //   },
-  //   {
-  //     name: "React Js",
-  //     level: t("beginner"),
-  //     experience: "5 " + t("month"),
-  //     imageUrl: react,
-  //   },
-  //   {
-  //     name: "Node Js",
-  //     level: t("beginner"),
-  //     experience: "7 " + t("month"),
-  //     imageUrl: nodejs,
-  //   },
-  //   {
-  //     name: "Docker",
-  //     level: t("beginner"),
-  //     experience: "3 " + t("month"),
-  //     imageUrl: docker,
-  //   },
-  //   {
-  //     name: "Bootstrap",
-  //     level: t("intermediate"),
-  //     experience: "2 " + t("years"),
-  //     imageUrl: bootstrap,
-  //   },
-  // ];
   return (
     <div className="dark:bg-black" id="stack">
       <div className="relative isolate px-6 py-16 lg:px-8 lg:py-56">
