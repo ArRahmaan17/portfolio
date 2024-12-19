@@ -14,7 +14,6 @@ function App() {
   let [lang, setLang] = useState(sessionStorage.getItem("i18nextLng") ?? "en");
   let [classNavbar, setClassNavbar] = useState('bg-transparent');
   const changeTheme = async (_theme) => {
-    console.log(_theme)
     setTheme(_theme)
   };
   const changeLanguage = async (_lang) => {
