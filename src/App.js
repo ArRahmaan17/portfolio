@@ -11,12 +11,13 @@ function App() {
   };
   let el = useRef(null);
   let [theme, setTheme] = useState(localStorage.getItem("theme"));
-  let [lang, setLang] = useState(sessionStorage.getItem("i18nextLng"));
+  let [lang, setLang] = useState(localStorage.getItem("i18nextLng") ?? "en");
   let [classNavbar, setClassNavbar] = useState('bg-transparent');
   const changeTheme = async (theme) => {
     setTheme(theme)
-  }; const changeLanguage = async (lang) => {
-    setLang(lang)
+  };
+  const changeLanguage = async (_lang) => {
+    setLang(_lang)
   };
   useEffect(() => {
     const headerOffscreen = () => {
@@ -40,7 +41,7 @@ function App() {
       typed.destroy();
     };
   }, []);
-  let params = { node: el, customStyle: style1, classNavbar: classNavbar, changeTheme, theme, changeLanguage, lang }
+  let params = { node: el, customStyle: style1, classNavbar: classNavbar, changeTheme: changeTheme, theme: theme, changeLanguage: changeLanguage, lang: lang }
   return (
     <>
       <div className={`App select-none flex flex-col font-mono ${theme === 'Dark' ? 'dark' : ''}`}>

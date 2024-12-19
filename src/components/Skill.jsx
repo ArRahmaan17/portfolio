@@ -7,7 +7,7 @@ const Skill = (props) => {
   const skills = skill;
   useEffect(() => {
     moment.locale(`${props.lang}`);
-  }, []);
+  }, [props.lang]);
   // const skills = [
   //   {
   //     name: "Laravel",
@@ -56,7 +56,7 @@ const Skill = (props) => {
     <div className="dark:bg-black" id="stack">
       <div className="relative isolate px-6 py-16 lg:px-8 lg:py-56">
         <div
-          className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-70"
+          className="sm:-top-70 absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl"
           aria-hidden="true"
         >
           <div

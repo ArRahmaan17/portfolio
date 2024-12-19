@@ -10,11 +10,12 @@ const Home = (props) => {
   let [stateOffCanvas, setStateOffCanvas] = useState(false);
   let [stateLangDropdown, setStateLangDropdown] = useState(false);
   let [stateThemeDropdown, setStateThemeDropdown] = useState(false);
-  let [lang, setLang] = useState(sessionStorage.getItem("i18nextLng") ?? "en");
+  let [lang, setLang] = useState(localStorage.getItem("i18nextLng"));
   let [stateLangOffCanvas, setStateLangOffCanvas] = useState(false);
-  const changeLanguage = async () => {
-    await i18n.changeLanguage(sessionStorage.getItem("i18nextLng"));
-    props.changeLanguage(sessionStorage.getItem("i18nextLng"));
+  const changeLanguage = async (_lang) => {
+    setLang(_lang);
+    await i18n.changeLanguage(_lang);
+    await props.changeLanguage(_lang);
   };
   const changeTheme = async () => {
     props.changeTheme(localStorage.getItem("theme"));
@@ -23,7 +24,7 @@ const Home = (props) => {
     stateOffCanvas = setStateOffCanvas(!stateOffCanvas);
   };
   useEffect(() => {
-    changeLanguage();
+    changeLanguage(lang);
     changeTheme();
   }, [localStorage.getItem("theme")]);
   return (
@@ -129,8 +130,8 @@ const Home = (props) => {
                   onClick={() => {
                     i18n.changeLanguage(code);
                     setStateLangDropdown(!stateLangDropdown);
-                    lang = setLang(code);
-                    sessionStorage.setItem("i18nextLng", code);
+                    setLang(code);
+                    localStorage.setItem("i18nextLng", code);
                     changeLanguage(code);
                   }}
                   className="block cursor-pointer px-4 py-2 text-sm text-gray-800 hover:bg-slate-100 dark:text-indigo-400 hover:dark:bg-slate-700 hover:dark:text-indigo-500"
@@ -288,8 +289,8 @@ const Home = (props) => {
                     <div
                       onClick={() => {
                         i18n.changeLanguage(code);
-                        lang = setLang(code);
-                        sessionStorage.setItem("i18nextLng", code);
+                        setLang(code);
+                        localStorage.setItem("i18nextLng", code);
                         setStateLangOffCanvas(!stateLangOffCanvas);
                         changeOffCanvas();
                       }}
