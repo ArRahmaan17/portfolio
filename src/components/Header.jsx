@@ -11,21 +11,22 @@ const Home = (props) => {
   let [stateLangDropdown, setStateLangDropdown] = useState(false);
   let [stateThemeDropdown, setStateThemeDropdown] = useState(false);
   let [lang, setLang] = useState(props.lang);
+  let [theme, setTheme] = useState(props.theme);
   let [stateLangOffCanvas, setStateLangOffCanvas] = useState(false);
   const changeLanguage = async (_lang) => {
     setLang(_lang);
     await i18n.changeLanguage(_lang);
     await props.changeLanguage(_lang);
   };
-  const changeTheme = async () => {
-    props.changeTheme(localStorage.getItem("theme"));
+  const changeTheme = async (_theme) => {
+    props.changeTheme(_theme);
   };
   const changeOffCanvas = () => {
     stateOffCanvas = setStateOffCanvas(!stateOffCanvas);
   };
   useEffect(() => {
     changeLanguage(lang);
-    changeTheme();
+    changeTheme(theme);
   }, []);
   return (
     <div className="dark:bg-black">
@@ -170,6 +171,7 @@ const Home = (props) => {
                   onClick={() => {
                     setStateThemeDropdown(!stateThemeDropdown);
                     localStorage.setItem("theme", label);
+                    changeTheme(label);
                   }}
                   className={`block cursor-pointer px-4 py-2 text-sm text-gray-800 hover:bg-slate-100 dark:text-indigo-400 hover:dark:bg-slate-700 hover:dark:text-indigo-500`}
                   role="menuitem"
@@ -261,8 +263,10 @@ const Home = (props) => {
                       changeOffCanvas();
                       if (props.theme === "Dark") {
                         localStorage.setItem("theme", "Light");
+                        changeTheme("Light");
                       } else {
                         localStorage.setItem("theme", "Dark");
+                        changeTheme("Dark");
                       }
                     }}
                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-slate-300 hover:text-black dark:text-indigo-400 dark:hover:bg-indigo-400"

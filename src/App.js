@@ -13,8 +13,9 @@ function App() {
   let [theme, setTheme] = useState(localStorage.getItem("theme"));
   let [lang, setLang] = useState(sessionStorage.getItem("i18nextLng") ?? "en");
   let [classNavbar, setClassNavbar] = useState('bg-transparent');
-  const changeTheme = async (theme) => {
-    setTheme(theme)
+  const changeTheme = async (_theme) => {
+    console.log(_theme)
+    setTheme(_theme)
   };
   const changeLanguage = async (_lang) => {
     setLang(_lang);
@@ -40,7 +41,7 @@ function App() {
     return () => {
       typed.destroy();
     };
-  }, [lang, theme]);
+  }, []);
   let params = { node: el, customStyle: style1, classNavbar: classNavbar, changeTheme: changeTheme, theme: theme, changeLanguage: changeLanguage, lang: lang }
   return (
     <>
