@@ -54,7 +54,7 @@ export const skill = [
     },
     {
         name: "Bootstrap",
-        start: '2021-01',
+        start: '2022-05',
         imageUrl: bootstrap,
     },
 ]
