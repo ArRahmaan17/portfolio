@@ -72,7 +72,7 @@ const Skill = (props) => {
             {skills.map((_skill) => (
               <div
                 key={_skill.name}
-                className="delay-50 group cursor-pointer rounded-md bg-slate-100 p-3 outline outline-offset-0 outline-slate-100 transition-all duration-500 ease-in-out hover:outline hover:outline-offset-4 hover:outline-indigo-200 hover:transition-all hover:duration-100 dark:bg-slate-500/80 dark:outline-slate-500/60 hover:dark:bg-slate-500/40 hover:dark:outline-indigo-500"
+                className="delay-50 group cursor-pointer rounded-md bg-slate-100 p-3 outline outline-offset-0 outline-slate-300 transition-all duration-500 ease-in-out hover:outline hover:outline-offset-4 hover:outline-indigo-200 hover:transition-all hover:duration-100 dark:bg-slate-700/90 dark:outline-slate-400/70 hover:dark:bg-slate-100/40 hover:dark:outline-indigo-500/80"
               >
                 <div className="flex min-w-0 gap-x-4">
                   <img
@@ -81,10 +81,10 @@ const Skill = (props) => {
                     alt={_skill.name}
                   />
                   <div className="min-w-0 flex-auto">
-                    <p className="translate-y-4 text-sm font-semibold leading-6 transition-all group-hover:translate-y-1 dark:text-gray-300">
+                    <p className="translate-y-4 text-sm font-semibold leading-6 transition-all group-hover:translate-y-1 dark:text-gray-400 group-hover:dark:text-gray-300">
                       {_skill.name}
                     </p>
-                    <p className="mt-1 hidden scale-y-0 truncate text-xs leading-5 transition-transform delay-100 duration-300 ease-in-out group-hover:block group-hover:scale-y-100 group-hover:transition-transform group-hover:delay-300 group-hover:duration-1000 group-hover:ease-in-out dark:text-gray-300">
+                    <p className="mt-1 hidden scale-y-0 truncate text-xs leading-5 transition-all delay-1000 duration-300 ease-in-out group-hover:block group-hover:scale-y-100 group-hover:transition-transform group-hover:delay-1000 group-hover:duration-1000 group-hover:ease-in-out dark:text-gray-300">
                       {moment(_skill.start).fromNow(true)} {t("experience")}
                     </p>
                   </div>

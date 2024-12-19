@@ -32,7 +32,7 @@ const Home = (props) => {
       <header className={`fixed inset-x-0 top-0 z-50`}>
         <nav
           id="navbar-menu"
-          className="flex items-center justify-between p-6 lg:px-8"
+          className="bg-black dark:shadow-2xl dark:shadow-indigo-500/50 sm:dark:shadow-none md:bg-transparent flex items-center justify-between p-6 lg:px-8"
           aria-label="Global"
         >
           <div className="flex cursor-pointer lg:flex-1">
