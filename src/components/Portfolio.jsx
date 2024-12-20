@@ -78,7 +78,7 @@ export default function Portfolio(props) {
                 key={project.id}
                 rel="noreferrer"
                 target="_blank"
-                className="delay-50 lg:basis-4/3 group min-w-56 basis-full cursor-pointer rounded-md bg-slate-100 p-3 outline outline-offset-0 outline-slate-300 transition-all duration-300 ease-out hover:outline hover:outline-offset-4 hover:outline-indigo-300 hover:transition-all hover:duration-300 md:basis-1/3 dark:bg-slate-700/60 dark:outline-slate-700/60 hover:dark:bg-slate-700/80"
+                className="delay-50 lg:basis-4/3 group min-w-56 basis-full cursor-pointer rounded-md bg-slate-100 p-3 outline outline-offset-0 outline-slate-300 transition-all duration-100 ease-out md:basis-1/3 dark:bg-slate-700/60 dark:outline-slate-700/60 hover:dark:bg-slate-700/80"
               >
                 <div className="flex min-w-0 flex-col gap-x-1">
                   <img
@@ -86,14 +86,14 @@ export default function Portfolio(props) {
                     src={project.image}
                     alt={project.name}
                   />
-                  <div className="min-w-0 flex-auto">
-                    <p className="mt-5 text-2xl font-semibold leading-6 dark:text-gray-100 md:dark:text-gray-600 dark:group-hover:text-gray-100">
+                  <div className="md:min-h-20 flex-auto">
+                    <p className="md:translate-y-10 group-hover:md:translate-y-5 transition-all duration-500 text-lg md:text-2xl font-semibold leading-6 dark:text-gray-100 md:dark:text-gray-600 dark:group-hover:text-gray-100">
                       {project.name}
                     </p>
-                    <div className="mt-5 flex flex-row flex-wrap gap-2 truncate text-sm">
+                    <div className="md:translate-y-0 group-hover:md:translate-y-5 transition-all duration-500 flex flex-row flex-wrap gap-2 truncate text-xs leading-5">
                       {project.types.map((type) => (
                         <p
-                          className="font-sx mt-1 basis-1 text-sm text-gray-400 dark:text-gray-300 group-hover:text-black md:dark:text-gray-500 group-hover:dark:text-gray-100"
+                          className="font-sx mt-1 basis-1 text-sm text-gray-400 dark:text-gray-300 group-hover:text-black md:dark:text-gray-500 group-hover:dark:text-gray-100 opacity-60 md:opacity-0 group-hover:opacity-100 transform-gpu transition-all group-hover:transition-all duration-100 ease-in-out delay-100 group-hover:duration-500 group-hover:ease-in-out group-hover:transform-gpu"
                           key={type.id}
                         >
                           {type.name}

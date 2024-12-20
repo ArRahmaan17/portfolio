@@ -120,7 +120,7 @@ const Home = (props) => {
             </div>
             {/* dropdown */}
             <div
-              className={`right-6 z-10 mt-8 ${stateLangDropdown ? "absolute" : "hidden"} w-48 origin-top-left rounded-md py-1 shadow-md shadow-slate-200/15 ring-1 ring-black ring-opacity-5 hover:outline-none dark:bg-slate-800`}
+              className={`right-6 z-10 mt-8 ${stateLangDropdown ? "absolute" : "hidden"} ${props.classNavbar} w-48 origin-top-left rounded-md py-1 shadow-md shadow-slate-200/15 ring-1 ring-black ring-opacity-5 hover:outline-none`}
               role="menu"
               aria-orientation="vertical"
               aria-labelledby="user-menu-button"
@@ -134,7 +134,7 @@ const Home = (props) => {
                     sessionStorage.setItem("i18nextLng", code);
                     changeLanguage(code);
                   }}
-                  className="block cursor-pointer px-4 py-2 text-sm text-gray-800 hover:bg-slate-100 dark:text-indigo-400 hover:dark:bg-slate-700 hover:dark:text-indigo-500"
+                  className="block cursor-pointer px-4 py-2 font-semibold text-gray-800 hover:bg-slate-100 dark:text-indigo-400 hover:dark:bg-slate-700 hover:dark:text-indigo-500"
                   role="menuitem"
                   tabIndex="-1"
                   key={code}
@@ -160,7 +160,7 @@ const Home = (props) => {
             </div>
             {/* dropdown */}
             <div
-              className={`right-6 z-10 mt-8 ${stateThemeDropdown ? "absolute" : "hidden"} w-48 origin-top-left rounded-md py-1 shadow-md shadow-slate-200/15 ring-1 ring-black ring-opacity-5 hover:outline-none dark:bg-slate-800`}
+              className={`right-6 z-10 mt-8 ${stateThemeDropdown ? "absolute" : "hidden"} ${props.classNavbar} w-48 origin-top-left rounded-md py-1 shadow-md shadow-slate-200/15 ring-1 ring-black ring-opacity-5 hover:outline-none`}
               role="menu"
               aria-orientation="vertical"
               aria-labelledby="user-menu-button"
@@ -173,7 +173,7 @@ const Home = (props) => {
                     localStorage.setItem("theme", label);
                     changeTheme(label);
                   }}
-                  className={`block cursor-pointer px-4 py-2 text-sm text-gray-800 hover:bg-slate-100 dark:text-indigo-400 hover:dark:bg-slate-700 hover:dark:text-indigo-500`}
+                  className={`block cursor-pointer px-4 py-2 font-semibold text-gray-800 hover:bg-slate-100 dark:text-indigo-400 hover:dark:bg-slate-700 hover:dark:text-indigo-500`}
                   role="menuitem"
                   tabIndex="-1"
                   key={label}
@@ -341,7 +341,6 @@ const Home = (props) => {
             </p>
           </div>
         </div>
-
         <div
           className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
           aria-hidden="true"
