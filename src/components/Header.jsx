@@ -19,7 +19,7 @@ const Home = (props) => {
     await props.changeLanguage(_lang);
   };
   const changeTheme = async (_theme) => {
-    props.changeTheme(_theme);
+    await props.changeTheme(_theme);
   };
   const changeOffCanvas = () => {
     stateOffCanvas = setStateOffCanvas(!stateOffCanvas);
@@ -195,10 +195,9 @@ const Home = (props) => {
           <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 dark:bg-black">
             <div className="flex items-center justify-between">
               <button
-                to="#"
                 className="-m-1.5 cursor-default p-1.5 opacity-100 sm:opacity-0"
               >
-                <img className="h-8 w-auto" src={logo} alt=""></img>
+                <img loading="lazy" className="h-8 w-auto" src={logo} alt=""></img>
               </button>
               <button
                 onClick={changeOffCanvas}

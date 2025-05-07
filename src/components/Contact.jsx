@@ -47,8 +47,9 @@ export default function Contact() {
           </dl>
           <div className="items-center justify-center flex flex-row gap-2 mt-10">
             <img
+                loading="lazy"
               src="https://www.codewars.com/users/Ardhi%20Rahmaan/badges/micro"
-              alt=""
+              alt="codewar-badges"
             />
           </div>
         </div>

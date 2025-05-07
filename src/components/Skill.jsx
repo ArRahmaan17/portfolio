@@ -33,6 +33,7 @@ const Skill = (props) => {
               >
                 <div className="flex min-w-0 gap-x-4">
                   <img
+                      loading="lazy"
                     className="h-12 w-12 flex-none scale-100 transition duration-500 group-hover:scale-125 md:grayscale group-hover:md:grayscale-0 group-hover:duration-500"
                     src={_skill.imageUrl}
                     alt={_skill.name}

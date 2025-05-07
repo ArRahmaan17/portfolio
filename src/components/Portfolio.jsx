@@ -82,6 +82,7 @@ export default function Portfolio(props) {
               >
                 <div className="flex min-w-0 flex-col gap-x-1">
                   <img
+                      loading="lazy"
                     className="h-full w-auto flex-1 rounded-md md:grayscale md:group-hover:grayscale-0"
                     src={project.image}
                     alt={project.name}
