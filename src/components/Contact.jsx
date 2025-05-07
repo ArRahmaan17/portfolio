@@ -20,10 +20,10 @@ export default function Contact() {
     <div className="py-40 lg:py-72 dark:bg-black" id="contact">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-4xl lg:text-center">
-          <h2 className="pt-8 text-center text-2xl md:text-4xl lg:text-6xl dark:text-gray-400">
+          <h2 className="pt-8 text-center text-2xl md:text-4xl lg:text-6xl dark:text-gray-100">
             {t("contact")}
           </h2>
-          <p className="mt-6 text-lg leading-8 text-gray-400">
+          <p className="mt-6 text-lg leading-8 dark:text-gray-100">
             {t("short_contact")}
           </p>
         </div>
@@ -38,7 +38,7 @@ export default function Contact() {
                   <a
                     href={contact.link}
                     target="_blank"
-                    className="text-gray-400 delay-300 duration-100 ease-linear hover:text-gray-600 dark:text-gray-400 hover:dark:text-gray-300"
+                    className="delay-300 duration-100 ease-linear hover:text-gray-600 dark:text-gray-100 hover:dark:text-gray-300"
                   >{`${contact.description}`}</a>
                 </dt>
               </div>

@@ -322,11 +322,11 @@ const Home = (props) => {
         </div>
         <div className="mx-auto max-w-4xl py-32 sm:py-48 lg:py-56">
           <div className="text-left lg:text-center">
-            <h1 className="text-4xl font-bold sm:text-6xl dark:text-gray-400">
+            <h1 className="text-4xl font-bold sm:text-6xl dark:text-gray-100">
               {t("introduction")}
             </h1>
             <div className="flex justify-start lg:justify-center">
-              <h1 className="text-lg font-bold sm:text-2xl dark:text-gray-400">
+              <h1 className="text-lg font-bold sm:text-2xl dark:text-gray-100">
                 {t("im")}
               </h1>
               &nbsp;
@@ -335,7 +335,7 @@ const Home = (props) => {
                 ref={props.node}
               ></h1>
             </div>
-            <p className="text-md mt-6 leading-8 sm:text-sm/9 dark:text-gray-400">
+            <p className="text-md mt-6 leading-8 sm:text-sm/9 dark:text-gray-100">
               {t("short_intro")}
             </p>
           </div>
