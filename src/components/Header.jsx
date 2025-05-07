@@ -11,7 +11,7 @@ const Home = (props) => {
   let [stateLangDropdown, setStateLangDropdown] = useState(false);
   let [stateThemeDropdown, setStateThemeDropdown] = useState(false);
   let [lang, setLang] = useState(props.lang);
-  let [theme, setTheme] = useState(props.theme);
+  let [theme] = useState(props.theme);
   let [stateLangOffCanvas, setStateLangOffCanvas] = useState(false);
   const changeLanguage = async (_lang) => {
     setLang(_lang);

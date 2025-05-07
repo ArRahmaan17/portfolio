@@ -1,6 +1,5 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-scroll";
 
 export default function Contact() {
   let { t } = useTranslation();
