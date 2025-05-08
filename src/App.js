@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import Skill from "./components/Skill";
 import Portfolio from "./components/Portfolio";
 import Contact from "./components/Contact";
+import preloaderImg from './assets/preloader.png';
 function App() {
   let style1 = {
     clipPath:
@@ -19,36 +20,51 @@ function App() {
   const changeLanguage = async (_lang) => {
     setLang(_lang);
   };
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const headerOffscreen = () => {
       if (window.pageYOffset > 25) {
-        classNavbar = setClassNavbar('rounded-full bg-white dark:bg-slate-800 bg-opacity-40 backdrop-blur-2xl')
+        setClassNavbar('rounded-full bg-white dark:bg-slate-800 bg-opacity-40 backdrop-blur-2xl')
       } else {
-        classNavbar = setClassNavbar('bg-transparent');
+        setClassNavbar('bg-transparent');
       }
     }
     window.addEventListener('scroll', headerOffscreen);
-
-    const typed = new Typed(el.current, {
-      strings: ["Software Engineer", "Ardhi Rahmaan"],
-      typeSpeed: 100,
-      loop: true,
-      showCursor: false,
-      backSpeed: 100,
-      loopCount: 3,
-    });
-    return () => {
-      typed.destroy();
-    };
-  }, []);
+    let timeout = setTimeout(() => {
+      setLoading(false);
+    }, 500);
+      const typed = new Typed(el.current, {
+        strings: ["Software Engineer", "Ardhi Rahmaan"],
+        typeSpeed: 200,
+        loop: true,
+        showCursor: false,
+        backSpeed: 100,
+        loopCount: 3,
+      });
+      return () => {
+        typed.destroy();
+        clearTimeout(timeout);
+      };
+  }, [loading]);
   let params = { node: el, customStyle: style1, classNavbar: classNavbar, changeTheme: changeTheme, theme: theme, changeLanguage: changeLanguage, lang: lang }
   return (
     <>
       <div className={`App select-none flex flex-col font-mono ${theme === 'Dark' ? 'dark' : ''}`}>
-        <Header  {...params} />
-        <Skill {...params} />
-        <Portfolio {...params} />
-        <Contact {...params} />
+        {loading ? <>
+          <div className={`w-full h-screen bg-white dark:bg-gray-900 flex flex-col items-center justify-center`}>
+            <div className='text-center'>
+              <img src={preloaderImg} alt="preloader-img" className='h-12 md:h-24 mx-auto' />
+              <div className='font-bold dark:text-indigo-400 md:text-2xl'>wait a second</div>
+              <div ref={el} className='hidden'></div>
+            </div>
+          </div>
+        </> : <>
+          <Header {...params} />
+          <Skill {...params} />
+          <Portfolio {...params} />
+          <Contact {...params} />
+        </>}
       </div >
     </>
   );
