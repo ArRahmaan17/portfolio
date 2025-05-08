@@ -198,7 +198,7 @@ const Home = (props) => {
               <button
                 className="-m-1.5 cursor-default p-1.5 opacity-100 sm:opacity-0"
               >
-                <img loading="lazy" className="h-8 w-auto" src={logo} alt=""></img>
+                <img loading="lazy" className="h-8 w-auto" src={logo} alt="logo"></img>
               </button>
               <button
                 onClick={changeOffCanvas}
