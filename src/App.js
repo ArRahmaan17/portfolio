@@ -52,7 +52,7 @@ function App() {
     <>
       <div className={`App select-none flex flex-col font-mono ${theme === 'Dark' ? 'dark' : ''}`}>
         {loading ? <>
-          <div className={`w-full h-screen bg-white dark:bg-gray-900 flex flex-col items-center justify-center`}>
+          <div className={`w-full h-screen bg-white dark:bg-black flex flex-col items-center justify-center`}>
             <div className='text-center'>
               <img loading='lazy' src={preloaderImg} alt="preloader-img" className='h-12 md:h-24 mx-auto' />
               <div className='font-bold dark:text-indigo-400 md:text-2xl'>wait a second</div>
