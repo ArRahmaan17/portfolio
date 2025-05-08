@@ -44,9 +44,10 @@ const Home = (props) => {
               className="-m-1.5 p-1.5"
             >
               <img
+                  loading='lazy'
                 className="h-12 lg:h-16 w-auto grayscale hover:grayscale-0 dark:grayscale-0"
                 src={logo}
-                alt=""
+                alt="logo"
               ></img>
             </div>
           </div>
