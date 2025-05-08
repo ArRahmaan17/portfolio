@@ -332,7 +332,7 @@ const Home = (props) => {
               </h1>
               &nbsp;
               <h1
-                 className="text-lg font-bold text-indigo-500 sm:text-2xl"
+                 className="text-lg font-bold text-rose-500 dark:text-indigo-500 sm:text-2xl"
                 ref={props.node}
               ></h1>
             </div>
