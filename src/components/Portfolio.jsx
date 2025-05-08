@@ -1,8 +1,8 @@
 import React from "react";
-import simpkl from "../assets/portfolio/sim-pkl.png";
-import publicchat from "../assets/portfolio/public-chat.png";
-import notfound from "../assets/portfolio/not-found.jpg";
-import restapisanctum from "../assets/portfolio/rest-api-sanctum.png";
+import simpkl from "../assets/portfolio/sim-pkl.webp";
+import publicchat from "../assets/portfolio/public-chat.webp";
+import notfound from "../assets/portfolio/not-found.webp";
+import restapisanctum from "../assets/portfolio/rest-api-sanctum.webp";
 import { useTranslation } from "react-i18next";
 export default function Portfolio(props) {
   const { t } = useTranslation();

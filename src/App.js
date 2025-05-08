@@ -4,7 +4,7 @@ import Header from "./components/Header";
 import Skill from "./components/Skill";
 import Portfolio from "./components/Portfolio";
 import Contact from "./components/Contact";
-import preloaderImg from './assets/preloader.png';
+import preloaderImg from './assets/preloader.webp';
 function App() {
   let style1 = {
     clipPath:

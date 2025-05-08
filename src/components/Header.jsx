@@ -3,7 +3,7 @@ import { Link, animateScroll as scroll } from "react-scroll";
 import { LANGUAGES, themes } from "../constants";
 import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo.webp";
 import { faMoon, faSun } from "@fortawesome/free-regular-svg-icons";
 const Home = (props) => {
   const { i18n, t } = useTranslation();
@@ -331,7 +331,7 @@ const Home = (props) => {
               </h1>
               &nbsp;
               <h1
-                className="text-lg font-bold text-indigo-400 sm:text-2xl"
+                 className="text-lg font-bold text-indigo-400 sm:text-2xl"
                 ref={props.node}
               ></h1>
             </div>
