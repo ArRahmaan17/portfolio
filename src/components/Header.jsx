@@ -45,7 +45,7 @@ const Home = (props) => {
             >
               <img
                   loading='lazy'
-                className="h-12 lg:h-16 w-auto grayscale hover:grayscale-0 dark:grayscale-0"
+                className="h-12 lg:h-16 w-auto grayscale-0 hover:grayscale-0 dark:grayscale"
                 src={logo}
                 alt="logo"
               />
@@ -332,7 +332,7 @@ const Home = (props) => {
               </h1>
               &nbsp;
               <h1
-                 className="text-lg font-bold text-indigo-400 sm:text-2xl"
+                 className="text-lg font-bold text-indigo-500 sm:text-2xl"
                 ref={props.node}
               ></h1>
             </div>
