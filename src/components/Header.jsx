@@ -48,7 +48,7 @@ const Home = (props) => {
                 className="h-12 lg:h-16 w-auto grayscale hover:grayscale-0 dark:grayscale-0"
                 src={logo}
                 alt="logo"
-              ></img>
+              />
             </div>
           </div>
           <div className="flex lg:hidden">
