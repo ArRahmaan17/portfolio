@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link, animateScroll as scroll } from "react-scroll";
 import { LANGUAGES, themes } from "../constants";
 import { useTranslation } from "react-i18next";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import logo from "../assets/logo.webp";
-import { faMoon, faSun } from "@fortawesome/free-regular-svg-icons";
+import {SunDim, SunMoon} from "lucide-react";
 const Home = (props) => {
   const { i18n, t } = useTranslation();
   let [stateOffCanvas, setStateOffCanvas] = useState(false);
@@ -154,9 +153,9 @@ const Home = (props) => {
               }}
             >
               {props.theme === "Dark" ? (
-                <FontAwesomeIcon icon={faMoon} size={"lg"} />
+                  <SunMoon/>
               ) : (
-                <FontAwesomeIcon icon={faSun} size={"lg"} />
+                  <SunDim/>
               )}
             </div>
             {/* dropdown */}
@@ -179,7 +178,7 @@ const Home = (props) => {
                   tabIndex="-1"
                   key={label}
                 >
-                  <FontAwesomeIcon icon={icon} size={"lg"} /> {label}
+                  <div className='flex gap-x-1'>{icon} {label}</div>
                 </div>
               ))}
             </div>
@@ -272,10 +271,10 @@ const Home = (props) => {
                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-slate-300 hover:text-black dark:text-indigo-400 dark:hover:bg-indigo-400"
                   >
                     {props.theme === "Dark" ? (
-                      <FontAwesomeIcon icon={faMoon} size={"lg"} />
+                        <SunMoon/>
                     ) : (
-                      <FontAwesomeIcon icon={faSun} size={"lg"} />
-                    )}{" "}
+                        <SunDim/>
+                      )}
                     {props.theme ?? "Light"}
                   </div>
                 </div>

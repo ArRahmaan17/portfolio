@@ -1,4 +1,4 @@
-import { faMoon, faSun } from "@fortawesome/free-regular-svg-icons";
+import {SunDim, SunMoon} from "lucide-react";
 import tailwindcss from "../assets/stack-logos/tailwindcss.svg";
 import laravel from "../assets/stack-logos/laravel.svg";
 import expressjs from "../assets/stack-logos/expressjs.svg";
@@ -12,8 +12,8 @@ export const LANGUAGES = [
     { label: "Indonesia", code: "id" },
 ];
 export const themes = [
-    { icon: faSun, label: "Light" },
-    { icon: faMoon, label: "Dark" },
+    { icon: <SunDim/>, label: "Light" },
+    { icon: <SunMoon/>, label: "Dark" },
 ]
 export const experience = [
     { year: 1, label: "Beginner" },
