@@ -54,7 +54,7 @@ function App() {
         {loading ? <>
           <div className={`w-full h-screen bg-white dark:bg-black flex flex-col items-center justify-center`}>
             <div className='text-center'>
-              <link rel="preload" as="image" href={preloaderImg} alt="preloader-img" className='h-12 grayscale-0 dark:grayscale md:h-24 mx-auto' />
+              <img rel="preload" src={preloaderImg} alt="preloader-img" className='h-12 grayscale-0 dark:grayscale md:h-24 mx-auto' />
               <div className='font-bold dark:text-indigo-400 md:text-2xl'>wait a second</div>
               <div ref={el} className='hidden'></div>
             </div>
