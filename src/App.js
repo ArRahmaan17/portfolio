@@ -20,7 +20,6 @@ function App() {
   const changeLanguage = async (_lang) => {
     setLang(_lang);
   };
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const headerOffscreen = () => {
@@ -31,9 +30,6 @@ function App() {
       }
     }
     window.addEventListener('scroll', headerOffscreen);
-    let timeout = setTimeout(() => {
-      setLoading(false);
-    }, 250);
     const typed = new Typed(el.current, {
       strings: ["Software Engineer", "Ardhi Rahmaan"],
       typeSpeed: 200,
@@ -44,27 +40,16 @@ function App() {
     });
     return () => {
       typed.destroy();
-      clearTimeout(timeout);
     };
-  }, [loading]);
+  }, []);
   let params = { node: el, customStyle: style1, classNavbar: classNavbar, changeTheme: changeTheme, theme: theme, changeLanguage: changeLanguage, lang: lang }
   return (
     <>
       <div className={`App select-none flex flex-col font-mono ${theme === 'Dark' ? 'dark' : ''}`}>
-        {loading ? <>
-          <div className={`w-full h-screen bg-white dark:bg-black flex flex-col items-center justify-center`}>
-            <div className='text-center'>
-              <img rel="preload" src={preloaderImg} alt="preloader-img" className='h-12 grayscale-0 dark:grayscale md:h-24 mx-auto' />
-              <div className='font-bold dark:text-indigo-400 md:text-2xl'>wait a second</div>
-              <div ref={el} className='hidden'></div>
-            </div>
-          </div>
-        </> : <>
-          <Header {...params} />
-          <Skill {...params} />
-          <Portfolio {...params} />
-          <Contact {...params} />
-        </>}
+        <Header {...params} />
+        <Skill {...params} />
+        <Portfolio {...params} />
+        <Contact {...params} />
       </div >
     </>
   );
