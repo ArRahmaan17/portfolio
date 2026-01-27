@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, animateScroll as scroll } from "react-scroll";
 import { LANGUAGES, themes } from "../constants";
 import { useTranslation } from "react-i18next";
 import logo from "../assets/logo.webp";
-import {SunDim, SunMoon} from "lucide-react";
+import { SunDim, SunMoon } from "lucide-react";
 const Home = (props) => {
   const { i18n, t } = useTranslation();
   let [stateOffCanvas, setStateOffCanvas] = useState(false);
@@ -43,7 +43,7 @@ const Home = (props) => {
               className="-m-1.5 p-1.5"
             >
               <img
-                  loading='lazy'
+                loading="lazy"
                 className="h-12 lg:h-16 w-auto grayscale-0 hover:grayscale-0 dark:grayscale"
                 src={logo}
                 alt="logo"
@@ -152,11 +152,7 @@ const Home = (props) => {
                 }
               }}
             >
-              {props.theme === "Dark" ? (
-                  <SunMoon/>
-              ) : (
-                  <SunDim/>
-              )}
+              {props.theme === "Dark" ? <SunMoon /> : <SunDim />}
             </div>
             {/* dropdown */}
             <div
@@ -178,7 +174,9 @@ const Home = (props) => {
                   tabIndex="-1"
                   key={label}
                 >
-                  <div className='flex gap-x-1'>{icon} {label}</div>
+                  <div className="flex gap-x-1">
+                    {icon} {label}
+                  </div>
                 </div>
               ))}
             </div>
@@ -194,10 +192,13 @@ const Home = (props) => {
           <div className="fixed inset-0 z-50"></div>
           <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 dark:bg-black">
             <div className="flex items-center justify-between">
-              <button
-                className="-m-1.5 cursor-default p-1.5 opacity-100 sm:opacity-0"
-              >
-                <img loading="lazy" className="h-8 w-auto" src={logo} alt="logo"></img>
+              <button className="-m-1.5 cursor-default p-1.5 opacity-100 sm:opacity-0">
+                <img
+                  loading="lazy"
+                  className="h-8 w-auto"
+                  src={logo}
+                  alt="logo"
+                ></img>
               </button>
               <button
                 onClick={changeOffCanvas}
@@ -270,11 +271,7 @@ const Home = (props) => {
                     }}
                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-slate-300 hover:text-black dark:text-indigo-400 dark:hover:bg-indigo-400"
                   >
-                    {props.theme === "Dark" ? (
-                        <SunMoon/>
-                    ) : (
-                        <SunDim/>
-                      )}
+                    {props.theme === "Dark" ? <SunMoon /> : <SunDim />}
                     {props.theme ?? "Light"}
                   </div>
                 </div>
@@ -331,7 +328,7 @@ const Home = (props) => {
               </h1>
               &nbsp;
               <h1
-                 className="text-lg font-bold text-rose-600 dark:text-indigo-500 sm:text-2xl"
+                className="text-lg font-bold text-rose-600 dark:text-indigo-500 sm:text-2xl"
                 ref={props.node}
               ></h1>
             </div>
