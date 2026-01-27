@@ -1,4 +1,3 @@
-import React from "react";
 import simpkl from "../assets/portfolio/sim-pkl.webp";
 import publicchat from "../assets/portfolio/public-chat.webp";
 import notfound from "../assets/portfolio/not-found.webp";
@@ -68,7 +67,7 @@ export default function Portfolio(props) {
           ></div>
         </div>
         <div className="md:mx-50 lg:mx-30 max-w-auto mx-10 py-8 md:py-12">
-          <p className="pb-10 pt-8 text-center text-2xl dark:text-gray-400 md:text-4xl lg:text-6xl">
+          <p className="pb-10 pt-8 text-center text-2xl dark:text-white md:text-4xl lg:text-6xl">
             {t("portfolio")}
           </p>
           <div className="flex flex-wrap justify-center gap-10 pb-8 pt-10">
