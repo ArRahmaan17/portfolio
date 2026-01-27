@@ -29,8 +29,9 @@ const Home = (props) => {
   }, []);
   return (
     <div className="dark:bg-black">
-      <header className={`fixed inset-x-0 top-0 z-50`}>
+      <header role="banner" className={`fixed inset-x-0 top-0 z-50`}>
         <nav
+          role="navigation"
           id="navbar-menu"
           className="flex items-center justify-between p-6 lg:px-8"
           aria-label="Global"

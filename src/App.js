@@ -46,9 +46,11 @@ function App() {
     <>
       <div className={`App select-none flex flex-col font-mono ${theme === 'Dark' ? 'dark' : ''}`}>
         <Header {...params} />
-        <Skill {...params} />
-        <Portfolio {...params} />
-        <Contact {...params} />
+        <div role="main">
+          <Skill {...params} />
+          <Portfolio {...params} />
+          <Contact {...params} />
+        </div>
       </div >
     </>
   );
