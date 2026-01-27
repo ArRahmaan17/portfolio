@@ -56,7 +56,7 @@ export default function Portfolio(props) {
   ];
   return (
     <div className="dark:bg-black" id="portfolio">
-      <div className="relative isolate px-1 py-16 lg:px-8 lg:py-56">
+      <div className="relative isolate px-6 py-16 lg:px-8 lg:py-56">
         <div
           className="absolute inset-x-0 -top-40 -z-5 transform-gpu overflow-hidden blur-3xl sm:-top-70"
           aria-hidden="true"
@@ -66,18 +66,18 @@ export default function Portfolio(props) {
             style={props.customStyle}
           ></div>
         </div>
-        <div className="md:mx-50 lg:mx-30 max-w-auto mx-10 py-8 md:py-12">
+        <div className="mx-50 max-w-auto py-8 md:mx-20 md:py-16 lg:mx-5">
           <p className="pb-10 pt-8 text-center text-2xl dark:text-white md:text-4xl lg:text-6xl">
             {t("portfolio")}
           </p>
-          <div className="flex flex-wrap justify-center gap-10 pb-8 pt-10">
+          <div className="grid grid-cols-1 gap-x-4 gap-y-5 pb-36 pt-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {projects.map((project) => (
               <a
                 href={project.link}
                 key={project.id}
                 rel="noreferrer"
                 target="_blank"
-                className="delay-50 lg:basis-4/3 group min-w-56 basis-full cursor-pointer rounded-md bg-slate-100 p-3 outline outline-offset-0 outline-slate-300 transition-all duration-100 ease-out md:basis-1/3 dark:bg-slate-700/60 dark:outline-slate-700/60 hover:dark:bg-slate-700/80"
+                className="delay-50 group min-w-32 basis-full sm:basis-1/5 shrink cursor-pointer rounded-md bg-slate-100 p-0 outline outline-offset-0 outline-slate-300 transition-all duration-100 ease-out dark:bg-slate-700/60 dark:outline-slate-700/60 hover:dark:bg-slate-700/80"
               >
                 <div className="flex min-w-0 flex-col gap-x-1">
                   <img
@@ -87,10 +87,10 @@ export default function Portfolio(props) {
                     alt={project.name}
                   />
                   <div className="md:min-h-20 flex-auto">
-                    <p className="md:translate-y-10 group-hover:md:translate-y-5 transition-all duration-500 text-lg md:text-2xl font-semibold leading-6 dark:text-gray-100 md:dark:text-gray-600 dark:group-hover:text-gray-100">
+                    <p className="md:translate-y-5 group-hover:md:translate-y-0 transition-all duration-500 text-lg md:text-lg lg:text-xl xl:text-3xl group-hover:md:text-md font-semibold leading-6 dark:text-gray-100 md:dark:text-gray-600 dark:group-hover:text-gray-100">
                       {project.name}
                     </p>
-                    <div className="md:translate-y-0 group-hover:md:translate-y-5 transition-all duration-500 flex flex-row flex-wrap gap-2 truncate text-xs leading-5">
+                    <div className="md:translate-y-0 group-hover:md:translate-y-15 transition-all duration-500 flex flex-row flex-wrap gap-2 truncate text-xs leading-5">
                       {project.types.map((type) => (
                         <p
                           className="font-sx mt-1 basis-1 text-sm text-gray-400 dark:text-gray-300 group-hover:text-black md:dark:text-gray-500 group-hover:dark:text-gray-100 opacity-60 md:opacity-0 group-hover:opacity-100 transform-gpu transition-all group-hover:transition-all duration-100 ease-in-out delay-100 group-hover:duration-500 group-hover:ease-in-out group-hover:transform-gpu"

@@ -25,7 +25,7 @@ const Skill = (props) => {
           <p className="pb-10 pt-8 text-center text-2xl md:text-4xl lg:text-6xl dark:text-white">
             {t("stack")}
           </p>
-          <div className="grid grid-cols-1 gap-x-4 gap-y-10 pb-36 pt-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-x-4 gap-y-5 pb-36 pt-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {skills.map((_skill) => (
               <div
                 key={_skill.name}
@@ -39,10 +39,10 @@ const Skill = (props) => {
                     alt={_skill.name}
                   />
                   <div className="min-w-0 flex-auto">
-                    <p className="translate-y-4 text-sm font-semibold leading-6 transition-all group-hover:translate-y-1 dark:text-white group-hover:dark:text-gray-300">
+                    <p className="translate-y-4 text-xs md:text-md font-semibold leading-6 transition-all group-hover:translate-y-1 dark:text-white group-hover:dark:text-gray-300">
                       {_skill.name}
                     </p>
-                    <p className="mt-1 hidden scale-y-0 truncate text-xs leading-5 transition-all delay-1000 duration-300 ease-in-out group-hover:block group-hover:scale-y-100 group-hover:transition-transform group-hover:delay-1000 group-hover:duration-1000 group-hover:ease-in-out dark:text-gray-300">
+                    <p className="mt-1 block md:hidden md:scale-y-0 truncate text-xs leading-5 transition-all delay-1000 duration-300 ease-in-out md:group-hover:block md:group-hover:scale-y-100 md:group-hover:transition-transform md:group-hover:delay-1000 md:group-hover:duration-1000 md:group-hover:ease-in-out dark:text-gray-300">
                       {moment(_skill.start).fromNow(true)} {t("experience")}
                     </p>
                   </div>

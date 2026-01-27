@@ -308,7 +308,7 @@ const Home = (props) => {
           </div>
         </div>
       </header>
-      <div className="relative isolate px-6 py-48 lg:px-8 lg:py-56">
+      <div className="relative isolate mx-50 max-w-auto md:mx-20 md:py-16 lg:mx-5 px-6 py-16 lg:px-8 lg:py-56">
         <div
           className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
           aria-hidden="true"
@@ -331,9 +331,9 @@ const Home = (props) => {
               <h1
                 className="text-lg font-bold text-rose-600 dark:text-indigo-500 sm:text-2xl"
                 ref={props.node}
-              ></h1>
+              >{""}</h1>
             </div>
-            <p className="text-md mt-6 leading-8 sm:text-sm/9 dark:text-gray-100">
+            <p className="text-sm text-md mt-6 leading-8 sm:text-sm/9 dark:text-gray-100">
               {t("short_intro")}
             </p>
           </div>
