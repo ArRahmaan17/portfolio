@@ -41,7 +41,7 @@ export default function Portfolio(props) {
       name: "Todos - Live Demo",
       link: "https://todos.doglexable.com",
       image: todos,
-      types: [{ id: 1, name: "Laravel" }],
+      types: [{ id: 1, name: "Laravel" }, { id: 2, name: "Tailwind Css" },],
     },
     {
       id: 5,
@@ -51,7 +51,6 @@ export default function Portfolio(props) {
       types: [
         { id: 1, name: "Node Js" },
         { id: 2, name: "Express Js" },
-        { id: 3, name: "Tailwind Css" },
       ],
     },
   ];
