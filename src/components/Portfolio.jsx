@@ -1,7 +1,7 @@
 import simpkl from "../assets/portfolio/sim-pkl.webp";
 import publicchat from "../assets/portfolio/public-chat.webp";
 import notfound from "../assets/portfolio/not-found.webp";
-import restapisanctum from "../assets/portfolio/rest-api-sanctum.webp";
+import todos from "../assets/portfolio/todos.webp";
 import { useTranslation } from "react-i18next";
 export default function Portfolio(props) {
   const { t } = useTranslation();
@@ -38,9 +38,9 @@ export default function Portfolio(props) {
     },
     {
       id: 4,
-      name: "Simple Rest Api (Sanctum)",
-      link: "https://github.com/ArRahmaan17/todolist-auth-sanctum",
-      image: restapisanctum,
+      name: "Todos - Live Demo",
+      link: "https://todos.doglexable.com",
+      image: todos,
       types: [{ id: 1, name: "Laravel" }],
     },
     {
@@ -51,6 +51,7 @@ export default function Portfolio(props) {
       types: [
         { id: 1, name: "Node Js" },
         { id: 2, name: "Express Js" },
+        { id: 3, name: "Tailwind Css" },
       ],
     },
   ];
@@ -81,7 +82,7 @@ export default function Portfolio(props) {
               >
                 <div className="flex min-w-0 flex-col gap-x-1">
                   <img
-                      loading="lazy"
+                    loading="lazy"
                     className="h-full w-auto flex-1 rounded-md md:grayscale md:group-hover:grayscale-0"
                     src={project.image}
                     alt={project.name}
