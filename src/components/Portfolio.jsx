@@ -2,6 +2,7 @@ import simpkl from "../assets/portfolio/sim-pkl.webp";
 import publicchat from "../assets/portfolio/public-chat.webp";
 import notfound from "../assets/portfolio/not-found.webp";
 import todos from "../assets/portfolio/todos.webp";
+import pos from "../assets/portfolio/pos.webp";
 import { useTranslation } from "react-i18next";
 export default function Portfolio(props) {
   const { t } = useTranslation();
@@ -48,6 +49,18 @@ export default function Portfolio(props) {
     },
     {
       id: 5,
+      name: "DOGLEXABLE POINT OF SALE",
+      link: "https://pos.rahmaanms.my.id",
+      image: pos,
+      types: [
+        { id: 1, name: "Laravel" },
+        { id: 2, name: "Reverb" },
+        { id: 2, name: "Docker" },
+        { id: 2, name: "Tailwind Css" },
+      ],
+    },
+    {
+      id: 6,
       name: "Wa Services Presensi PKL",
       link: "https://github.com/ArRahmaan17/simpkl-whatsappblast-services",
       image: notfound,
