@@ -39,6 +39,16 @@ export default function Portfolio(props) {
     },
     {
       id: 4,
+      name: "Wa Services Presensi PKL",
+      link: "https://github.com/ArRahmaan17/simpkl-whatsappblast-services",
+      image: notfound,
+      types: [
+        { id: 1, name: "Node Js" },
+        { id: 2, name: "Express Js" },
+      ],
+    },
+    {
+      id: 5,
       name: "Todos - Live Demo",
       link: "https://todos.rahmaanms.my.id",
       image: todos,
@@ -48,7 +58,7 @@ export default function Portfolio(props) {
       ],
     },
     {
-      id: 5,
+      id: 6,
       name: "DOGLEXABLE POINT OF SALE",
       link: "https://dpos.rahmaanms.my.id",
       image: pos,
@@ -57,16 +67,6 @@ export default function Portfolio(props) {
         { id: 2, name: "Reverb" },
         { id: 2, name: "Docker" },
         { id: 2, name: "Tailwind Css" },
-      ],
-    },
-    {
-      id: 6,
-      name: "Wa Services Presensi PKL",
-      link: "https://github.com/ArRahmaan17/simpkl-whatsappblast-services",
-      image: notfound,
-      types: [
-        { id: 1, name: "Node Js" },
-        { id: 2, name: "Express Js" },
       ],
     },
   ];
