@@ -50,7 +50,7 @@ export default function Portfolio(props) {
     {
       id: 5,
       name: "DOGLEXABLE POINT OF SALE",
-      link: "https://pos.rahmaanms.my.id",
+      link: "https://dpos.rahmaanms.my.id",
       image: pos,
       types: [
         { id: 1, name: "Laravel" },
