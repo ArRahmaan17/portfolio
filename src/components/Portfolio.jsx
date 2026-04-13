@@ -69,6 +69,18 @@ export default function Portfolio(props) {
         { id: 2, name: "Tailwind Css" },
       ],
     },
+    {
+      id: 7,
+      name: "Private Temporary File Share",
+      link: "https://github.com/ArRahmaan17/private-file-share",
+      image: pos,
+      types: [
+        { id: 1, name: "Laravel" },
+        { id: 2, name: "Reverb" },
+        { id: 2, name: "Docker" },
+        { id: 2, name: "Tailwind Css" },
+      ],
+    },
   ];
   return (
     <div className="dark:bg-black" id="portfolio">

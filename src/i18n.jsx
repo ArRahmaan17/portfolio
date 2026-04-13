@@ -15,32 +15,45 @@ i18n
       en: {
         translation: {
           home: "Home",
-          stack: "Stack",
+          stack: "Tech Stack",
           portfolio: "Portfolio",
           experience: "Experience",
           contact: "Contact",
           introduction: "Introduction",
           im: "I'm",
-          short_intro: `As a software engineer with ${moment("2022-05").locale("en").fromNow(true)} experience, I focus on creating user-friendly solutions for complex challenges. I'm passionate about coding and staying updated on new tech trends. My goal is to deliver top-notch software that exceeds expectations, whether I'm working solo or with a team. I thrive in innovative environments, always looking to enhance my skills.`,
-          short_contact:
-            "Feel free to contact me for a discussion or just some casual chit-chat and i'm open to work! You can reach me at",
+
+          short_intro: `I am a software engineer with ${moment("2022-05").locale("en").fromNow(true)} of experience, specializing in building scalable and maintainable applications that solve real-world problems. I am passionate about software development and continuously stay updated with modern technologies and industry best practices. My goal is to deliver high-quality software that exceeds expectations, whether working independently or as part of a collaborative team. I thrive in innovative environments and am constantly improving my technical and problem-solving skills.`,
+
+          short_contact: "Feel free to reach out for any inquiries or collaboration opportunities.",
+          name: "Full Name",
+          email: "Email Address",
+          message: "Your Message",
+          send: "Send Message",
+          message_sent: "Your message has been sent successfully!"
         },
       },
+
       id: {
         translation: {
-          home: "Home",
-          stack: "Teknologi",
+          home: "Beranda",
+          stack: "Tech Stack",
           portfolio: "Portofolio",
-          contact: "Kontak",
-          introduction: "Perkenalkan",
           experience: "Pengalaman",
+          contact: "Kontak",
+          introduction: "Perkenalan",
           im: "Saya",
-          short_intro: `Sebagai pengembang aplikasi dengan pengalaman ${moment("2022-05").locale("id").fromNow(true)}, Saya fokus untuk menciptakan solusi yang ramah pengguna dari perkerjaan yang kompleks, Saya antusias tentang pemrograman dan mempelajari teknologi baru. Tujuan saya adalah menghadirkan perangkat lunak terbaik yang melebihi ekspektasi. saya dapat bekerja sendiri atau dengan tim. Saya berkembang dalam lingkungan yang inovatif, selalu berupaya meningkatkan keterampilan saya.`,
-          short_contact:
-            "Jangan ragu untuk menghubungi saya jika ingin berdiskusi atau sekedar ngobrol santai dan saya siap menjadi bagian dari tim anda! Anda dapat menghubungi saya di",
+
+          short_intro: `Saya adalah seorang software engineer dengan pengalaman ${moment("2022-05").locale("id").fromNow(true)}, yang berfokus pada pengembangan aplikasi yang scalable dan mudah dipelihara untuk menyelesaikan permasalahan nyata. Saya memiliki ketertarikan besar dalam pengembangan perangkat lunak dan selalu mengikuti perkembangan teknologi serta praktik terbaik industri. Tujuan saya adalah menghasilkan perangkat lunak berkualitas tinggi yang mampu melampaui ekspektasi, baik bekerja secara mandiri maupun dalam tim. Saya berkembang di lingkungan yang inovatif dan terus meningkatkan kemampuan teknis serta pemecahan masalah saya.`,
+
+          short_contact: "Silakan hubungi saya untuk pertanyaan atau peluang kerja sama.",
+          name: "Nama Lengkap",
+          email: "Alamat Email",
+          message: "Pesan Anda",
+          send: "Kirim Pesan",
+          message_sent: "Pesan Anda berhasil dikirim!"
         },
       },
-    },
+    }
   });
 
 export default i18n;
