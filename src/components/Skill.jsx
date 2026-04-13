@@ -39,7 +39,7 @@ const Skill = (props) => {
                     alt={_skill.name}
                   />
                   <div className="min-w-0 flex-auto">
-                    <p className="translate-y-4 text-xs md:text-md font-semibold leading-6 transition-all group-hover:translate-y-1 dark:text-white group-hover:dark:text-gray-300">
+                    <p className="translate-y-2 md:translate-y-4 text-xs md:text-md font-semibold leading-6 transition-all group-hover:translate-y-1 dark:text-white group-hover:dark:text-gray-300">
                       {_skill.name}
                     </p>
                     <p className="mt-1 block md:hidden md:scale-y-0 truncate text-xs leading-5 transition-all delay-1000 duration-300 ease-in-out md:group-hover:block md:group-hover:scale-y-100 md:group-hover:transition-transform md:group-hover:delay-1000 md:group-hover:duration-1000 md:group-hover:ease-in-out dark:text-gray-300">
