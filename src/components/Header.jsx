@@ -320,20 +320,18 @@ const Home = (props) => {
         </div>
         <div className="mx-auto max-w-4xl py-32 sm:py-48 lg:py-56">
           <div className="text-left lg:text-center">
-            <h1 className="text-4xl font-bold sm:text-6xl dark:text-gray-100">
-              {t("introduction")}
+            <h1 className="text-lg font-bold sm:text-2xl dark:text-gray-100">
+              {t("im")}
             </h1>
-            <div className="flex justify-start lg:justify-center">
-              <h1 className="text-lg font-bold sm:text-2xl dark:text-gray-100">
-                {t("im")}
-              </h1>
-              &nbsp;
+            <div className="flex justify-start lg:justify-center min-h-16 mt-2">
               <h1
-                className="text-lg font-bold text-rose-600 dark:text-indigo-500 sm:text-2xl"
+                className="text-2xl font-bold text-rose-600 dark:text-indigo-500 sm:text-5xl"
                 ref={props.node}
-              >{""}</h1>
+              >
+                {""}
+              </h1>
             </div>
-            <p className="text-sm text-md mt-6 leading-8 sm:text-sm/9 dark:text-gray-100">
+            <p className="text-sm text-md mt-2 leading-8 sm:text-sm/9 dark:text-gray-100">
               {t("short_intro")}
             </p>
           </div>

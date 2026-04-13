@@ -61,7 +61,6 @@ export default function Contact() {
     <div className="dark:bg-black" id="contact">
       <div className="relative isolate px-6 py-16 lg:px-8 lg:py-56">
         <div className="mx-auto max-w-4xl lg:text-center">
-          
           <h2 className="pt-8 text-2xl md:text-4xl lg:text-6xl dark:text-gray-100">
             {t("contact")}
           </h2>
@@ -119,15 +118,7 @@ export default function Contact() {
               </p>
             )}
           </form>
-
-          {/* CODEWARS BADGE */}
-          <div className="flex justify-center mt-10">
-            <img
-              loading="lazy"
-              src="https://www.codewars.com/users/Ardhi%20Rahmaan/badges/micro"
-              alt="codewars-badge"
-            />
-          </div>
+          <p className="mt-12 text-center text-sm text-gray-500">Since 2022</p>
         </div>
       </div>
     </div>
