@@ -3,84 +3,70 @@ import notfound from "../assets/portfolio/not-found.webp";
 import todos from "../assets/portfolio/todos.webp";
 import pos from "../assets/portfolio/pos.webp";
 import filestream from "../assets/portfolio/file-stream.webp";
+import dogTable from "../assets/portfolio/dog-table.webp";
 import { useTranslation } from "react-i18next";
+
+const PROJECTS = [
+  {
+    id: 1,
+    name: "SIM PKL",
+    link: "https://github.com/ArRahmaan17/sim_pkl",
+    image: simpkl,
+    types: ["Laravel", "Bootstrap"],
+  },
+  {
+    id: 2,
+    name: "Frontend Public Chat",
+    link: "https://github.com/ArRahmaan17/frontend-sim-pkl",
+    image: notfound,
+    types: ["Node Js", "React Js"],
+  },
+  {
+    id: 3,
+    name: "Backend Public Chat",
+    link: "https://github.com/ArRahmaan17/backend-sim-pkl",
+    image: notfound,
+    types: ["Node Js", "Express Js"],
+  },
+  {
+    id: 4,
+    name: "Wa Services Presensi PKL",
+    link: "https://github.com/ArRahmaan17/simpkl-whatsappblast-services",
+    image: notfound,
+    types: ["Node Js", "Express Js"],
+  },
+  {
+    id: 5,
+    name: "Todos - Live Demo",
+    link: "https://todos.rahmaanms.my.id",
+    image: todos,
+    types: ["Laravel", "Tailwind Css"],
+  },
+  {
+    id: 6,
+    name: "DOGLEXABLE POINT OF SALE",
+    link: "https://dpos.rahmaanms.my.id",
+    image: pos,
+    types: ["Laravel", "Reverb", "Docker", "Tailwind Css"],
+  },
+  {
+    id: 7,
+    name: "Filestream",
+    link: "https://filestream.rahmaanms.my.id",
+    image: filestream,
+    types: ["Laravel", "Docker", "Tailwind Css"],
+  },
+  {
+    id: 8,
+    name: "Dog Table",
+    link: "https://arrahmaan17.github.io/dog-table",
+    image: dogTable,
+    types: ["JavaScript", "Library", "HTML/CSS"],
+  },
+];
+
 export default function Portfolio(props) {
   const { t } = useTranslation();
-  const projects = [
-    {
-      id: 1,
-      name: "SIM PKL",
-      link: "https://github.com/ArRahmaan17/sim_pkl",
-      image: simpkl,
-      types: [
-        { id: 1, name: "Laravel" },
-        { id: 2, name: "Bootstrap" },
-      ],
-    },
-    {
-      id: 2,
-      name: "Frontend Public Chat",
-      link: "https://github.com/ArRahmaan17/frontend-sim-pkl",
-      image: notfound,
-      types: [
-        { id: 1, name: "Node Js" },
-        { id: 3, name: "React Js" },
-      ],
-    },
-    {
-      id: 3,
-      name: "Backend Public Chat",
-      link: "https://github.com/ArRahmaan17/backend-sim-pkl",
-      image: notfound,
-      types: [
-        { id: 1, name: "Node Js" },
-        { id: 2, name: "Express Js" },
-      ],
-    },
-    {
-      id: 4,
-      name: "Wa Services Presensi PKL",
-      link: "https://github.com/ArRahmaan17/simpkl-whatsappblast-services",
-      image: notfound,
-      types: [
-        { id: 1, name: "Node Js" },
-        { id: 2, name: "Express Js" },
-      ],
-    },
-    {
-      id: 5,
-      name: "Todos - Live Demo",
-      link: "https://todos.rahmaanms.my.id",
-      image: todos,
-      types: [
-        { id: 1, name: "Laravel" },
-        { id: 2, name: "Tailwind Css" },
-      ],
-    },
-    {
-      id: 6,
-      name: "DOGLEXABLE POINT OF SALE",
-      link: "https://dpos.rahmaanms.my.id",
-      image: pos,
-      types: [
-        { id: 1, name: "Laravel" },
-        { id: 2, name: "Reverb" },
-        { id: 2, name: "Docker" },
-        { id: 2, name: "Tailwind Css" },
-      ],
-    },
-    {
-      id: 7,
-      name: "Filestream",
-      link: "https://filestream.rahmaanms.my.id",
-      image: filestream,
-      types: [
-        { id: 1, name: "Laravel" },
-        { id: 2, name: "Docker" },
-        { id: 2, name: "Tailwind Css" },
-      ],
-    },
-  ];
   return (
     <div className="dark:bg-black" id="portfolio">
       <div className="relative isolate px-6 py-16 lg:px-8 lg:py-56">
@@ -98,7 +84,7 @@ export default function Portfolio(props) {
             {t("portfolio")}
           </p>
           <div className="grid grid-cols-1 gap-x-4 gap-y-5 pb-36 pt-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {projects.map((project) => (
+            {PROJECTS.map((project) => (
               <a
                 href={project.link}
                 key={project.id}
@@ -109,6 +95,7 @@ export default function Portfolio(props) {
                 <div className="flex min-w-0 flex-col gap-x-1">
                   <img
                     loading="lazy"
+                    decoding="async"
                     className="h-full w-auto flex-1 rounded-md md:grayscale md:group-hover:grayscale-0"
                     src={project.image}
                     alt={project.name}
@@ -121,9 +108,9 @@ export default function Portfolio(props) {
                       {project.types.map((type) => (
                         <p
                           className="font-sx mt-1 basis-1 text-sm text-gray-400 dark:text-gray-300 group-hover:text-black md:dark:text-gray-500 group-hover:dark:text-gray-100 opacity-60 md:opacity-0 group-hover:opacity-100 transform-gpu transition-all group-hover:transition-all duration-100 ease-in-out delay-100 group-hover:duration-500 group-hover:ease-in-out group-hover:transform-gpu"
-                          key={type.id}
+                          key={`${project.id}-${type}`}
                         >
-                          {type.name}
+                          {type}
                         </p>
                       ))}
                     </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, animateScroll as scroll } from "react-scroll";
 import { LANGUAGES, themes } from "../constants";
 import { useTranslation } from "react-i18next";
@@ -6,27 +6,62 @@ import logo from "../assets/logo.webp";
 import { SunDim, SunMoon } from "lucide-react";
 const Home = (props) => {
   const { i18n, t } = useTranslation();
-  let [stateOffCanvas, setStateOffCanvas] = useState(false);
-  let [stateLangDropdown, setStateLangDropdown] = useState(false);
-  let [stateThemeDropdown, setStateThemeDropdown] = useState(false);
-  let [lang, setLang] = useState(props.lang);
-  let [theme] = useState(props.theme);
-  let [stateLangOffCanvas, setStateLangOffCanvas] = useState(false);
+  const [stateOffCanvas, setStateOffCanvas] = useState(false);
+  const [stateLangDropdown, setStateLangDropdown] = useState(false);
+  const [stateThemeDropdown, setStateThemeDropdown] = useState(false);
+  const [stateLangOffCanvas, setStateLangOffCanvas] = useState(false);
+
   const changeLanguage = async (_lang) => {
-    setLang(_lang);
     await i18n.changeLanguage(_lang);
     await props.changeLanguage(_lang);
   };
+
   const changeTheme = async (_theme) => {
     await props.changeTheme(_theme);
   };
-  const changeOffCanvas = () => {
-    stateOffCanvas = setStateOffCanvas(!stateOffCanvas);
+
+  const toggleOffCanvas = () => {
+    setStateOffCanvas((open) => !open);
   };
-  useEffect(() => {
-    changeLanguage(lang);
-    changeTheme(theme);
-  }, []);
+
+  const handleScrollTop = () => {
+    scroll.scrollToTop();
+  };
+
+  const toggleLangDropdown = () => {
+    setStateLangDropdown((open) => !open);
+    setStateThemeDropdown(false);
+  };
+
+  const toggleThemeDropdown = () => {
+    setStateThemeDropdown((open) => !open);
+    setStateLangDropdown(false);
+  };
+
+  const handleSelectLanguage = async (code, isOffCanvas = false) => {
+    sessionStorage.setItem("i18nextLng", code);
+    setStateLangDropdown(false);
+    if (isOffCanvas) {
+      setStateLangOffCanvas(false);
+      setStateOffCanvas(false);
+    }
+    await changeLanguage(code);
+  };
+
+  const handleSelectTheme = async (label, closeOffCanvas = false) => {
+    localStorage.setItem("theme", label);
+    setStateThemeDropdown(false);
+    if (closeOffCanvas) {
+      setStateOffCanvas(false);
+    }
+    await changeTheme(label);
+  };
+
+  const handleToggleMobileTheme = async () => {
+    const nextTheme = props.theme === "Dark" ? "Light" : "Dark";
+    await handleSelectTheme(nextTheme, true);
+  };
+
   return (
     <div className="dark:bg-black">
       <header role="banner" className={`fixed inset-x-0 top-0 z-50`}>
@@ -39,12 +74,12 @@ const Home = (props) => {
           <div className="flex cursor-pointer lg:flex-1">
             <div
               onClick={() => {
-                scroll.scrollToTop();
+                handleScrollTop();
               }}
               className="-m-1.5 p-1.5"
             >
               <img
-                loading="lazy"
+                fetchPriority="high"
                 className="h-12 lg:h-16 w-auto grayscale-0 hover:grayscale-0 dark:grayscale"
                 src={logo}
                 alt="logo"
@@ -53,7 +88,7 @@ const Home = (props) => {
           </div>
           <div className="flex lg:hidden">
             <button
-              onClick={changeOffCanvas}
+              onClick={toggleOffCanvas}
               type="button"
               className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-black dark:text-indigo-400"
             >
@@ -79,7 +114,7 @@ const Home = (props) => {
           >
             <div
               onClick={() => {
-                scroll.scrollToTop();
+                handleScrollTop();
               }}
               className="cursor-pointer text-sm font-semibold leading-6 text-black dark:text-indigo-400"
             >
@@ -110,14 +145,9 @@ const Home = (props) => {
           <div className="hidden gap-x-3 lg:flex lg:flex-1 lg:justify-end">
             <div
               className="cursor-pointer text-sm font-semibold leading-6 text-black dark:text-indigo-400"
-              onClick={() => {
-                setStateLangDropdown(!stateLangDropdown);
-                if (stateThemeDropdown === true) {
-                  setStateThemeDropdown(!stateThemeDropdown);
-                }
-              }}
+              onClick={toggleLangDropdown}
             >
-              {lang.toUpperCase()}
+              {props.lang.toUpperCase()}
             </div>
             {/* dropdown */}
             <div
@@ -130,10 +160,7 @@ const Home = (props) => {
               {LANGUAGES.map(({ code, label }) => (
                 <div
                   onClick={() => {
-                    setStateLangDropdown(!stateLangDropdown);
-                    setLang(code);
-                    sessionStorage.setItem("i18nextLng", code);
-                    changeLanguage(code);
+                    handleSelectLanguage(code);
                   }}
                   className="block cursor-pointer px-4 py-2 font-semibold text-gray-800 hover:bg-slate-100 dark:text-indigo-400 hover:dark:bg-slate-700 hover:dark:text-indigo-500"
                   role="menuitem"
@@ -146,12 +173,7 @@ const Home = (props) => {
             </div>
             <div
               className="cursor-pointer text-sm font-semibold leading-6 text-black dark:text-indigo-400"
-              onClick={() => {
-                setStateThemeDropdown(!stateThemeDropdown);
-                if (stateLangDropdown === true) {
-                  setStateLangDropdown(!stateLangDropdown);
-                }
-              }}
+              onClick={toggleThemeDropdown}
             >
               {props.theme === "Dark" ? <SunMoon /> : <SunDim />}
             </div>
@@ -166,9 +188,7 @@ const Home = (props) => {
               {themes.map(({ icon, label }) => (
                 <div
                   onClick={() => {
-                    setStateThemeDropdown(!stateThemeDropdown);
-                    localStorage.setItem("theme", label);
-                    changeTheme(label);
+                    handleSelectTheme(label);
                   }}
                   className={`block cursor-pointer px-4 py-2 font-semibold text-gray-800 hover:bg-slate-100 dark:text-indigo-400 hover:dark:bg-slate-700 hover:dark:text-indigo-500`}
                   role="menuitem"
@@ -184,129 +204,113 @@ const Home = (props) => {
           </div>
         </nav>
         {/* offcanvas */}
-        <div
-          id="offcanvas-menu"
-          className={`${stateOffCanvas ? "lg:hidden" : "hidden lg:hidden"} transition-all delay-0 duration-300`}
-          role="dialog"
-          aria-modal="true"
-        >
-          <div className="fixed inset-0 z-50"></div>
-          <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 dark:bg-black">
-            <div className="flex items-center justify-between">
-              <button className="-m-1.5 cursor-default p-1.5 opacity-100 sm:opacity-0">
-                <img
-                  loading="lazy"
-                  className="h-8 w-auto"
-                  src={logo}
-                  alt="logo"
-                ></img>
-              </button>
-              <button
-                onClick={changeOffCanvas}
-                type="button"
-                className="-m-2.5 rounded-md p-2.5 text-black dark:text-indigo-400"
-              >
-                <span className="sr-only">Close menu</span>
-                <svg
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  aria-hidden="true"
+        {stateOffCanvas && (
+          <div
+            id="offcanvas-menu"
+            className="lg:hidden transition-all delay-0 duration-300"
+            role="dialog"
+            aria-modal="true"
+          >
+            <div className="fixed inset-0 z-50"></div>
+            <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 dark:bg-black">
+              <div className="flex items-center justify-between">
+                <button className="-m-1.5 cursor-default p-1.5 opacity-100 sm:opacity-0">
+                  <img className="h-8 w-auto" src={logo} alt="logo"></img>
+                </button>
+                <button
+                  onClick={toggleOffCanvas}
+                  type="button"
+                  className="-m-2.5 rounded-md p-2.5 text-black dark:text-indigo-400"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div className="mt-6 flow-root">
-              <div className="-my-6">
-                <div className="cursor-pointer space-y-2 py-6">
-                  <div
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-slate-300 hover:text-black dark:text-indigo-400 dark:hover:bg-indigo-400"
-                    onClick={() => {
-                      scroll.scrollToTop();
-                      changeOffCanvas(!stateOffCanvas);
-                    }}
+                  <span className="sr-only">Close menu</span>
+                  <svg
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    aria-hidden="true"
                   >
-                    Home
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div className="mt-6 flow-root">
+                <div className="-my-6">
+                  <div className="cursor-pointer space-y-2 py-6">
+                    <div
+                      className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-slate-300 hover:text-black dark:text-indigo-400 dark:hover:bg-indigo-400"
+                      onClick={() => {
+                        handleScrollTop();
+                        setStateOffCanvas(false);
+                      }}
+                    >
+                      Home
+                    </div>
+                    <Link
+                      to="stack"
+                      smooth={true}
+                      className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-slate-300 hover:text-black dark:text-indigo-400 dark:hover:bg-indigo-400"
+                      onClick={toggleOffCanvas}
+                    >
+                      Stack
+                    </Link>
+                    <Link
+                      to="portfolio"
+                      smooth={true}
+                      className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-slate-300 hover:text-black dark:text-indigo-400 dark:hover:bg-indigo-400"
+                      onClick={toggleOffCanvas}
+                    >
+                      Portfolio
+                    </Link>
+                    <Link
+                      to="contact"
+                      smooth={true}
+                      className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-slate-300 hover:text-black dark:text-indigo-400 dark:hover:bg-indigo-400"
+                      onClick={toggleOffCanvas}
+                    >
+                      Contact
+                    </Link>
+                    <div
+                      onClick={handleToggleMobileTheme}
+                      className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-slate-300 hover:text-black dark:text-indigo-400 dark:hover:bg-indigo-400"
+                    >
+                      {props.theme === "Dark" ? <SunMoon /> : <SunDim />}
+                      {props.theme ?? "Light"}
+                    </div>
                   </div>
-                  <Link
-                    to="stack"
-                    smooth={true}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-slate-300 hover:text-black dark:text-indigo-400 dark:hover:bg-indigo-400"
-                    onClick={changeOffCanvas}
-                  >
-                    Stack
-                  </Link>
-                  <Link
-                    to="portfolio"
-                    smooth={true}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-slate-300 hover:text-black dark:text-indigo-400 dark:hover:bg-indigo-400"
-                    onClick={changeOffCanvas}
-                  >
-                    Portfolio
-                  </Link>
-                  <Link
-                    to="contact"
-                    smooth={true}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-slate-300 hover:text-black dark:text-indigo-400 dark:hover:bg-indigo-400"
-                    onClick={changeOffCanvas}
-                  >
-                    Contact
-                  </Link>
-                  <div
-                    onClick={() => {
-                      changeOffCanvas();
-                      if (props.theme === "Dark") {
-                        localStorage.setItem("theme", "Light");
-                        changeTheme("Light");
-                      } else {
-                        localStorage.setItem("theme", "Dark");
-                        changeTheme("Dark");
-                      }
-                    }}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-slate-300 hover:text-black dark:text-indigo-400 dark:hover:bg-indigo-400"
-                  >
-                    {props.theme === "Dark" ? <SunMoon /> : <SunDim />}
-                    {props.theme ?? "Light"}
-                  </div>
-                </div>
-                <div className="cursor-pointer pt-3">
-                  <div
-                    onClick={() => {
-                      setStateLangOffCanvas(!stateLangOffCanvas);
-                    }}
-                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 hover:bg-slate-300 hover:text-black dark:text-indigo-400 dark:hover:bg-indigo-400"
-                  >
-                    {lang.toUpperCase()}
-                  </div>
-                  {LANGUAGES.map(({ code, label }) => (
+                  <div className="cursor-pointer pt-3">
                     <div
                       onClick={() => {
-                        setLang(code);
-                        sessionStorage.setItem("i18nextLng", code);
-                        setStateLangOffCanvas(!stateLangOffCanvas);
-                        changeOffCanvas();
-                        changeLanguage(code);
+                        setStateLangOffCanvas((open) => !open);
                       }}
-                      className={`${stateLangOffCanvas ? "translate-y-6 opacity-100" : "-translate-y-1/4 opacity-0"} transform px-4 py-2 text-sm text-gray-400 delay-100 duration-500 ease-out hover:rounded-lg hover:bg-slate-300 hover:text-black dark:hover:bg-indigo-400`}
-                      role="menuitem"
-                      tabIndex="-1"
-                      key={code}
+                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 hover:bg-slate-300 hover:text-black dark:text-indigo-400 dark:hover:bg-indigo-400"
                     >
-                      {label}
+                      {props.lang.toUpperCase()}
                     </div>
-                  ))}
+                    {LANGUAGES.map(({ code, label }) => (
+                      <div
+                        onClick={() => {
+                          handleSelectLanguage(code, true);
+                        }}
+                        className={`${stateLangOffCanvas ? "translate-y-6 opacity-100" : "-translate-y-1/4 opacity-0"} transform px-4 py-2 text-sm text-gray-400 delay-100 duration-500 ease-out hover:rounded-lg hover:bg-slate-300 hover:text-black dark:hover:bg-indigo-400`}
+                        role="menuitem"
+                        tabIndex="-1"
+                        key={code}
+                      >
+                        {label}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </header>
       <div className="relative isolate mx-50 max-w-auto md:mx-20 md:py-16 lg:mx-5 px-6 py-16 lg:px-8 lg:py-56">
         <div

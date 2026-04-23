@@ -1,36 +1,26 @@
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 
-export default function Contact() {
-  let { t } = useTranslation();
+const INITIAL_FORM = {
+  name: "",
+  email: "",
+  message: "",
+};
 
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+export default function Contact() {
+  const { t } = useTranslation();
+  const [form, setForm] = useState(INITIAL_FORM);
 
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const contacts = [
-    {
-      name: "Email",
-      description: "ardrah17@gmail.com",
-      link: "mailto:ardrah17@gmail.com",
-    },
-    {
-      name: "Github",
-      description: "github.com/ArRahmaan17",
-      link: "https://github.com/ArRahmaan17/",
-    },
-  ];
-
   const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+
+    setForm((currentForm) => ({
+      ...currentForm,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -40,7 +30,7 @@ export default function Contact() {
     setSuccess(false);
 
     try {
-      await fetch("/api/contact", {
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -48,13 +38,17 @@ export default function Contact() {
         body: JSON.stringify(form),
       });
 
+      if (!response.ok) {
+        throw new Error(`Contact request failed with status ${response.status}`);
+      }
+
       setSuccess(true);
-      setForm({ name: "", email: "", message: "" });
+      setForm(INITIAL_FORM);
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (
