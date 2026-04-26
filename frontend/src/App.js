@@ -73,7 +73,9 @@ function AdminDashboardRoute() {
 }
 
 function App() {
-
+  if (process.env.REACT_APP_MAINTENANCE_MODE === "true") {
+    return <Maintenance />;
+  }
   if (window.location.pathname === "/admin/login") {
     return <AdminLogin />;
   }
@@ -106,9 +108,7 @@ function App() {
     );
   }
 
-  if (process.env.REACT_APP_MAINTENANCE_MODE === "true") {
-    return <Maintenance />;
-  }
+  
   return <PublicApp />;
 }
 
