@@ -6,8 +6,7 @@ import filestream from "../assets/portfolio/file-stream.webp";
 import dogTable from "../assets/portfolio/dog-table.webp";
 import { useTranslation } from "react-i18next";
 import { useEffect, useMemo, useState } from "react";
-import { PORTFOLIOS_URL } from "../constants";
- import { API_BASE_URL } from "../constants/api";
+import { backendAssetUrl, PORTFOLIOS_URL } from "../constants";
 
 const FALLBACK_PROJECTS = [
   {
@@ -117,6 +116,23 @@ export default function Portfolio(props) {
     });
   }, [portfolios]);
 
+  const resolveProjectImage = (imagePath) => {
+    if (!imagePath) {
+      return "";
+    }
+
+    if (/^https?:\/\//i.test(imagePath)) {
+      return imagePath;
+    }
+
+    // API-managed assets are persisted under /storage; fallback assets are local imports.
+    if (typeof imagePath === "string" && imagePath.startsWith("/storage/")) {
+      return backendAssetUrl(imagePath);
+    }
+
+    return imagePath;
+  };
+
   return (
     <div className="dark:bg-black" id="portfolio">
       <div className="relative isolate px-6 py-16 lg:px-8 lg:py-56">
@@ -143,8 +159,8 @@ export default function Portfolio(props) {
                   <img
                     loading="lazy"
                     decoding="async"
-                    className="h-full w-auto flex-1 rounded-md md:grayscale md:group-hover:grayscale-0"
-                    src={`${API_BASE_URL}${project.image}`}
+                    className="aspect-[1200/630] h-auto w-full rounded-md object-cover object-center md:grayscale md:group-hover:grayscale-0"
+                    src={resolveProjectImage(project.image)}
                     alt={project.name}
                   />
                   <div className="md:min-h-20 flex-auto">
