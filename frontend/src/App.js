@@ -104,7 +104,7 @@ function App() {
       </AdminLayout>
     );
   }
-  if (process.env.REACT_APP_MAINTENANCE_MODE === "true") {
+  if (process.env.REACT_APP_MAINTENANCE_MODE === 1) {
     return <Maintenance />;
   }
 
