@@ -10,7 +10,7 @@ const port = Number(process.env.PORT) || 4000;
 async function startServer() {
   try {
     await sequelize.authenticate();
-    await sequelize.sync();
+    await sequelize.sync({alter: true});
 
     app.listen(port, async () => {
       console.log(`Admin API listening on http://localhost:${port}`);

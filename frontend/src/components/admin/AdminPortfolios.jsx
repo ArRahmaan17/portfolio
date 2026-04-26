@@ -16,6 +16,7 @@ import { backendAssetUrl } from "../../constants";
 const INITIAL_FORM = {
   name: "",
   description: "",
+  link: "",
   picture: null,
   stacks: [],
 };
@@ -84,6 +85,7 @@ export default function AdminPortfolios() {
     setForm({
       name: portfolio.name || "",
       description: portfolio.description || "",
+      link: portfolio.link || "",
       picture: null,
       stacks: stackIds,
     });
@@ -104,6 +106,7 @@ export default function AdminPortfolios() {
       const formData = new FormData();
       formData.append("name", form.name);
       formData.append("description", form.description);
+      formData.append("link", form.link);
       formData.append("stacks", JSON.stringify(form.stacks));
       if (form.picture) {
         formData.append("picture", form.picture);
@@ -146,7 +149,8 @@ export default function AdminPortfolios() {
 
   const filteredPortfolios = portfolios.filter((portfolio) => {
     const skillNames = (portfolio.Skills ?? portfolio.skills ?? []).map((skill) => skill.name ?? "").join(" ");
-    const haystack = `${portfolio.name ?? ""} ${portfolio.description ?? ""} ${skillNames}`.toLowerCase();
+    const haystack =
+      `${portfolio.name ?? ""} ${portfolio.description ?? ""} ${portfolio.link ?? ""} ${skillNames}`.toLowerCase();
     return haystack.includes(query.toLowerCase());
   });
 
@@ -178,14 +182,6 @@ export default function AdminPortfolios() {
             >
               <RefreshCw className="h-4 w-4" />
               Refresh
-            </button>
-            <button
-              type="button"
-              onClick={cancelEdit}
-              className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-            >
-              <Plus className="h-4 w-4" />
-              New portfolio
             </button>
           </div>
         </div>
@@ -242,6 +238,20 @@ export default function AdminPortfolios() {
                 placeholder="Short project description"
                 rows={5}
                 required
+                className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:bg-white dark:border-slate-800 dark:bg-slate-900/60 dark:text-white dark:placeholder:text-slate-500"
+              />
+            </div>
+
+            <div>
+              <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                Project link
+              </label>
+              <input
+                name="link"
+                type="url"
+                value={form.link}
+                onChange={handleChange}
+                placeholder="https://example.com/project"
                 className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:bg-white dark:border-slate-800 dark:bg-slate-900/60 dark:text-white dark:placeholder:text-slate-500"
               />
             </div>
@@ -387,6 +397,16 @@ export default function AdminPortfolios() {
                             <div className="mt-1 line-clamp-3 text-sm leading-6 text-slate-600 dark:text-slate-400">
                               {portfolio.description}
                             </div>
+                            {portfolio.link && (
+                              <a
+                                href={portfolio.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="mt-2 block truncate text-xs font-medium text-blue-600 hover:underline dark:text-blue-400"
+                              >
+                                {portfolio.link}
+                              </a>
+                            )}
                             {stackNames.length > 0 && (
                               <div className="mt-3 flex flex-wrap gap-2">
                                 {stackNames.map((name) => (

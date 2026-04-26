@@ -84,7 +84,7 @@ router.get("/:id", async (req, res, next) => {
 
 router.post("/", uploadPortfolioPicture.single("picture"), async (req, res, next) => {
   try {
-    const { name, description } = req.body;
+    const { name, description, link } = req.body;
     const stacks = parseStacks(req.body.stacks);
 
     if (!name) {
@@ -131,6 +131,7 @@ router.post("/", uploadPortfolioPicture.single("picture"), async (req, res, next
     const portfolio = await Portfolio.create({
       name,
       description,
+      link: link || null,
       picture,
     });
 
@@ -155,7 +156,7 @@ router.put("/:id", uploadPortfolioPicture.single("picture"), async (req, res, ne
       return res.status(404).json({ message: "Portfolio not found" });
     }
 
-    const { name, description } = req.body;
+    const { name, description, link } = req.body;
     const stacks = parseStacks(req.body.stacks);
 
     if (!name || !description) {
@@ -164,7 +165,7 @@ router.put("/:id", uploadPortfolioPicture.single("picture"), async (req, res, ne
       });
     }
 
-    const updates = { name, description };
+    const updates = { name, description, link: link || null };
 
     if (req.file) {
       if (!acceptedPortfolioMimeTypes.has(req.file.mimetype)) {
@@ -234,6 +235,9 @@ router.patch("/:id", uploadPortfolioPicture.single("picture"), async (req, res, 
         return res.status(400).json({ message: "description cannot be empty" });
       }
       updates.description = req.body.description;
+    }
+    if (req.body.link !== undefined) {
+      updates.link = req.body.link || null;
     }
 
     if (req.file) {

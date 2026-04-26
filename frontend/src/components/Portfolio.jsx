@@ -151,8 +151,16 @@ export default function Portfolio(props) {
           </p>
           <div className="grid grid-cols-1 gap-x-4 gap-y-5 pb-36 pt-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {projects.map((project) => (
-              <div
+              <a
                 key={project.id}
+                href={project.link || undefined}
+                target={project.link ? "_blank" : undefined}
+                rel={project.link ? "noopener noreferrer" : undefined}
+                onClick={(e) => {
+                  if (!project.link) {
+                    e.preventDefault();
+                  }
+                }}
                 className="delay-50 group min-w-32 basis-full sm:basis-1/5 shrink cursor-pointer rounded-md bg-slate-100 p-0 outline outline-offset-0 outline-slate-300 transition-all duration-100 ease-out dark:bg-slate-700/60 dark:outline-slate-700/60 hover:dark:bg-slate-700/80"
               >
                 <div className="flex min-w-0 flex-col gap-x-1">
@@ -179,7 +187,7 @@ export default function Portfolio(props) {
                     </div>
                   </div>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>

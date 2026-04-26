@@ -142,14 +142,6 @@ export default function AdminSkills() {
               <RefreshCw className="h-4 w-4" />
               Refresh
             </button>
-            <button
-              type="button"
-              onClick={cancelEdit}
-              className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-            >
-              <Plus className="h-4 w-4" />
-              New skill
-            </button>
           </div>
         </div>
 
