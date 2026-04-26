@@ -5,8 +5,13 @@ const maintenanceMode = args.includes("--maintenance");
 
 const env = {
   ...process.env,
-  REACT_APP_MAINTENANCE_MODE: maintenanceMode ? "true" : process.env.REACT_APP_MAINTENANCE_MODE || "false",
+  // Safety default: production build is normal mode unless explicitly requested.
+  REACT_APP_MAINTENANCE_MODE: maintenanceMode ? "true" : "false",
 };
+
+console.log(
+  `[build] REACT_APP_MAINTENANCE_MODE=${env.REACT_APP_MAINTENANCE_MODE} (${maintenanceMode ? "maintenance" : "normal"})`
+);
 
 const result = spawnSync("react-scripts", ["build"], {
   stdio: "inherit",
@@ -15,4 +20,3 @@ const result = spawnSync("react-scripts", ["build"], {
 });
 
 process.exit(result.status ?? 1);
-
