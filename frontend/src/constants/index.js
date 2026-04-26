@@ -58,3 +58,5 @@ export const skill = [
         imageUrl: bootstrap,
     },
 ]
+
+export * from "./api";

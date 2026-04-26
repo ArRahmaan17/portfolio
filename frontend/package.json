@@ -7,6 +7,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@vercel/speed-insights": "^1.0.13",
+    "dotenv": "^16.4.5",
     "i18next": "^23.11.5",
     "i18next-browser-languagedetector": "^8.0.0",
     "lucide-react": "^0.522.0",
@@ -23,7 +24,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "node scripts/build.js",
+    "build:maintenance": "node scripts/build.js --maintenance",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

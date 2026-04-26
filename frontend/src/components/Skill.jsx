@@ -1,9 +1,38 @@
-import { skill } from "../constants";
 import { useTranslation } from "react-i18next";
 import moment from "moment/min/moment-with-locales";
+import { useEffect, useState } from "react";
+import { SKILLS_URL } from "../constants";
+ import { API_BASE_URL } from "../constants/api";
 
 const Skill = (props) => {
   const { t } = useTranslation();
+  const [skills, setSkills] = useState([]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadSkills = async () => {
+      try {
+        const response = await fetch(SKILLS_URL);
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error(payload.message || `Failed to fetch skills (${response.status})`);
+        }
+
+        const nextSkills = Array.isArray(payload.skills) ? payload.skills : [];
+        if (!cancelled) {
+          setSkills(nextSkills);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    loadSkills();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <div className="dark:bg-black" id="stack">
@@ -22,28 +51,33 @@ const Skill = (props) => {
             {t("stack")}
           </p>
           <div className="grid grid-cols-1 gap-x-4 gap-y-5 pb-36 pt-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {skill.map((item) => {
-              const experienceLabel = `${moment(item.start).locale(props.lang).fromNow(true)} ${t("experience")}`;
+            {skills.map((item) => {
+              const startDate = item.start_date ?? item.start;
+              const experienceLabel = startDate
+                ? `${moment(startDate).locale(props.lang).fromNow(true)} ${t("experience")}`
+                : "";
 
               return (
                 <div
-                  key={item.name}
+                  key={item.id ?? item.name}
                   className="delay-50 group cursor-pointer rounded-md bg-slate-100 p-3 outline outline-offset-0 outline-slate-300 transition-all duration-100 ease-linear  hover:outline-offset-4 hover:outline-indigo-200 hover:transition-all hover:duration-100 dark:bg-slate-700/90 dark:outline-slate-400/70 hover:dark:bg-slate-100/40 hover:dark:outline-indigo-500/80 hover:ease-linear"
                 >
                   <div className="flex min-w-0 gap-x-4">
                     <img
                       loading="lazy"
                       className="h-12 w-12 flex-none scale-100 transition duration-500 group-hover:scale-125 md:grayscale group-hover:md:grayscale-0 group-hover:duration-500"
-                      src={item.imageUrl}
+                      src={item.icon ? `${API_BASE_URL}${item.icon}` : item.imageUrl}
                       alt={item.name}
                     />
                     <div className="min-w-0 flex-auto">
                       <p className="translate-y-2 md:translate-y-4 text-xs md:text-md font-semibold leading-6 transition-all group-hover:translate-y-1 dark:text-white group-hover:dark:text-gray-300">
                         {item.name}
                       </p>
-                      <p className="mt-1 block md:hidden md:scale-y-0 truncate text-xs leading-5 transition-all delay-1000 duration-300 ease-in-out md:group-hover:block md:group-hover:scale-y-100 md:group-hover:transition-transform md:group-hover:delay-1000 md:group-hover:duration-1000 md:group-hover:ease-in-out dark:text-gray-300">
-                        {experienceLabel}
-                      </p>
+                      {experienceLabel && (
+                        <p className="mt-1 block md:hidden md:scale-y-0 truncate text-xs leading-5 transition-all delay-1000 duration-300 ease-in-out md:group-hover:block md:group-hover:scale-y-100 md:group-hover:transition-transform md:group-hover:delay-1000 md:group-hover:duration-1000 md:group-hover:ease-in-out dark:text-gray-300">
+                          {experienceLabel}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>

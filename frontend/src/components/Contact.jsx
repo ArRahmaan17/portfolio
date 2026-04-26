@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
+import { MESSAGES_URL } from "../constants";
 
 const INITIAL_FORM = {
   name: "",
@@ -30,12 +31,16 @@ export default function Contact() {
     setSuccess(false);
 
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch(MESSAGES_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          fullName: form.name,
+          email: form.email,
+          message: form.message,
+        }),
       });
 
       if (!response.ok) {
@@ -53,7 +58,7 @@ export default function Contact() {
 
   return (
     <div className="dark:bg-black" id="contact">
-      <div className="relative isolate px-6 py-16 lg:px-8 lg:py-56">
+      <div className="relative isolate mx-50 max-w-auto md:mx-20 md:py-16 lg:mx-5 px-6 py-16 lg:px-8 lg:py-56">
         <div className="mx-auto max-w-4xl lg:text-center">
           <h2 className="pt-8 text-2xl md:text-4xl lg:text-6xl dark:text-gray-100">
             {t("contact")}

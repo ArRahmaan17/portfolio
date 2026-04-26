@@ -5,8 +5,11 @@ import pos from "../assets/portfolio/pos.webp";
 import filestream from "../assets/portfolio/file-stream.webp";
 import dogTable from "../assets/portfolio/dog-table.webp";
 import { useTranslation } from "react-i18next";
+import { useEffect, useMemo, useState } from "react";
+import { PORTFOLIOS_URL } from "../constants";
+ import { API_BASE_URL } from "../constants/api";
 
-const PROJECTS = [
+const FALLBACK_PROJECTS = [
   {
     id: 1,
     name: "SIM PKL",
@@ -67,6 +70,53 @@ const PROJECTS = [
 
 export default function Portfolio(props) {
   const { t } = useTranslation();
+  const [portfolios, setPortfolios] = useState([]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadPortfolios = async () => {
+      try {
+        const response = await fetch(PORTFOLIOS_URL);
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error(payload.message || `Failed to fetch portfolios (${response.status})`);
+        }
+
+        const nextPortfolios = Array.isArray(payload.portfolios) ? payload.portfolios : [];
+        if (!cancelled) {
+          setPortfolios(nextPortfolios);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    loadPortfolios();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const projects = useMemo(() => {
+    if (!portfolios || portfolios.length === 0) {
+      return FALLBACK_PROJECTS;
+    }
+
+    return portfolios.map((portfolio) => {
+      const skills = portfolio.Skills ?? portfolio.skills ?? [];
+      const types = Array.isArray(skills) ? skills.map((skill) => skill.name).filter(Boolean) : [];
+
+      return {
+        id: portfolio.id,
+        name: portfolio.name,
+        link: portfolio.link || "",
+        image: portfolio.picture,
+        types,
+      };
+    });
+  }, [portfolios]);
+
   return (
     <div className="dark:bg-black" id="portfolio">
       <div className="relative isolate px-6 py-16 lg:px-8 lg:py-56">
@@ -84,12 +134,9 @@ export default function Portfolio(props) {
             {t("portfolio")}
           </p>
           <div className="grid grid-cols-1 gap-x-4 gap-y-5 pb-36 pt-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {PROJECTS.map((project) => (
-              <a
-                href={project.link}
+            {projects.map((project) => (
+              <div
                 key={project.id}
-                rel="noreferrer"
-                target="_blank"
                 className="delay-50 group min-w-32 basis-full sm:basis-1/5 shrink cursor-pointer rounded-md bg-slate-100 p-0 outline outline-offset-0 outline-slate-300 transition-all duration-100 ease-out dark:bg-slate-700/60 dark:outline-slate-700/60 hover:dark:bg-slate-700/80"
               >
                 <div className="flex min-w-0 flex-col gap-x-1">
@@ -97,7 +144,7 @@ export default function Portfolio(props) {
                     loading="lazy"
                     decoding="async"
                     className="h-full w-auto flex-1 rounded-md md:grayscale md:group-hover:grayscale-0"
-                    src={project.image}
+                    src={`${API_BASE_URL}${project.image}`}
                     alt={project.name}
                   />
                   <div className="md:min-h-20 flex-auto">
@@ -116,7 +163,7 @@ export default function Portfolio(props) {
                     </div>
                   </div>
                 </div>
-              </a>
+              </div>
             ))}
           </div>
         </div>
