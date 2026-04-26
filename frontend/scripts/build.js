@@ -6,7 +6,7 @@ const maintenanceMode = args.includes("--maintenance");
 const env = {
   ...process.env,
   // Safety default: production build is normal mode unless explicitly requested.
-  REACT_APP_MAINTENANCE_MODE: maintenanceMode ? "true" : "false",
+  // REACT_APP_MAINTENANCE_MODE: maintenanceMode ? "true" : "false",
 };
 
 console.log(
