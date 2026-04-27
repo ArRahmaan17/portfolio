@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   ArrowRight,
   FolderKanban,
   ImagePlus,
   Pencil,
-  Plus,
   RefreshCw,
   Search,
   ShieldCheck,
@@ -22,6 +22,7 @@ const INITIAL_FORM = {
 };
 
 export default function AdminPortfolios() {
+  const { t } = useTranslation();
   const token = useMemo(() => requireAdminToken(), []);
   const [portfolios, setPortfolios] = useState([]);
   const [skills, setSkills] = useState([]);
@@ -42,10 +43,16 @@ export default function AdminPortfolios() {
         adminApi.skills.list(token),
       ]);
 
-      setPortfolios(Array.isArray(portfoliosPayload.portfolios) ? portfoliosPayload.portfolios : []);
-      setSkills(Array.isArray(skillsPayload.skills) ? skillsPayload.skills : []);
+      setPortfolios(
+        Array.isArray(portfoliosPayload.portfolios)
+          ? portfoliosPayload.portfolios
+          : [],
+      );
+      setSkills(
+        Array.isArray(skillsPayload.skills) ? skillsPayload.skills : [],
+      );
     } catch (err) {
-      setError(err?.message || "Failed to load portfolios");
+      setError(err?.message || t("admin.portfolios.error_load"));
     } finally {
       setLoading(false);
     }
@@ -70,7 +77,9 @@ export default function AdminPortfolios() {
       const exists = current.stacks.includes(skillId);
       return {
         ...current,
-        stacks: exists ? current.stacks.filter((id) => id !== skillId) : [...current.stacks, skillId],
+        stacks: exists
+          ? current.stacks.filter((id) => id !== skillId)
+          : [...current.stacks, skillId],
       };
     });
   };
@@ -124,7 +133,7 @@ export default function AdminPortfolios() {
       cancelEdit();
       await loadAll();
     } catch (err) {
-      setError(err?.message || "Failed to save portfolio");
+      setError(err?.message || t("admin.portfolios.error_save"));
     } finally {
       setLoading(false);
     }
@@ -132,7 +141,9 @@ export default function AdminPortfolios() {
 
   const handleDelete = async (portfolio) => {
     if (!token) return;
-    const ok = window.confirm(`Delete portfolio "${portfolio.name}"?`);
+    const ok = window.confirm(
+      t("admin.portfolios.confirm_delete", { name: portfolio.name }),
+    );
     if (!ok) return;
 
     setLoading(true);
@@ -141,21 +152,24 @@ export default function AdminPortfolios() {
       await adminApi.portfolios.remove(token, portfolio.id);
       await loadAll();
     } catch (err) {
-      setError(err?.message || "Failed to delete portfolio");
+      setError(err?.message || t("admin.portfolios.error_delete"));
     } finally {
       setLoading(false);
     }
   };
 
   const filteredPortfolios = portfolios.filter((portfolio) => {
-    const skillNames = (portfolio.Skills ?? portfolio.skills ?? []).map((skill) => skill.name ?? "").join(" ");
+    const skillNames = (portfolio.Skills ?? portfolio.skills ?? [])
+      .map((skill) => skill.name ?? "")
+      .join(" ");
     const haystack =
       `${portfolio.name ?? ""} ${portfolio.description ?? ""} ${portfolio.link ?? ""} ${skillNames}`.toLowerCase();
     return haystack.includes(query.toLowerCase());
   });
 
   const filteredSkills = skills.filter((skill) => {
-    const haystack = `${skill.name ?? ""} ${skill.description ?? ""}`.toLowerCase();
+    const haystack =
+      `${skill.name ?? ""} ${skill.description ?? ""}`.toLowerCase();
     return haystack.includes(stackQuery.toLowerCase());
   });
 
@@ -166,11 +180,13 @@ export default function AdminPortfolios() {
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300">
               <ShieldCheck className="h-3.5 w-3.5" />
-              Portfolio manager
+              {t("admin.portfolios.manager")}
             </div>
-            <h1 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">Portfolios</h1>
+            <h1 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
+              {t("admin.portfolios.title")}
+            </h1>
             <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-400">
-              Present your projects with a strong visual card, linked stack tags, and one-click editing.
+              {t("admin.portfolios.subtitle")}
             </p>
           </div>
 
@@ -178,10 +194,10 @@ export default function AdminPortfolios() {
             <button
               type="button"
               onClick={loadAll}
-              className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-900 transition hover:border-slate-300 hover:bg-white dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:hover:border-slate-700"
+              className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-900 transition hover:border-slate-300 hover:bg-white dark:border-slate-800 dark:hover:bg-slate-950 dark:bg-slate-900 dark:text-white dark:hover:border-slate-700"
             >
               <RefreshCw className="h-4 w-4" />
-              Refresh
+              {t("admin.common.refresh")}
             </button>
           </div>
         </div>
@@ -201,10 +217,12 @@ export default function AdminPortfolios() {
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
-                {editing ? "Edit portfolio" : "Create portfolio"}
+                {editing
+                  ? t("admin.portfolios.edit")
+                  : t("admin.portfolios.create")}
               </p>
               <h2 className="mt-2 text-xl font-semibold">
-                {editing ? editing.name : "Add a new project card"}
+                {editing ? editing.name : t("admin.portfolios.add_card")}
               </h2>
             </div>
             <div className="grid h-11 w-11 place-items-center rounded-2xl bg-slate-100 text-slate-700 dark:bg-slate-900 dark:text-slate-300">
@@ -215,13 +233,13 @@ export default function AdminPortfolios() {
           <div className="mt-6 space-y-4">
             <div>
               <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-                Name
+                {t("admin.common.name")}
               </label>
               <input
                 name="name"
                 value={form.name}
                 onChange={handleChange}
-                placeholder="Project name"
+                placeholder={t("admin.portfolios.placeholder_name")}
                 required
                 className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:bg-white dark:border-slate-800 dark:bg-slate-900/60 dark:text-white dark:placeholder:text-slate-500"
               />
@@ -229,13 +247,13 @@ export default function AdminPortfolios() {
 
             <div>
               <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-                Description
+                {t("admin.common.description")}
               </label>
               <textarea
                 name="description"
                 value={form.description}
                 onChange={handleChange}
-                placeholder="Short project description"
+                placeholder={t("admin.portfolios.placeholder_description")}
                 rows={5}
                 required
                 className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:bg-white dark:border-slate-800 dark:bg-slate-900/60 dark:text-white dark:placeholder:text-slate-500"
@@ -244,21 +262,21 @@ export default function AdminPortfolios() {
 
             <div>
               <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-                Project link
+                {t("admin.portfolios.project_link")}
               </label>
               <input
                 name="link"
                 type="url"
                 value={form.link}
                 onChange={handleChange}
-                placeholder="https://example.com/project"
+                placeholder={t("admin.portfolios.placeholder_link")}
                 className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:bg-white dark:border-slate-800 dark:bg-slate-900/60 dark:text-white dark:placeholder:text-slate-500"
               />
             </div>
 
             <div>
               <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-                Project image
+                {t("admin.portfolios.project_image")}
               </label>
               <input
                 name="picture"
@@ -268,16 +286,20 @@ export default function AdminPortfolios() {
                 className="w-full rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-600 outline-none transition file:mr-4 file:rounded-full file:border-0 file:bg-slate-950 file:px-4 file:py-2 file:text-white hover:border-slate-400 dark:border-slate-700 dark:bg-slate-900/60 dark:text-slate-300"
               />
               <p className="mt-2 text-xs text-slate-500">
-                The image must be `1200x630` for optimal display.
+                {t("admin.portfolios.image_hint")}
               </p>
             </div>
 
             <div>
               <div className="mb-2 flex items-center justify-between">
                 <label className="block text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-                  Stacks
+                  {t("admin.common.stacks")}
                 </label>
-                <span className="text-xs text-slate-400">{form.stacks.length} selected</span>
+                <span className="text-xs text-slate-400">
+                  {t("admin.common.selected_count", {
+                    count: form.stacks.length,
+                  })}
+                </span>
               </div>
               <div className="mb-3">
                 <div className="relative">
@@ -285,7 +307,7 @@ export default function AdminPortfolios() {
                   <input
                     value={stackQuery}
                     onChange={(e) => setStackQuery(e.target.value)}
-                    placeholder="Search stacks"
+                    placeholder={t("admin.common.search_stacks")}
                     className="w-full rounded-2xl border border-slate-200 bg-white py-3 pl-10 pr-4 text-sm outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:bg-white dark:border-slate-800 dark:bg-slate-950 dark:text-white dark:placeholder:text-slate-500"
                   />
                 </div>
@@ -306,7 +328,11 @@ export default function AdminPortfolios() {
                         }`}
                       >
                         <span className="truncate">{skill.name}</span>
-                        <span className="text-xs opacity-70">{selected ? "Selected" : "Add"}</span>
+                        <span className="text-xs opacity-70">
+                          {selected
+                            ? t("admin.common.selected")
+                            : t("admin.common.add")}
+                        </span>
                       </button>
                     );
                   })}
@@ -321,7 +347,9 @@ export default function AdminPortfolios() {
               disabled={loading}
               className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {editing ? "Update portfolio" : "Create portfolio"}
+              {editing
+                ? t("admin.portfolios.update")
+                : t("admin.portfolios.create")}
               <ArrowRight className="h-4 w-4" />
             </button>
             {editing && (
@@ -330,7 +358,7 @@ export default function AdminPortfolios() {
                 onClick={cancelEdit}
                 className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-900 transition hover:border-slate-300 hover:bg-white dark:border-slate-800 dark:bg-slate-900 dark:text-white"
               >
-                Cancel
+                {t("admin.common.cancel")}
               </button>
             )}
           </div>
@@ -339,15 +367,21 @@ export default function AdminPortfolios() {
         <div className="rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/40 dark:border-slate-800 dark:bg-slate-950 dark:shadow-black/30">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">All portfolios</p>
-              <h2 className="mt-2 text-xl font-semibold">{filteredPortfolios.length} published</h2>
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
+                {t("admin.portfolios.all")}
+              </p>
+              <h2 className="mt-2 text-xl font-semibold">
+                {t("admin.portfolios.published_count", {
+                  count: filteredPortfolios.length,
+                })}
+              </h2>
             </div>
             <div className="relative w-full max-w-xs">
               <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search portfolios"
+                placeholder={t("admin.portfolios.search")}
                 className="w-full rounded-2xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-4 text-sm outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:bg-white dark:border-slate-800 dark:bg-slate-900/60 dark:text-white dark:placeholder:text-slate-500"
               />
             </div>
@@ -355,27 +389,35 @@ export default function AdminPortfolios() {
 
           <div className="mt-5 max-h-[55vh] overflow-y-auto overflow-x-hidden rounded-[1.5rem] border border-slate-200 dark:border-slate-800">
             {loading && portfolios.length === 0 ? (
-              <div className="p-6 text-sm text-slate-500">Loading portfolios...</div>
+              <div className="p-6 text-sm text-slate-500">
+                {t("admin.portfolios.loading")}
+              </div>
             ) : filteredPortfolios.length === 0 ? (
               <div className="grid min-h-48 place-items-center bg-slate-50 px-6 py-10 text-center dark:bg-slate-900/40">
                 <div>
                   <ImagePlus className="mx-auto h-6 w-6 text-slate-400" />
-                  <p className="mt-3 text-sm font-medium">No matching portfolios</p>
+                  <p className="mt-3 text-sm font-medium">
+                    {t("admin.portfolios.no_match")}
+                  </p>
                   <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                    Clear the search or create a new project card.
+                    {t("admin.portfolios.no_match_hint")}
                   </p>
                 </div>
               </div>
             ) : (
               <ul className="divide-y divide-slate-200 dark:divide-slate-800">
                 {filteredPortfolios.map((portfolio) => {
-                  const attachedSkills = portfolio.Skills ?? portfolio.skills ?? [];
+                  const attachedSkills =
+                    portfolio.Skills ?? portfolio.skills ?? [];
                   const stackNames = Array.isArray(attachedSkills)
                     ? attachedSkills.map((s) => s.name).filter(Boolean)
                     : [];
 
                   return (
-                    <li key={portfolio.id} className="bg-white p-4 dark:bg-slate-950">
+                    <li
+                      key={portfolio.id}
+                      className="bg-white p-4 dark:bg-slate-950"
+                    >
                       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                         <div className="flex min-w-0 gap-4">
                           <div className="h-20 w-20 shrink-0 overflow-hidden rounded-2xl bg-slate-100 ring-1 ring-slate-200 dark:bg-slate-900 dark:ring-slate-800">
@@ -393,7 +435,9 @@ export default function AdminPortfolios() {
                           </div>
 
                           <div className="min-w-0">
-                            <div className="truncate text-sm font-semibold">{portfolio.name}</div>
+                            <div className="truncate text-sm font-semibold">
+                              {portfolio.name}
+                            </div>
                             <div className="mt-1 line-clamp-3 text-sm leading-6 text-slate-600 dark:text-slate-400">
                               {portfolio.description}
                             </div>
@@ -429,7 +473,7 @@ export default function AdminPortfolios() {
                             className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-900 transition hover:border-slate-300 hover:bg-white dark:border-slate-800 dark:bg-slate-900 dark:text-white"
                           >
                             <Pencil className="h-3.5 w-3.5" />
-                            Edit
+                            {t("admin.common.edit")}
                           </button>
                           <button
                             type="button"
@@ -437,7 +481,7 @@ export default function AdminPortfolios() {
                             className="inline-flex items-center gap-2 rounded-2xl bg-red-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-red-500"
                           >
                             <Trash2 className="h-3.5 w-3.5" />
-                            Delete
+                            {t("admin.common.delete")}
                           </button>
                         </div>
                       </div>

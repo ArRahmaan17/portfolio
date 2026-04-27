@@ -49,7 +49,6 @@ const Home = (props) => {
   };
 
   const handleSelectTheme = async (label, closeOffCanvas = false) => {
-    localStorage.setItem("theme", label);
     setStateThemeDropdown(false);
     if (closeOffCanvas) {
       setStateOffCanvas(false);

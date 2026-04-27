@@ -1,4 +1,4 @@
-import { MESSAGES_URL, PORTFOLIOS_URL, SKILLS_URL } from "../constants";
+import { EMPLOYEES_URL, LOCALIZATIONS_URL, MESSAGES_URL, PORTFOLIOS_URL, SKILLS_URL } from "../constants";
 
 export const getAdminToken = () => localStorage.getItem("admin_token") || "";
 
@@ -78,5 +78,13 @@ export const adminApi = {
   messages: {
     list: (token) => authJsonFetch(MESSAGES_URL, { token }),
     remove: (token, id) => authJsonFetch(`${MESSAGES_URL}/${id}`, { method: "DELETE", token }),
+  },
+  localizations: {
+    listFlat: (token) => authJsonFetch(`${LOCALIZATIONS_URL}/flat`, { token }),
+    upsert: (token, body) => authJsonFetch(`${LOCALIZATIONS_URL}/upsert`, { method: "POST", token, body }),
+  },
+  employees: {
+    list: (token) => authJsonFetch(EMPLOYEES_URL, { token }),
+    regenerate: (token, body) => authJsonFetch(`${EMPLOYEES_URL}/regenerate`, { method: "POST", token, body }),
   },
 };

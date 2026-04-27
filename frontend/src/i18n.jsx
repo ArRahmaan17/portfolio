@@ -2,6 +2,7 @@ import i18n from "i18next";
 import I18nextBrowserLanguageDetector from "i18next-browser-languagedetector";
 import { initReactI18next } from "react-i18next";
 import moment from "moment/min/moment-with-locales";
+import { LOCALIZATIONS_URL } from "./constants/api";
 i18n
   .use(I18nextBrowserLanguageDetector)
   .use(initReactI18next)
@@ -30,6 +31,48 @@ i18n
           message: "Your Message",
           send: "Send Message",
           message_sent: "Your message has been sent successfully!",
+          admin: {
+            common: {
+              refresh: "Refresh",
+              name: "Name",
+              description: "Description",
+              stacks: "Stacks",
+              selected_count: "{{count}} selected",
+              search_stacks: "Search stacks",
+              selected: "Selected",
+              add: "Add",
+              cancel: "Cancel",
+              edit: "Edit",
+              delete: "Delete",
+            },
+            portfolios: {
+              manager: "Portfolio manager",
+              title: "Portfolios",
+              subtitle:
+                "Present your projects with a strong visual card, linked stack tags, and one-click editing.",
+              new: "New portfolio",
+              edit: "Edit portfolio",
+              create: "Create portfolio",
+              update: "Update portfolio",
+              add_card: "Add a new project card",
+              placeholder_name: "Project name",
+              placeholder_description: "Short project description",
+              project_link: "Project link",
+              placeholder_link: "https://example.com/project",
+              project_image: "Project image",
+              image_hint: "The image must be `1200x630` for optimal display.",
+              all: "All portfolios",
+              published_count: "{{count}} published",
+              search: "Search portfolios",
+              loading: "Loading portfolios...",
+              no_match: "No matching portfolios",
+              no_match_hint: "Clear the search or create a new project card.",
+              confirm_delete: "Delete portfolio \"{{name}}\"?",
+              error_load: "Failed to load portfolios",
+              error_save: "Failed to save portfolio",
+              error_delete: "Failed to delete portfolio",
+            },
+          },
         },
       },
 
@@ -51,9 +94,77 @@ i18n
           message: "Pesan Anda",
           send: "Kirim Pesan",
           message_sent: "Pesan Anda berhasil dikirim!",
+          admin: {
+            common: {
+              refresh: "Muat ulang",
+              name: "Nama",
+              description: "Deskripsi",
+              stacks: "Tumpukan",
+              selected_count: "{{count}} dipilih",
+              search_stacks: "Cari stack",
+              selected: "Dipilih",
+              add: "Tambah",
+              cancel: "Batal",
+              edit: "Ubah",
+              delete: "Hapus",
+            },
+            portfolios: {
+              manager: "Pengelola portofolio",
+              title: "Portofolio",
+              subtitle:
+                "Tampilkan proyekmu dengan kartu visual yang kuat, tag stack terhubung, dan edit sekali klik.",
+              new: "Portofolio baru",
+              edit: "Ubah portofolio",
+              create: "Buat portofolio",
+              update: "Perbarui portofolio",
+              add_card: "Tambah kartu proyek baru",
+              placeholder_name: "Nama proyek",
+              placeholder_description: "Deskripsi singkat proyek",
+              project_link: "Link proyek",
+              placeholder_link: "https://contoh.com/proyek",
+              project_image: "Gambar proyek",
+              image_hint: "Ukuran gambar harus `1200x630` agar tampil optimal.",
+              all: "Semua portofolio",
+              published_count: "{{count}} dipublikasikan",
+              search: "Cari portofolio",
+              loading: "Memuat portofolio...",
+              no_match: "Tidak ada portofolio yang cocok",
+              no_match_hint: "Kosongkan pencarian atau buat kartu proyek baru.",
+              confirm_delete: "Hapus portofolio \"{{name}}\"?",
+              error_load: "Gagal memuat portofolio",
+              error_save: "Gagal menyimpan portofolio",
+              error_delete: "Gagal menghapus portofolio",
+            },
+          },
         },
       },
     },
   });
+
+async function hydrateLocalizationsFromDatabase() {
+  try {
+    const response = await fetch(LOCALIZATIONS_URL);
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      throw new Error(payload.message || `Failed to fetch localizations (${response.status})`);
+    }
+
+    const tables = payload.localizations || {};
+    Object.entries(tables).forEach(([locale, translation]) => {
+      if (!translation || typeof translation !== "object") {
+        return;
+      }
+
+      i18n.addResourceBundle(locale, "translation", translation, true, true);
+    });
+  } catch (error) {
+    // Keep local fallback resources when DB translations are unavailable.
+    console.error(error);
+  }
+}
+
+i18n.on("initialized", () => {
+  hydrateLocalizationsFromDatabase();
+});
 
 export default i18n;

@@ -29,21 +29,20 @@ const parseStacks = (stacks) => {
   }
 
   if (Array.isArray(stacks)) {
-    return stacks.map((stackId) => Number(stackId)).filter(Number.isFinite);
+    return stacks.map((stackId) => Number(stackId)).filter((v) => Number.isFinite(v));
   }
 
   if (typeof stacks === "string") {
-    if (stacks.includes(",")) {
+    if (stacks.includes(",") && !stacks.trim().startsWith("[") && !stacks.trim().endsWith("]")) {
       return stacks
         .split(",")
-        .map((stackId) => Number(stackId.trim()))
-        .filter(Number.isFinite);
+        .map((stackId) => Number(stackId.trim())).filter((v) => Number.isFinite(v));
     }
 
     try {
       const parsed = JSON.parse(stacks);
       if (Array.isArray(parsed)) {
-        return parsed.map((stackId) => Number(stackId)).filter(Number.isFinite);
+        return parsed.map((stackId) => Number(stackId)).filter((v) => Number.isFinite(v));
       }
     } catch (error) {
       return [];
@@ -199,9 +198,8 @@ router.put("/:id", uploadPortfolioPicture.single("picture"), async (req, res, ne
     }
 
     await portfolio.update(updates);
-
-    await StackPortfolio.destroy({ where: { portfolioId: portfolio.id } });
     if (stacks.length > 0) {
+      await StackPortfolio.destroy({ where: { portfolioId: portfolio.id } });
       const stackPortfolios = stacks.map((stack) => ({
         skillId: stack,
         portfolioId: portfolio.id,

@@ -71,6 +71,61 @@ export default function Portfolio(props) {
   const { t } = useTranslation();
   const [portfolios, setPortfolios] = useState([]);
 
+  const extractPortfolioTypes = (portfolio) => {
+    const relationCandidates = [
+      portfolio?.Skills,
+      portfolio?.skills,
+      portfolio?.Skill,
+      portfolio?.skill,
+      portfolio?.Stacks,
+      portfolio?.stacks,
+      portfolio?.StackPortfolios,
+      portfolio?.stackPortfolios,
+    ];
+
+    const names = relationCandidates.flatMap((candidate) => {
+      if (!candidate) {
+        return [];
+      }
+
+      if (Array.isArray(candidate)) {
+        return candidate.flatMap((item) => {
+          if (!item) {
+            return [];
+          }
+
+          if (typeof item === "string") {
+            return [item];
+          }
+
+          const directName = item.name ?? item.label;
+          if (directName) {
+            return [directName];
+          }
+
+          const nestedName =
+            item.Skill?.name ??
+            item.skill?.name ??
+            item.Stack?.name ??
+            item.stack?.name;
+
+          return nestedName ? [nestedName] : [];
+        });
+      }
+
+      if (typeof candidate === "string") {
+        return candidate
+          .split(",")
+          .map((value) => value.trim())
+          .filter(Boolean);
+      }
+
+      return [];
+    });
+
+    return [...new Set(names.map((name) => String(name).trim()).filter(Boolean))];
+  };
+
   useEffect(() => {
     let cancelled = false;
 
@@ -103,8 +158,7 @@ export default function Portfolio(props) {
     }
 
     return portfolios.map((portfolio) => {
-      const skills = portfolio.Skills ?? portfolio.skills ?? [];
-      const types = Array.isArray(skills) ? skills.map((skill) => skill.name).filter(Boolean) : [];
+      const types = extractPortfolioTypes(portfolio);
 
       return {
         id: portfolio.id,
