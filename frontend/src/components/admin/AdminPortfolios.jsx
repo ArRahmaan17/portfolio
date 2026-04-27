@@ -387,7 +387,7 @@ export default function AdminPortfolios() {
             </div>
           </div>
 
-          <div className="mt-5 max-h-[55vh] overflow-y-auto overflow-x-hidden rounded-[1.5rem] border border-slate-200 dark:border-slate-800">
+          <div className="mt-5 max-h-[80vh] overflow-y-auto overflow-x-hidden rounded-[1.5rem] border border-slate-200 dark:border-slate-800">
             {loading && portfolios.length === 0 ? (
               <div className="p-6 text-sm text-slate-500">
                 {t("admin.portfolios.loading")}
