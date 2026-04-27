@@ -8,7 +8,6 @@ var { expressjwt: jwt } = require("express-jwt");
 const apiRoutes = require("./routes");
 
 const app = express();
-// { url: /^\/api\/employees(\/.*)?$/, methods: ["GET"] }, jangan diprotect open api buat (dog-table)[https://arrahmaan17.github.io/dog-table/] library at 
 const JWT_EXCLUDED_PATHS = [
   "/",
   "/api/auth/login",
@@ -16,6 +15,8 @@ const JWT_EXCLUDED_PATHS = [
   "/storage",
   "/api/health",
   { url: /^\/api\/blog(\/.*)?$/, methods: ["GET"] },
+  { url: "/api/employees", methods: ["GET", "POST", "DELETE"] },
+  { url: /^\/api\/employees\/\d+$/, methods: ["GET", "PUT", "PATCH", "DELETE"] },
   { url: /^\/api\/localizations(\/.*)?$/, methods: ["GET"] },
   { url: /^\/api\/portfolios(\/.*)?$/, methods: ["GET"] },
   { url: /^\/api\/skills(\/.*)?$/, methods: ["GET"] },
