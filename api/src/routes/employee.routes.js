@@ -82,7 +82,7 @@ router.get("/", async (req, res, next) => {
     const offset = (page - 1) * limit;
 
     if (req.query?.search) {
-      const search = `%${String(req.query.q).trim()}%`;
+      const search = `%${String(req.query.search).trim()}%`;
       const data = await Employee.findAndCountAll({
         where: {
           [Op.or]: [
