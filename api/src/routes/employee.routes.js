@@ -70,7 +70,7 @@ router.get("/", async (req, res, next) => {
     const orderDirection = requestedDirection === "DESC" ? "DESC" : "ASC";
     const order = [[orderField, orderDirection]];
     let limit = parseInt(req.query?.limit) || 10;
-    let page = parseInt(req.query?.page) || 1;
+    let page = parseInt(req.query?.offset) || 1;
 
     if (isNaN(limit) || limit < 1 || limit > 100) {
       limit = 100;
