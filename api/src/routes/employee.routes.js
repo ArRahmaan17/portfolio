@@ -69,8 +69,8 @@ router.get("/", async (req, res, next) => {
     const orderField = allowedOrderFields.includes(requestedField) ? requestedField : "id";
     const orderDirection = requestedDirection === "DESC" ? "DESC" : "ASC";
     const order = [[orderField, orderDirection]];
-    let limit = parseInt(req.query?.limit) || 10;
-    let page = parseInt(req.query?.offset) || 1;
+    let limit = parseInt(req.query?.pageSize) || 10;
+    let page = parseInt(req.query?.page) || 1;
 
     if (isNaN(limit) || limit < 1 || limit > 100) {
       limit = 100;
@@ -81,7 +81,7 @@ router.get("/", async (req, res, next) => {
     }
     const offset = (page - 1) * limit;
 
-    if (req.query?.q) {
+    if (req.query?.search) {
       const search = `%${String(req.query.q).trim()}%`;
       const data = await Employee.findAndCountAll({
         where: {
