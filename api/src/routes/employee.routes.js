@@ -64,23 +64,25 @@ router.get("/", async (req, res, next) => {
       "createdAt",
       "updatedAt",
     ];
-    const requestedField = String(req.query?.order || "id");
-    const requestedDirection = String(req.query?.dir || "ASC").toUpperCase();
+    const requestedField = String(req.query?.sort || "id");
+    const requestedDirection = String(req.query?.order || "ASC").toUpperCase();
     const orderField = allowedOrderFields.includes(requestedField) ? requestedField : "id";
     const orderDirection = requestedDirection === "DESC" ? "DESC" : "ASC";
     const order = [[orderField, orderDirection]];
     let limit = parseInt(req.query?.limit) || 10;
-    let offset = parseInt(req.query?.offset) || 0;
+    let page = parseInt(req.query?.page) || 1;
 
     if (isNaN(limit) || limit < 1 || limit > 100) {
       limit = 100;
     }
 
-    if (isNaN(offset) || offset < 0) {
-      offset = 0;
+    if (isNaN(page) || page < 1) {
+      page = 1;
     }
-    if (req.query?.search) {
-      const search = `%${String(req.query.search).trim()}%`;
+    const offset = (page - 1) * limit;
+
+    if (req.query?.q) {
+      const search = `%${String(req.query.q).trim()}%`;
       const data = await Employee.findAndCountAll({
         where: {
           [Op.or]: [
@@ -97,11 +99,12 @@ router.get("/", async (req, res, next) => {
 
       return res.json({
         message: "Employees fetched successfully",
-        count: data.count,
+        total: data.count,
         data: data.rows,
       });
     }
     const { count, rows } = await Employee.findAndCountAll({
+      order: order,
       offset: offset,
       limit: limit,
     }
@@ -109,8 +112,8 @@ router.get("/", async (req, res, next) => {
 
     res.json({
       message: "Employees fetched successfully",
+      total: count,
       data: rows,
-      count: count,
     });
   } catch (error) {
     next(error);
