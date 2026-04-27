@@ -209,7 +209,7 @@ export default function AdminPortfolios() {
         )}
       </section>
 
-      <section className="grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
+      <section className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
         <form
           onSubmit={handleSubmit}
           className="rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/40 dark:border-slate-800 dark:bg-slate-950 dark:shadow-black/30"
