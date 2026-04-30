@@ -1,4 +1,4 @@
-import { EMPLOYEES_URL, LOCALIZATIONS_URL, MESSAGES_URL, PORTFOLIOS_URL, SKILLS_URL } from "../constants";
+import { BLOGS_URL, EMPLOYEES_URL, LOCALIZATIONS_URL, MESSAGES_URL, PORTFOLIOS_URL, SKILLS_URL } from "../constants";
 
 export const getAdminToken = () => localStorage.getItem("admin_token") || "";
 
@@ -86,5 +86,11 @@ export const adminApi = {
   employees: {
     list: (token) => authJsonFetch(EMPLOYEES_URL, { token }),
     regenerate: (token, body) => authJsonFetch(`${EMPLOYEES_URL}/regenerate`, { method: "POST", token, body }),
+  },
+  blogs: {
+    list: (token) => authJsonFetch(BLOGS_URL, { token }),
+    create: (token, body) => authJsonFetch(BLOGS_URL, { method: "POST", token, body }),
+    update: (token, id, body) => authJsonFetch(`${BLOGS_URL}/${id}`, { method: "PUT", token, body }),
+    remove: (token, id) => authJsonFetch(`${BLOGS_URL}/${id}`, { method: "DELETE", token }),
   },
 };

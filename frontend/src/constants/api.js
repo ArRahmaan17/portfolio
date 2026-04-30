@@ -7,6 +7,7 @@ export const PORTFOLIOS_URL = `${API_BASE_URL}/api/portfolios`;
 export const MESSAGES_URL = `${API_BASE_URL}/api/messages`;
 export const LOCALIZATIONS_URL = `${API_BASE_URL}/api/localizations`;
 export const EMPLOYEES_URL = `${API_BASE_URL}/api/employees`;
+export const BLOGS_URL = `${API_BASE_URL}/api/blog`;
 
 export const backendAssetUrl = (assetPath) => {
   if (!assetPath) {

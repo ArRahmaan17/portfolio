@@ -6,6 +6,7 @@ const cron = require("node-cron");
 const sequelize = require("./config/database");
 const User = require("./models/user.model");
 const Employee = require("./models/employee.model");
+const Blog = require("./models/blog.model");
 require("./models/localization.model");
 const { syncDefaultLocalizations } = require("./localization/sync-localizations");
 const { generateEmployees } = require("./utils/faker.util");
@@ -25,10 +26,21 @@ async function regenerateEmployees() {
   console.log(`Employees regenerated: ${employeePayloads.length}`);
 }
 
+async function ensureBlogContentColumn() {
+  const tableName = Blog.getTableName();
+  await sequelize.query(
+    `ALTER TABLE \`${tableName}\` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`
+  );
+  await sequelize.query(
+    `ALTER TABLE \`${tableName}\` MODIFY \`content\` LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL`
+  );
+}
+
 async function startServer() {
   try {
     await sequelize.authenticate();
     await sequelize.sync();
+    await ensureBlogContentColumn();
 
     app.listen(port, async () => {
       console.log(`Admin API listening on http://localhost:${port}`);

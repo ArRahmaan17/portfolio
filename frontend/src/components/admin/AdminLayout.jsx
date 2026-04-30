@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from "react";
 import {
   Activity,
+  BookOpen,
   FolderKanban,
   Languages,
   LayoutDashboard,
@@ -24,6 +25,7 @@ export default function AdminLayout({ children, theme = "Light", changeTheme }) 
       { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
       { href: "/admin/skills", label: "Skills", icon: Wrench },
       { href: "/admin/portfolios", label: "Portfolios", icon: FolderKanban },
+      { href: "/admin/blogs", label: "Blogs", icon: BookOpen },
       { href: "/admin/messages", label: "Messages", icon: MessagesSquare },
       { href: "/admin/localizations", label: "Localizations", icon: Languages },
       { href: "/admin/employees", label: "Employees", icon: Users },

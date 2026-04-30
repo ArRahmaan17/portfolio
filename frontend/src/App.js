@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 import Typed from "typed.js";
-import Header from "./components/Header";
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
 import Skill from "./components/Skill";
 import Portfolio from "./components/Portfolio";
 import Contact from "./components/Contact";
@@ -12,20 +13,17 @@ import AdminPortfolios from "./components/admin/AdminPortfolios";
 import AdminMessages from "./components/admin/AdminMessages";
 import AdminLocalizations from "./components/admin/AdminLocalizations";
 import AdminEmployees from "./components/admin/AdminEmployees";
+import AdminBlogs from "./components/admin/AdminBlogs";
+import Blog from "./components/Blog";
 import Maintenance from "./components/Maintenance";
 
-function PublicApp({ theme, changeTheme }) {
+function PublicApp({ theme, changeTheme, lang, changeLanguage }) {
   let style1 = {
     clipPath:
       "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
   };
   let el = useRef(null);
-  let [lang, setLang] = useState(sessionStorage.getItem("i18nextLng") ?? "en");
   let [classNavbar, setClassNavbar] = useState("bg-transparent");
-
-  const changeLanguage = async (_lang) => {
-    setLang(_lang);
-  };
 
   useEffect(() => {
     const headerOffscreen = () => {
@@ -61,8 +59,9 @@ function PublicApp({ theme, changeTheme }) {
   return (
     <>
       <div className="App select-none flex flex-col font-mono">
-        <Header {...params} />
+        <Navbar {...params} />
         <div role="main">
+          <Hero {...params} />
           <Skill {...params} />
           <Portfolio {...params} />
           <Contact {...params} />
@@ -77,6 +76,11 @@ function App() {
     const storedTheme = localStorage.getItem("theme");
     return storedTheme === "Dark" ? "Dark" : "Light";
   });
+  let [lang, setLang] = useState(sessionStorage.getItem("i18nextLng") ?? "en");
+
+  const changeLanguage = async (_lang) => {
+    setLang(_lang);
+  };
 
   const changeTheme = async (_theme) => {
     const nextTheme = _theme === "Dark" ? "Dark" : "Light";
@@ -88,7 +92,7 @@ function App() {
 
   if (window.location.pathname === "/admin/login") {
     return (
-      <div className={`${isDark ? "dark" : ""}`}>
+      <div className={`min-h-screen transition-colors duration-500 ${isDark ? "dark bg-slate-950" : "bg-slate-50"}`}>
         <AdminLogin changeTheme={changeTheme} theme={theme} />
       </div>
     );
@@ -96,7 +100,7 @@ function App() {
 
   if (window.location.pathname === "/admin" || window.location.pathname === "/admin/dashboard") {
     return (
-      <div className={`${isDark ? "dark" : ""}`}>
+      <div className={`min-h-screen transition-colors duration-500 ${isDark ? "dark bg-slate-950" : "bg-slate-50"}`}>
         <AdminLayout changeTheme={changeTheme} theme={theme}>
           <AdminDashboard />
         </AdminLayout>
@@ -106,7 +110,7 @@ function App() {
 
   if (window.location.pathname === "/admin/skills") {
     return (
-      <div className={`${isDark ? "dark" : ""}`}>
+      <div className={`min-h-screen transition-colors duration-500 ${isDark ? "dark bg-slate-950" : "bg-slate-50"}`}>
         <AdminLayout changeTheme={changeTheme} theme={theme}>
           <AdminSkills />
         </AdminLayout>
@@ -116,7 +120,7 @@ function App() {
 
   if (window.location.pathname === "/admin/portfolios") {
     return (
-      <div className={`${isDark ? "dark" : ""}`}>
+      <div className={`min-h-screen transition-colors duration-500 ${isDark ? "dark bg-slate-950" : "bg-slate-50"}`}>
         <AdminLayout changeTheme={changeTheme} theme={theme}>
           <AdminPortfolios />
         </AdminLayout>
@@ -126,7 +130,7 @@ function App() {
 
   if (window.location.pathname === "/admin/messages") {
     return (
-      <div className={`${isDark ? "dark" : ""}`}>
+      <div className={`min-h-screen transition-colors duration-500 ${isDark ? "dark bg-slate-950" : "bg-slate-50"}`}>
         <AdminLayout changeTheme={changeTheme} theme={theme}>
           <AdminMessages />
         </AdminLayout>
@@ -136,7 +140,7 @@ function App() {
 
   if (window.location.pathname === "/admin/localizations") {
     return (
-      <div className={`${isDark ? "dark" : ""}`}>
+      <div className={`min-h-screen transition-colors duration-500 ${isDark ? "dark bg-slate-950" : "bg-slate-50"}`}>
         <AdminLayout changeTheme={changeTheme} theme={theme}>
           <AdminLocalizations />
         </AdminLayout>
@@ -146,10 +150,28 @@ function App() {
 
   if (window.location.pathname === "/admin/employees") {
     return (
-      <div className={`${isDark ? "dark" : ""}`}>
+      <div className={`min-h-screen transition-colors duration-500 ${isDark ? "dark bg-slate-950" : "bg-slate-50"}`}>
         <AdminLayout changeTheme={changeTheme} theme={theme}>
           <AdminEmployees />
         </AdminLayout>
+      </div>
+    );
+  }
+
+  if (window.location.pathname === "/admin/blogs") {
+    return (
+      <div className={`min-h-screen transition-colors duration-500 ${isDark ? "dark bg-slate-950" : "bg-slate-50"}`}>
+        <AdminLayout changeTheme={changeTheme} theme={theme}>
+          <AdminBlogs />
+        </AdminLayout>
+      </div>
+    );
+  }
+
+  if (window.location.pathname === "/blog" || window.location.pathname.startsWith("/blog/")) {
+    return (
+      <div className={`min-h-screen transition-colors duration-500 ${isDark ? "dark bg-slate-950" : "bg-slate-50"}`}>
+        <Blog changeTheme={changeTheme} theme={theme} lang={lang} changeLanguage={changeLanguage} />
       </div>
     );
   }
@@ -159,8 +181,8 @@ function App() {
   }
 
   return (
-    <div className={`${isDark ? "dark" : ""}`}>
-      <PublicApp changeTheme={changeTheme} theme={theme} />
+    <div className={`min-h-screen transition-colors duration-500 ${isDark ? "dark bg-slate-950" : "bg-slate-50"}`}>
+      <PublicApp changeTheme={changeTheme} theme={theme} lang={lang} changeLanguage={changeLanguage} />
     </div>
   );
 }

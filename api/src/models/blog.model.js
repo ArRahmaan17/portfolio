@@ -2,6 +2,8 @@ const { DataTypes } = require("sequelize");
 
 const sequelize = require("../config/database");
 
+const BLOG_CONTENT_MAX_LENGTH = 50000;
+
 const Blog = sequelize.define(
   "Blog",
   {
@@ -15,8 +17,11 @@ const Blog = sequelize.define(
       allowNull: false,
     },
     content: {
-      type: DataTypes.TEXT,
+      type: DataTypes.TEXT("long"),
       allowNull: false,
+      validate: {
+        len: [1, BLOG_CONTENT_MAX_LENGTH],
+      },
     },
     slug: {
       type: DataTypes.STRING,
@@ -31,7 +36,10 @@ const Blog = sequelize.define(
   {
     tableName: "blogs",
     timestamps: true,
+    charset: "utf8mb4",
+    collate: "utf8mb4_unicode_ci",
   }
 );
 
 module.exports = Blog;
+module.exports.BLOG_CONTENT_MAX_LENGTH = BLOG_CONTENT_MAX_LENGTH;

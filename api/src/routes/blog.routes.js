@@ -3,6 +3,7 @@ const express = require("express");
 const Blog = require("../models/blog.model");
 
 const router = express.Router();
+const { BLOG_CONTENT_MAX_LENGTH } = require("../models/blog.model");
 
 const slugify = (value) => {
   if (!value) {
@@ -35,6 +36,21 @@ const ensureUniqueSlug = async (baseSlug, { ignoreId } = {}) => {
     candidate = `${normalized}-${suffix}`;
     suffix += 1;
   }
+};
+
+const normalizeContent = (value) => String(value ?? "");
+
+const validateContent = (value) => {
+  const content = normalizeContent(value);
+  if (!content.trim()) {
+    return "content cannot be empty";
+  }
+
+  if (content.length > BLOG_CONTENT_MAX_LENGTH) {
+    return `content cannot exceed ${BLOG_CONTENT_MAX_LENGTH} characters`;
+  }
+
+  return "";
 };
 
 router.get("/", async (_req, res, next) => {
@@ -76,6 +92,11 @@ router.post("/", async (req, res, next) => {
       });
     }
 
+    const contentError = validateContent(content);
+    if (contentError) {
+      return res.status(400).json({ message: contentError });
+    }
+
     const slug = await ensureUniqueSlug(rawSlug);
     if (!slug) {
       return res.status(400).json({
@@ -95,7 +116,7 @@ router.post("/", async (req, res, next) => {
 
     const blog = await Blog.create({
       title,
-      content,
+      content: normalizeContent(content),
       slug,
       published_at,
     });
@@ -120,6 +141,11 @@ router.put("/:id", async (req, res, next) => {
       });
     }
 
+    const contentError = validateContent(content);
+    if (contentError) {
+      return res.status(400).json({ message: contentError });
+    }
+
     let slug = blog.slug;
     if (req.body.slug) {
       slug = await ensureUniqueSlug(req.body.slug, { ignoreId: blog.id });
@@ -142,7 +168,7 @@ router.put("/:id", async (req, res, next) => {
       }
     }
 
-    await blog.update({ title, content, slug, published_at });
+    await blog.update({ title, content: normalizeContent(content), slug, published_at });
 
     return res.status(200).json({ message: "Blog updated successfully", blog });
   } catch (error) {
@@ -165,10 +191,11 @@ router.patch("/:id", async (req, res, next) => {
       updates.title = req.body.title;
     }
     if (req.body.content !== undefined) {
-      if (!req.body.content) {
-        return res.status(400).json({ message: "content cannot be empty" });
+      const contentError = validateContent(req.body.content);
+      if (contentError) {
+        return res.status(400).json({ message: contentError });
       }
-      updates.content = req.body.content;
+      updates.content = normalizeContent(req.body.content);
     }
     if (req.body.slug !== undefined) {
       if (!req.body.slug) {
