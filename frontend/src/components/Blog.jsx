@@ -1,15 +1,21 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { BookOpen, Calendar, Clock, ArrowLeft, ChevronRight } from "lucide-react";
 import Navbar from "./Navbar";
 import { BLOGS_URL } from "../constants/api";
 import { markdownToHtml, markdownToPlainText } from "../utils/markdown";
 
 export default function Blog({ theme, changeTheme, lang, changeLanguage }) {
+  const { t, i18n } = useTranslation();
   const [blogs, setBlogs] = useState([]);
   const [selectedBlog, setSelectedBlog] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [classNavbar, setClassNavbar] = useState("bg-transparent");
+  const activeLocale = i18n.resolvedLanguage || lang || "en";
+
+  const formatDate = (value) => new Date(value).toLocaleDateString(activeLocale);
+  const getReadMinutes = (content) => Math.max(1, Math.ceil(String(content || "").length / 1000));
 
   useEffect(() => {
     const headerOffscreen = () => {
@@ -31,11 +37,11 @@ export default function Blog({ theme, changeTheme, lang, changeLanguage }) {
         const pathParts = window.location.pathname.split("/");
         if (pathParts.length > 2 && pathParts[2]) {
           const slug = pathParts[2];
-          const blog = (data.blogs || []).find(b => b.slug === slug);
+          const blog = (data.blogs || []).find((b) => b.slug === slug);
           if (blog) setSelectedBlog(blog);
         }
       } catch (err) {
-        setError("Failed to fetch blogs");
+        setError(t("blog.error_fetch"));
       } finally {
         setLoading(false);
       }
@@ -44,7 +50,7 @@ export default function Blog({ theme, changeTheme, lang, changeLanguage }) {
     fetchBlogs();
 
     return () => window.removeEventListener("scroll", headerOffscreen);
-  }, []);
+  }, [t]);
 
   const handleBlogClick = (blog) => {
     setSelectedBlog(blog);
@@ -83,18 +89,18 @@ export default function Blog({ theme, changeTheme, lang, changeLanguage }) {
               className="flex items-center gap-2 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors mb-8 group"
             >
               <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-              Back to Blog
+              {t("blog.back")}
             </button>
             
             <header className="mb-12">
               <div className="flex items-center gap-4 text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">
                 <span className="flex items-center gap-1.5">
                   <Calendar className="h-3.5 w-3.5" />
-                  {new Date(selectedBlog.published_at || selectedBlog.createdAt).toLocaleDateString()}
+                  {formatDate(selectedBlog.published_at || selectedBlog.createdAt)}
                 </span>
                 <span className="flex items-center gap-1.5">
                   <Clock className="h-3.5 w-3.5" />
-                  {Math.ceil(selectedBlog.content.length / 1000)} min read
+                  {t("blog.read_time", { count: getReadMinutes(selectedBlog.content) })}
                 </span>
               </div>
               <h1 className="text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6 leading-tight">
@@ -112,17 +118,20 @@ export default function Blog({ theme, changeTheme, lang, changeLanguage }) {
           <div className="animate-in fade-in duration-700">
             <div className="mb-16">
               <h1 className="text-5xl font-bold text-slate-900 dark:text-white mb-4">
-                Thoughts & <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-500">Insights</span>
+                {t("blog.heading_prefix")}{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-500">
+                  {t("blog.heading_highlight")}
+                </span>
               </h1>
               <p className="text-slate-500 dark:text-slate-400 max-w-2xl text-lg">
-                Explore my latest articles on software engineering, technology trends, and personal project updates.
+                {t("blog.subtitle")}
               </p>
             </div>
 
             {blogs.length === 0 ? (
               <div className="text-center py-20 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm">
                 <BookOpen className="h-12 w-12 mx-auto text-slate-300 mb-4" />
-                <p className="text-slate-500">No blog posts found yet.</p>
+                <p className="text-slate-500">{t("blog.empty")}</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 gap-8">
@@ -135,7 +144,7 @@ export default function Blog({ theme, changeTheme, lang, changeLanguage }) {
                     <div className="p-8 flex flex-col h-full">
                       <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-4">
                         <Calendar className="h-3 w-3" />
-                        {new Date(blog.published_at || blog.createdAt).toLocaleDateString()}
+                        {formatDate(blog.published_at || blog.createdAt)}
                       </div>
                       <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4 group-hover:text-blue-600 transition-colors">
                         {blog.title}
@@ -144,7 +153,7 @@ export default function Blog({ theme, changeTheme, lang, changeLanguage }) {
                         {markdownToPlainText(blog.content)}
                       </p>
                       <div className="flex items-center text-xs font-bold uppercase tracking-widest text-slate-900 dark:text-white group-hover:gap-2 transition-all">
-                        Read More
+                        {t("blog.read_more")}
                         <ChevronRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-all" />
                       </div>
                     </div>

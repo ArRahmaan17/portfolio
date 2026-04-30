@@ -73,6 +73,18 @@ i18n
               error_delete: "Failed to delete portfolio",
             },
           },
+          blog: {
+            back: "Back to Blog",
+            heading_prefix: "Thoughts &",
+            heading_highlight: "Insights",
+            subtitle:
+              "Explore my latest articles on software engineering, technology trends, and personal project updates.",
+            empty: "No blog posts found yet.",
+            read_more: "Read More",
+            read_time_one: "{{count}} min read",
+            read_time_other: "{{count}} mins read",
+            error_fetch: "Failed to fetch blogs",
+          },
         },
       },
 
@@ -135,6 +147,18 @@ i18n
               error_save: "Gagal menyimpan portofolio",
               error_delete: "Gagal menghapus portofolio",
             },
+          },
+          blog: {
+            back: "Kembali ke Blog",
+            heading_prefix: "Pemikiran &",
+            heading_highlight: "Wawasan",
+            subtitle:
+              "Jelajahi artikel terbaru saya tentang rekayasa perangkat lunak, tren teknologi, dan pembaruan proyek pribadi.",
+            empty: "Belum ada postingan blog.",
+            read_more: "Baca Selengkapnya",
+            read_time_one: "Waktu baca {{count}} menit",
+            read_time_other: "Waktu baca {{count}} menit",
+            error_fetch: "Gagal mengambil blog",
           },
         },
       },
