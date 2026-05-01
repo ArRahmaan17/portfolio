@@ -44,7 +44,7 @@ const Navbar = (props) => {
   };
 
   const handleSelectLanguage = async (code, isOffCanvas = false) => {
-    sessionStorage.setItem("i18nextLng", code);
+    localStorage.setItem("i18nextLng", code);
     setStateLangDropdown(false);
     if (isOffCanvas) {
       setStateLangOffCanvas(false);
@@ -66,12 +66,17 @@ const Navbar = (props) => {
     await handleSelectTheme(nextTheme, true);
   };
 
+  const desktopNavItemClass =
+    "cursor-pointer text-sm font-semibold leading-6 text-slate-700 transition-colors hover:text-blue-600 dark:text-indigo-100 dark:hover:text-indigo-300";
+  const mobileNavItemClass =
+    "-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-slate-800 transition-colors hover:bg-slate-300 hover:text-black dark:text-indigo-100 dark:hover:bg-slate-800 dark:hover:text-indigo-300";
+
   return (
     <header role="banner" className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${props.classNavbar.includes("bg-transparent") ? "" : "p-4"}`}>
       <nav
         role="navigation"
         id="navbar-menu"
-        className={`flex items-center justify-between px-6 py-3 lg:px-8 transition-all duration-300 ${props.classNavbar}`}
+        className={`flex items-center justify-between px-6 py-3 lg:px-8 transition-all duration-300 ${props.classNavbar} border border-white/10 shadow-lg shadow-black/10`}
         aria-label="Global"
       >
         <div className="flex cursor-pointer lg:flex-1">
@@ -93,7 +98,7 @@ const Navbar = (props) => {
           <button
             onClick={toggleOffCanvas}
             type="button"
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-black dark:text-indigo-400"
+            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-slate-800 dark:text-indigo-300"
           >
             <span className="sr-only">Open main menu</span>
             <svg
@@ -119,7 +124,7 @@ const Navbar = (props) => {
             onClick={() => {
               handleScrollTop();
             }}
-            className="cursor-pointer text-sm font-semibold leading-6 text-black dark:text-indigo-400"
+            className={desktopNavItemClass}
           >
             {t("home")}
           </div>
@@ -128,21 +133,21 @@ const Navbar = (props) => {
               <Link
                 smooth={true}
                 to="stack"
-                className="cursor-pointer text-sm font-semibold leading-6 text-black dark:text-indigo-400"
+                className={desktopNavItemClass}
               >
                 Stack
               </Link>
               <Link
                 smooth={true}
                 to="portfolio"
-                className="cursor-pointer text-sm font-semibold leading-6 text-black dark:text-indigo-400"
+                className={desktopNavItemClass}
               >
                 {t("portfolio")}
               </Link>
               <Link
                 smooth={true}
                 to="contact"
-                className="cursor-pointer text-sm font-semibold leading-6 text-black dark:text-indigo-400"
+                className={desktopNavItemClass}
               >
                 {t("contact")}
               </Link>
@@ -150,14 +155,14 @@ const Navbar = (props) => {
           )}
           <a
             href="/blog"
-            className="cursor-pointer text-sm font-semibold leading-6 text-black dark:text-indigo-400"
+            className={desktopNavItemClass}
           >
             Blog
           </a>
         </div>
         <div className="hidden gap-x-3 lg:flex lg:flex-1 lg:justify-end">
           <div
-            className="cursor-pointer text-sm font-semibold leading-6 text-black dark:text-indigo-400"
+            className="align-middle cursor-pointer rounded-full bg-slate-100/80 px-3 text-sm font-semibold leading-6 text-blue-700 transition-colors hover:bg-slate-200 dark:bg-slate-800/80 dark:text-indigo-300 dark:hover:bg-slate-700"
             onClick={toggleLangDropdown}
           >
             {props.lang.toUpperCase()}
@@ -175,7 +180,7 @@ const Navbar = (props) => {
                 onClick={() => {
                   handleSelectLanguage(code);
                 }}
-                className="block cursor-pointer px-4 py-2 font-semibold text-gray-800 hover:bg-slate-100 dark:text-indigo-400 hover:dark:bg-slate-700 hover:dark:text-indigo-500"
+                className="block cursor-pointer px-4 py-2 font-semibold text-slate-800 hover:bg-slate-100 dark:text-indigo-300 hover:dark:bg-slate-700 hover:dark:text-indigo-300"
                 role="menuitem"
                 tabIndex="-1"
                 key={code}
@@ -185,7 +190,7 @@ const Navbar = (props) => {
             ))}
           </div>
           <div
-            className="cursor-pointer text-sm font-semibold leading-6 text-black dark:text-indigo-400"
+            className="cursor-pointer rounded-full bg-slate-100/80 p-2 text-amber-500 transition-colors hover:bg-slate-200 dark:bg-slate-800/80 dark:text-indigo-300 dark:hover:bg-slate-700"
             onClick={toggleThemeDropdown}
           >
             {props.theme === "Dark" ? <SunMoon /> : <SunDim />}
@@ -203,7 +208,7 @@ const Navbar = (props) => {
                 onClick={() => {
                   handleSelectTheme(label);
                 }}
-                className={`block cursor-pointer px-4 py-2 font-semibold text-gray-800 hover:bg-slate-100 dark:text-indigo-400 hover:dark:bg-slate-700 hover:dark:text-indigo-500`}
+                className="block cursor-pointer px-4 py-2 font-semibold text-slate-800 hover:bg-slate-100 dark:text-indigo-300 hover:dark:bg-slate-700 hover:dark:text-indigo-300"
                 role="menuitem"
                 tabIndex="-1"
                 key={label}
@@ -233,7 +238,7 @@ const Navbar = (props) => {
               <button
                 onClick={toggleOffCanvas}
                 type="button"
-                className="-m-2.5 rounded-md p-2.5 text-black dark:text-indigo-400"
+                className="-m-2.5 rounded-md p-2.5 text-slate-800 dark:text-indigo-300"
               >
                 <span className="sr-only">Close menu</span>
                 <svg
@@ -256,7 +261,7 @@ const Navbar = (props) => {
               <div className="-my-6">
                 <div className="cursor-pointer space-y-2 py-6">
                   <div
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-slate-300 hover:text-black dark:text-indigo-400 dark:hover:bg-indigo-400"
+                    className={mobileNavItemClass}
                     onClick={() => {
                       handleScrollTop();
                       setStateOffCanvas(false);
@@ -269,7 +274,7 @@ const Navbar = (props) => {
                         <Link
                           to="stack"
                           smooth={true}
-                          className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-slate-300 hover:text-black dark:text-indigo-400 dark:hover:bg-indigo-400"
+                          className={mobileNavItemClass}
                           onClick={toggleOffCanvas}
                         >
                           Stack
@@ -277,7 +282,7 @@ const Navbar = (props) => {
                         <Link
                           to="portfolio"
                           smooth={true}
-                          className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-slate-300 hover:text-black dark:text-indigo-400 dark:hover:bg-indigo-400"
+                          className={mobileNavItemClass}
                           onClick={toggleOffCanvas}
                         >
                           Portfolio
@@ -285,7 +290,7 @@ const Navbar = (props) => {
                         <Link
                           to="contact"
                           smooth={true}
-                          className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-slate-300 hover:text-black dark:text-indigo-400 dark:hover:bg-indigo-400"
+                          className={mobileNavItemClass}
                           onClick={toggleOffCanvas}
                         >
                           Contact
@@ -294,13 +299,13 @@ const Navbar = (props) => {
                     )}
                   <a
                     href="/blog"
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-slate-300 hover:text-black dark:text-indigo-400 dark:hover:bg-indigo-400"
+                    className={mobileNavItemClass}
                   >
                     Blog
                   </a>
                   <div
                     onClick={handleToggleMobileTheme}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-slate-300 hover:text-black dark:text-indigo-400 dark:hover:bg-indigo-400"
+                    className="-mx-3 flex items-center gap-2 rounded-lg px-3 py-2 text-base font-semibold leading-7 text-slate-800 transition-colors hover:bg-slate-300 hover:text-black dark:text-indigo-100 dark:hover:bg-slate-800 dark:hover:text-indigo-300"
                   >
                     {props.theme === "Dark" ? <SunMoon /> : <SunDim />}
                     {props.theme ?? "Light"}
@@ -311,7 +316,7 @@ const Navbar = (props) => {
                     onClick={() => {
                       setStateLangOffCanvas((open) => !open);
                     }}
-                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 hover:bg-slate-300 hover:text-black dark:text-indigo-400 dark:hover:bg-indigo-400"
+                    className="-mx-3 block rounded-lg bg-slate-100/80 px-3 py-2.5 text-base font-semibold leading-7 text-blue-700 transition-colors hover:bg-slate-200 dark:bg-slate-800/80 dark:text-indigo-300 dark:hover:bg-slate-700"
                   >
                     {props.lang.toUpperCase()}
                   </div>
@@ -320,7 +325,7 @@ const Navbar = (props) => {
                       onClick={() => {
                         handleSelectLanguage(code, true);
                       }}
-                      className={`${stateLangOffCanvas ? "translate-y-6 opacity-100" : "-translate-y-1/4 opacity-0"} transform px-4 py-2 text-sm text-gray-400 delay-100 duration-500 ease-out hover:rounded-lg hover:bg-slate-300 hover:text-black dark:hover:bg-indigo-400`}
+                      className={`${stateLangOffCanvas ? "translate-y-6 opacity-100" : "-translate-y-1/4 opacity-0"} transform px-4 py-2 text-sm text-slate-500 delay-100 duration-500 ease-out hover:rounded-lg hover:bg-slate-300 hover:text-black dark:text-indigo-300 dark:hover:bg-slate-800 dark:hover:text-indigo-300`}
                       role="menuitem"
                       tabIndex="-1"
                       key={code}

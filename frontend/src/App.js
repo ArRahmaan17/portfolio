@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 import Typed from "typed.js";
+import i18n from "./i18n";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Skill from "./components/Skill";
@@ -76,7 +77,23 @@ function App() {
     const storedTheme = localStorage.getItem("theme");
     return storedTheme === "Dark" ? "Dark" : "Light";
   });
-  let [lang, setLang] = useState(sessionStorage.getItem("i18nextLng") ?? "en");
+  let [lang, setLang] = useState(() => {
+    const storedLang = localStorage.getItem("i18nextLng");
+    return storedLang ?? i18n.resolvedLanguage ?? i18n.language ?? "en";
+  });
+
+  useEffect(() => {
+    const syncLanguage = (nextLanguage) => {
+      setLang(nextLanguage || "en");
+    };
+
+    syncLanguage(i18n.resolvedLanguage || i18n.language);
+    i18n.on("languageChanged", syncLanguage);
+
+    return () => {
+      i18n.off("languageChanged", syncLanguage);
+    };
+  }, []);
 
   const changeLanguage = async (_lang) => {
     setLang(_lang);
