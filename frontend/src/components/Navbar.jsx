@@ -162,7 +162,7 @@ const Navbar = (props) => {
         </div>
         <div className="hidden gap-x-3 lg:flex lg:flex-1 lg:justify-end">
           <div
-            className="align-middle cursor-pointer rounded-full bg-slate-100/80 px-3 text-sm font-semibold leading-6 text-blue-700 transition-colors hover:bg-slate-200 dark:bg-slate-800/80 dark:text-indigo-300 dark:hover:bg-slate-700"
+            className="inline-flex h-10 min-w-14 items-center justify-center rounded-full bg-slate-100/80 px-3 text-sm font-semibold uppercase leading-none text-blue-700 transition-colors hover:bg-slate-200 dark:bg-slate-800/80 dark:text-indigo-300 dark:hover:bg-slate-700"
             onClick={toggleLangDropdown}
           >
             {props.lang.toUpperCase()}
@@ -316,7 +316,7 @@ const Navbar = (props) => {
                     onClick={() => {
                       setStateLangOffCanvas((open) => !open);
                     }}
-                    className="-mx-3 block rounded-lg bg-slate-100/80 px-3 py-2.5 text-base font-semibold leading-7 text-blue-700 transition-colors hover:bg-slate-200 dark:bg-slate-800/80 dark:text-indigo-300 dark:hover:bg-slate-700"
+                    className="-mx-3 flex min-h-11 items-center justify-center rounded-lg bg-slate-100/80 px-3 py-2.5 text-base font-semibold uppercase leading-none text-blue-700 transition-colors hover:bg-slate-200 dark:bg-slate-800/80 dark:text-indigo-300 dark:hover:bg-slate-700"
                   >
                     {props.lang.toUpperCase()}
                   </div>
