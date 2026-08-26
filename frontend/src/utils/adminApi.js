@@ -1,4 +1,4 @@
-import { BLOGS_URL, EMPLOYEES_URL, LOCALIZATIONS_URL, MESSAGES_URL, PORTFOLIOS_URL, SKILLS_URL } from "../constants";
+import { BLOGS_URL, CURRENT_FOCUS_URL, EMPLOYEES_URL, LOCALIZATIONS_URL, MESSAGES_URL, PORTFOLIOS_URL, SKILLS_URL } from "../constants";
 
 export const getAdminToken = () => localStorage.getItem("admin_token") || "";
 
@@ -92,5 +92,11 @@ export const adminApi = {
     create: (token, body) => authJsonFetch(BLOGS_URL, { method: "POST", token, body }),
     update: (token, id, body) => authJsonFetch(`${BLOGS_URL}/${id}`, { method: "PUT", token, body }),
     remove: (token, id) => authJsonFetch(`${BLOGS_URL}/${id}`, { method: "DELETE", token }),
+  },
+  currentFocus: {
+    list: (token) => authJsonFetch(`${CURRENT_FOCUS_URL}/manage`, { token }),
+    create: (token, body) => authJsonFetch(CURRENT_FOCUS_URL, { method: "POST", token, body }),
+    update: (token, id, body) => authJsonFetch(`${CURRENT_FOCUS_URL}/${id}`, { method: "PUT", token, body }),
+    remove: (token, id) => authJsonFetch(`${CURRENT_FOCUS_URL}/${id}`, { method: "DELETE", token }),
   },
 };

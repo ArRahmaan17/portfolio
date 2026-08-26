@@ -33,26 +33,32 @@ function AnimatedContent({
       fade:   { y: 0, x: 0 },
     }[from] ?? { y: 32, x: 0 };
 
-    gsap.set(el, { opacity: 0, ...dir });
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting) return;
-        gsap.to(el, {
-          opacity: 1,
-          x: 0,
-          y: 0,
-          duration,
-          delay,
-          ease: "power3.out",
-        });
+        gsap.fromTo(
+          el,
+          { opacity: 0, ...dir },
+          {
+            opacity: 1,
+            x: 0,
+            y: 0,
+            duration,
+            delay,
+            ease: "power3.out",
+            clearProps: "opacity,transform",
+          }
+        );
         observer.unobserve(el);
       },
       { threshold }
     );
 
     observer.observe(el);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      gsap.killTweensOf(el);
+    };
   }, [from, delay, duration, threshold, prefersReducedMotion]);
 
   return (

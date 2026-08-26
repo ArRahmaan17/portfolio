@@ -9,6 +9,7 @@ const Employee = require("./models/employee.model");
 const Blog = require("./models/blog.model");
 require("./models/localization.model");
 const { syncDefaultLocalizations } = require("./localization/sync-localizations");
+const { syncDefaultCurrentFocuses } = require("./current-focus/sync-current-focuses");
 const { generateEmployees } = require("./utils/faker.util");
 
 const port = Number(process.env.PORT) || 4000;
@@ -41,10 +42,11 @@ async function startServer() {
     await sequelize.authenticate();
     await sequelize.sync();
     await ensureBlogContentColumn();
+    await syncDefaultLocalizations();
+    await syncDefaultCurrentFocuses();
 
     app.listen(port, async () => {
       console.log(`Admin API listening on http://localhost:${port}`);
-      await syncDefaultLocalizations();
       await regenerateEmployees();
 
       cron.schedule(

@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from "react";
 import {
-  Activity, BookOpen, FolderKanban, Languages, LayoutDashboard,
+  Activity, BookOpen, Crosshair, FolderKanban, Languages, LayoutDashboard,
   LogOut, MessagesSquare, Moon, ShieldCheck, Sun, Users, Wrench, Menu,
 } from "lucide-react";
 import { requireAdminToken } from "../../utils/adminApi";
@@ -19,6 +19,7 @@ export default function AdminLayout({ children, theme = "Light", changeTheme }) 
       { href: "/admin/skills",       label: "Skills",       icon: Wrench },
       { href: "/admin/portfolios",   label: "Portfolios",   icon: FolderKanban },
       { href: "/admin/blogs",        label: "Blogs",        icon: BookOpen },
+      { href: "/admin/current-focus",label: "Current focus",icon: Crosshair },
       { href: "/admin/messages",     label: "Messages",     icon: MessagesSquare },
       { href: "/admin/localizations",label: "Localizations",icon: Languages },
       { href: "/admin/employees",    label: "Employees",    icon: Users },
@@ -65,7 +66,7 @@ export default function AdminLayout({ children, theme = "Light", changeTheme }) 
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 px-2 py-4" aria-label="Admin navigation">
+      <nav className="flex-1 overflow-y-auto px-2 py-4" aria-label="Admin navigation">
         <div className="mb-3 flex items-center gap-2 px-2 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">
           <Activity className="h-3.5 w-3.5" />
           Navigation

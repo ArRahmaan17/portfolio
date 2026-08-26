@@ -1,94 +1,106 @@
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-scroll";
+import { ArrowDownRight, MapPin, TerminalSquare } from "lucide-react";
+import AnimatedContent from "./react-bits/AnimatedContent";
 import RotatingText from "./react-bits/RotatingText";
 import SplitText from "./react-bits/SplitText";
-import AnimatedContent from "./react-bits/AnimatedContent";
+import { CURRENT_FOCUS_URL } from "../constants";
 
 const Topography = lazy(() => import("./react-bits/Topography"));
 
-const HeroFallback = ({ isDark }) => (
-  <div
-    className="absolute inset-0 bg-signal-field"
-    style={{ opacity: isDark ? 0.9 : 0.4 }}
-    aria-hidden="true"
-  />
-);
+function HeroFallback({ isDark }) {
+  return <div className={`absolute inset-0 ${isDark ? "bg-[#071020]" : "bg-[#eaf2fb]"}`} aria-hidden="true" />;
+}
 
 export default function Hero({ theme }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isDark = theme === "Dark";
+  const [currentFocuses, setCurrentFocuses] = useState(null);
 
-  const lineColor = isDark ? "#55E6FF" : "#0284c7";
-  const bgColor = isDark ? "#050816" : "#F8FAFC";
+  useEffect(() => {
+    let cancelled = false;
+    const loadCurrentFocuses = async () => {
+      try {
+        const response = await fetch(CURRENT_FOCUS_URL);
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(payload.message || `Failed to fetch current focus (${response.status})`);
+        if (!cancelled) setCurrentFocuses(Array.isArray(payload.currentFocuses) ? payload.currentFocuses : []);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    loadCurrentFocuses();
+    return () => { cancelled = true; };
+  }, []);
+
+  const focusStrings = useMemo(() => {
+    const localeField = (i18n.resolvedLanguage || i18n.language || "en").startsWith("id") ? "title_id" : "title_en";
+    if (currentFocuses === null) {
+      return [t("hero.focuses.0"), t("hero.focuses.1"), t("hero.focuses.2")];
+    }
+    const remoteStrings = currentFocuses.map((focus) => focus[localeField]).filter(Boolean);
+    return remoteStrings.length ? remoteStrings : [t("hero.focuses_empty")];
+  }, [currentFocuses, i18n.language, i18n.resolvedLanguage, t]);
 
   return (
-    <section
-      id="home"
-      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 py-24"
-    >
-      {/* WebGL Topography backdrop – lazy loaded */}
-      <Suspense fallback={<HeroFallback isDark={isDark} />}>
-        <Topography
-          isDark={isDark}
-          color={lineColor}
-          bgColor={bgColor}
-          speed={0.8}
-          linesCount={18.0}
-          className="absolute inset-0 h-full w-full"
-        />
-      </Suspense>
+    <section id="home" className="relative min-h-screen overflow-hidden px-5 pb-14 pt-28 sm:px-8 lg:px-12 lg:pb-10 lg:pt-32">
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(248,250,252,0)_70%,#f8fafc_100%)] dark:bg-[linear-gradient(180deg,rgba(5,8,22,0)_68%,#050816_100%)]" aria-hidden="true" />
 
-      {/* Content */}
-      <AnimatedContent className="relative z-10 mx-auto max-w-4xl text-center" delay={0.1}>
-        {/* Greeting */}
-        <p className="font-mono text-sm font-semibold uppercase tracking-[0.3em] text-cyan-600 dark:text-ion mb-4">
-          {t("im")}
-        </p>
+      <div className="relative mx-auto grid min-h-[calc(100vh-10rem)] max-w-7xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
+        <AnimatedContent className="relative z-10" delay={0.05}>
+          <div className="mb-8 flex flex-wrap items-center gap-3">
+            <span className="status-chip"><span className="status-dot" />{t("hero.available", { defaultValue: "Available for thoughtful work" })}</span>
+            <span className="inline-flex items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
+              <MapPin className="h-3.5 w-3.5" /> Indonesia · UTC+7
+            </span>
+          </div>
 
-        {/* Name */}
-        <h1 className="font-display text-5xl font-bold leading-tight tracking-tight sm:text-7xl lg:text-8xl mb-4 text-slate-900 dark:text-cloud">
-          <SplitText by="word" stagger={0.08} className="signal-gradient">Ardhi Rahmaan</SplitText>
-        </h1>
+          <p className="section-kicker mb-5">{t("hero.eyebrow", { defaultValue: "Full-stack software engineer" })}</p>
+          <h1 className="max-w-4xl font-display text-[clamp(3.4rem,8vw,7.6rem)] font-bold leading-[0.88] tracking-[-0.065em] text-slate-950 dark:text-cloud">
+            <span className="block">Ardhi</span>
+            <SplitText by="word" stagger={0.08} className="signal-gradient">Rahmaan.</SplitText>
+          </h1>
 
-        {/* Role cycling */}
-        <div className="font-display text-2xl font-semibold sm:text-3xl min-h-[2.5rem] mb-8 text-violet-600 dark:text-electric">
-          <RotatingText
-            strings={["Software Engineer", "Full-Stack Developer", "Open Source Enthusiast"]}
-            interval={3000}
-          />
-        </div>
+          <p className="mt-8 max-w-xl font-body text-base leading-8 text-slate-600 dark:text-slate-300 sm:text-lg">
+            {t("hero.summary", { defaultValue: "I design and build dependable web products—from the interface people use to the systems that keep them running." })}
+          </p>
 
-        {/* Short intro */}
-        <p className="font-body mx-auto max-w-xl text-base sm:text-lg leading-relaxed text-slate-700 dark:text-slate-300 mb-12">
-          {t("short_intro")}
-        </p>
+          <div className="mt-10 flex flex-wrap items-center gap-3">
+            <Link to="portfolio" smooth className="primary-action group">
+              {t("hero.view_work", { defaultValue: "Explore selected work" })}
+              <ArrowDownRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
+            </Link>
+            <Link to="contact" smooth className="secondary-action">
+              {t("hero.start_conversation", { defaultValue: "Start a conversation" })}
+            </Link>
+          </div>
+        </AnimatedContent>
 
-        {/* CTAs */}
-        <div className="flex flex-wrap justify-center gap-4">
-          <Link
-            to="portfolio"
-            smooth
-            className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-electric px-7 py-3 font-body text-sm font-semibold text-white shadow-lg shadow-electric/30 transition-all duration-300 hover:bg-violet-600 hover:shadow-violet-500/40 focus-visible:outline-electric"
-          >
-            {t("portfolio")}
-          </Link>
-          <Link
-            to="contact"
-            smooth
-            className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-cyan-500/40 bg-white/80 px-7 py-3 font-body text-sm font-semibold text-cyan-700 backdrop-blur-sm transition-all duration-300 hover:border-cyan-600 hover:bg-cyan-50 focus-visible:outline-cyan-500 dark:border-ion/40 dark:bg-void/20 dark:text-ion dark:hover:border-ion dark:hover:bg-ion/10"
-          >
-            {t("contact")}
-          </Link>
-        </div>
-      </AnimatedContent>
-
-      {/* Scroll indicator */}
-      <div className="absolute bottom-10 left-1/2 z-10 -translate-x-1/2 animate-bounce opacity-70" aria-hidden="true">
-        <div className="h-6 w-px bg-gradient-to-b from-cyan-500 to-transparent dark:from-ion mx-auto" />
-        <div className="mt-1 h-1.5 w-1.5 rounded-full bg-cyan-500 dark:bg-ion mx-auto" />
+        <AnimatedContent from="right" delay={0.15} className="relative min-h-[30rem] lg:min-h-[42rem]">
+          <div className="absolute inset-0 overflow-hidden rounded-[2.5rem] border border-white/70 bg-white/40 shadow-[0_40px_100px_-45px_rgba(15,23,42,0.45)] dark:border-white/10 dark:bg-white/[0.025]">
+            <Suspense fallback={<HeroFallback isDark={isDark} />}>
+              <Topography isDark={isDark} color={isDark ? "#55E6FF" : "#0369A1"} bgColor={isDark ? "#071020" : "#EAF2FB"} speed={0.55} linesCount={20} className="absolute inset-0 h-full w-full" />
+            </Suspense>
+            <div className="absolute inset-0 bg-[linear-gradient(145deg,transparent_35%,rgba(139,92,246,0.18)_100%)]" aria-hidden="true" />
+            <div className="absolute inset-x-5 top-5 flex items-center justify-between rounded-2xl border border-white/30 bg-white/55 px-4 py-3 backdrop-blur-xl dark:border-white/10 dark:bg-void/45">
+              <div className="flex items-center gap-2 font-mono text-[0.68rem] uppercase tracking-[0.16em] text-slate-600 dark:text-slate-300">
+                <TerminalSquare className="h-4 w-4 text-electric dark:text-ion" /> {t("hero.current_focus")}
+              </div>
+              <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_0_5px_rgba(52,211,153,0.12)]" />
+            </div>
+            <div className="absolute inset-x-5 bottom-5 rounded-[1.75rem] border border-white/30 bg-white/70 p-5 backdrop-blur-2xl dark:border-white/10 dark:bg-void/60 sm:p-6">
+              <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">{t("hero.building")}</p>
+              <div className="mt-3 min-h-8 font-display text-xl font-semibold text-slate-900 dark:text-cloud sm:text-2xl">
+                <RotatingText strings={focusStrings} interval={3200} />
+              </div>
+              <div className="mt-5 grid grid-cols-3 border-t border-slate-200/70 pt-4 dark:border-white/10">
+                {["React", "Laravel", "Node.js"].map((item) => <span key={item} className="font-mono text-[0.65rem] uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">{item}</span>)}
+              </div>
+            </div>
+          </div>
+        </AnimatedContent>
       </div>
     </section>
   );
 }
-

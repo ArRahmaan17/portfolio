@@ -14,8 +14,10 @@ import AdminMessages from "./components/admin/AdminMessages";
 import AdminLocalizations from "./components/admin/AdminLocalizations";
 import AdminEmployees from "./components/admin/AdminEmployees";
 import AdminBlogs from "./components/admin/AdminBlogs";
+import AdminCurrentFocus from "./components/admin/AdminCurrentFocus";
 import Blog from "./components/Blog";
 import Maintenance from "./components/Maintenance";
+import Footer from "./components/Footer";
 
 function PublicApp({ theme, changeTheme, lang, changeLanguage }) {
   const [classNavbar, setClassNavbar] = useState("bg-transparent");
@@ -49,6 +51,7 @@ function PublicApp({ theme, changeTheme, lang, changeLanguage }) {
         <Portfolio {...params} />
         <Contact {...params} />
       </main>
+      <Footer />
     </div>
   );
 }
@@ -110,6 +113,9 @@ function App() {
   }
   if (path === "/admin/blogs") {
     return <div className={themeClass}><AdminLayout changeTheme={changeTheme} theme={theme}><AdminBlogs /></AdminLayout></div>;
+  }
+  if (path === "/admin/current-focus") {
+    return <div className={themeClass}><AdminLayout changeTheme={changeTheme} theme={theme}><AdminCurrentFocus /></AdminLayout></div>;
   }
   if (path === "/blog" || path.startsWith("/blog/")) {
     return <div className={themeClass}><Blog changeTheme={changeTheme} theme={theme} lang={lang} changeLanguage={changeLanguage} /></div>;

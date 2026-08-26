@@ -1,7 +1,8 @@
 import i18n from "i18next";
 import I18nextBrowserLanguageDetector from "i18next-browser-languagedetector";
 import { initReactI18next } from "react-i18next";
-import moment from "moment/min/moment-with-locales";
+import moment from "moment";
+import "moment/locale/id";
 import { LOCALIZATIONS_URL } from "./constants/api";
 i18n
   .use(I18nextBrowserLanguageDetector)
@@ -30,6 +31,38 @@ i18n
           short_intro: `I am a software engineer with ${moment("2022-05").locale("en").fromNow(true)} of experience, specializing in building scalable and maintainable applications that solve real-world problems. I am passionate about software development and continuously stay updated with modern technologies and industry best practices. My goal is to deliver high-quality software that exceeds expectations, whether working independently or as part of a collaborative team. I thrive in innovative environments and am constantly improving my technical and problem-solving skills.`,
           short_contact:
             "Feel free to reach out for any inquiries or collaboration opportunities.",
+          hero: {
+            available: "Available for thoughtful work",
+            eyebrow: "Full-stack software engineer",
+            summary: "I design and build dependable web products—from the interface people use to the systems that keep them running.",
+            view_work: "Explore selected work",
+            start_conversation: "Start a conversation",
+            current_focus: "Current focus",
+            building: "Building across the stack",
+            focuses: ["Product interfaces", "Reliable APIs", "Maintainable systems"],
+            focuses_empty: "Exploring the next useful problem",
+          },
+          stack_section: {
+            title: "Tools are useful. Judgment makes them matter.",
+            description: "I work across product interfaces, backend services, and delivery—choosing technology around the problem, not the trend.",
+            empty: "The live technology list is temporarily unavailable.",
+            capabilities: {
+              interfaces: ["Interfaces", "Responsive React experiences with clear interaction and accessible states."],
+              applications: ["Applications", "Maintainable backends, data flows, authentication, and integrations."],
+              delivery: ["Delivery", "Practical architecture, containers, and release-minded engineering."],
+            },
+          },
+          portfolio_section: {
+            title: "Work shaped around real constraints.",
+            description: "Selected products and experiments spanning operations, communication, commerce, and developer tooling.",
+          },
+          contact_section: {
+            title: "Let’s make the next useful thing.",
+            name_placeholder: "How should I address you?",
+            message_placeholder: "Tell me about the problem, the people using it, and what success looks like.",
+            sending: "Sending…",
+            error: "The message could not be sent. Please try again.",
+          },
           name: "Full Name",
           email: "Email Address",
           message: "Your Message",
@@ -105,6 +138,38 @@ i18n
           short_intro: `Saya adalah seorang software engineer dengan pengalaman ${moment("2022-05").locale("id").fromNow(true)}, yang berfokus pada pengembangan aplikasi yang scalable dan mudah dipelihara untuk menyelesaikan permasalahan nyata. Saya memiliki ketertarikan besar dalam pengembangan perangkat lunak dan selalu mengikuti perkembangan teknologi serta praktik terbaik industri. Tujuan saya adalah menghasilkan perangkat lunak berkualitas tinggi yang mampu melampaui ekspektasi, baik bekerja secara mandiri maupun dalam tim. Saya berkembang di lingkungan yang inovatif dan terus meningkatkan kemampuan teknis serta pemecahan masalah saya.`,
           short_contact:
             "Silakan hubungi saya untuk pertanyaan atau peluang kerja sama.",
+          hero: {
+            available: "Terbuka untuk proyek yang bermakna",
+            eyebrow: "Software engineer full-stack",
+            summary: "Saya merancang dan membangun produk web yang andal—dari antarmuka yang digunakan orang hingga sistem yang menjaganya tetap berjalan.",
+            view_work: "Lihat karya pilihan",
+            start_conversation: "Mulai percakapan",
+            current_focus: "Fokus saat ini",
+            building: "Membangun di seluruh stack",
+            focuses: ["Antarmuka produk", "API yang andal", "Sistem terpelihara"],
+            focuses_empty: "Mengeksplorasi masalah berguna berikutnya",
+          },
+          stack_section: {
+            title: "Teknologi itu berguna. Pertimbangan membuatnya berarti.",
+            description: "Saya bekerja pada antarmuka produk, layanan backend, dan delivery—memilih teknologi berdasarkan masalah, bukan tren.",
+            empty: "Daftar teknologi langsung sedang tidak tersedia.",
+            capabilities: {
+              interfaces: ["Antarmuka", "Pengalaman React responsif dengan interaksi jelas dan state yang aksesibel."],
+              applications: ["Aplikasi", "Backend, alur data, autentikasi, dan integrasi yang mudah dipelihara."],
+              delivery: ["Delivery", "Arsitektur praktis, container, dan engineering yang siap dirilis."],
+            },
+          },
+          portfolio_section: {
+            title: "Karya yang dibentuk oleh kebutuhan nyata.",
+            description: "Pilihan produk dan eksperimen untuk operasional, komunikasi, perdagangan, dan alat pengembang.",
+          },
+          contact_section: {
+            title: "Mari membuat hal berguna berikutnya.",
+            name_placeholder: "Bagaimana saya sebaiknya menyapa Anda?",
+            message_placeholder: "Ceritakan masalahnya, siapa penggunanya, dan seperti apa hasil yang diharapkan.",
+            sending: "Mengirim…",
+            error: "Pesan tidak dapat dikirim. Silakan coba lagi.",
+          },
           name: "Nama Lengkap",
           email: "Alamat Email",
           message: "Pesan Anda",

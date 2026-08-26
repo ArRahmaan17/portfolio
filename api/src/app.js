@@ -20,6 +20,7 @@ const JWT_EXCLUDED_PATHS = [
   { url: /^\/api\/localizations(\/.*)?$/, methods: ["GET"] },
   { url: /^\/api\/portfolios(\/.*)?$/, methods: ["GET"] },
   { url: /^\/api\/skills(\/.*)?$/, methods: ["GET"] },
+  { url: /^\/api\/current-focus(?:\/\d+)?\/?$/, methods: ["GET"] },
   { url: /^\/api\/messages(\/.*)?$/, methods: ["POST"] },
 ];
 
