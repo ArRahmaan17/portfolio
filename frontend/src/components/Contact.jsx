@@ -48,7 +48,7 @@ export default function Contact() {
 
           <div className="mt-12 border-t border-slate-200 pt-6 dark:border-white/10">
             <p className="font-mono text-[0.68rem] uppercase tracking-[0.16em] text-slate-400">See the code</p>
-            <a href="https://github.com/ArRahmaan17" target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex items-center gap-2 font-display text-lg font-semibold text-slate-900 transition hover:text-electric dark:text-cloud dark:hover:text-ion">
+            <a href="https://github.com/ArRahmaan17" target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex items-center gap-2 font-display text-lg font-semibold text-slate-900 transition hover:text-primary dark:text-cloud">
               <Github className="h-4 w-4" /> github.com/ArRahmaan17 <ArrowUpRight className="h-4 w-4" />
             </a>
           </div>
@@ -73,7 +73,7 @@ export default function Contact() {
               </label>
 
               <ElectricBorder radius="1rem">
-                <button type="submit" disabled={loading} id="contact-submit" className="flex w-full items-center justify-center gap-2 rounded-2xl bg-electric px-6 py-3.5 font-body text-sm font-semibold text-white shadow-lg shadow-electric/25 transition hover:bg-violet-500 disabled:cursor-not-allowed disabled:opacity-60">
+                <button type="submit" disabled={loading} id="contact-submit" className="flex w-full items-center justify-center gap-2 rounded-2xl bg-primary px-6 py-3.5 font-body text-sm font-semibold text-primary-contrast shadow-lg shadow-primary/25 transition hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-60">
                   <Send className="h-4 w-4" />{loading ? t("contact_section.sending", { defaultValue: "Sending…" }) : t("send")}
                 </button>
               </ElectricBorder>

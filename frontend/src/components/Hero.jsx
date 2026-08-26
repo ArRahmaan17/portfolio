@@ -67,7 +67,7 @@ export default function Hero({ theme, currentFocuses }) {
             <div className="absolute inset-0 bg-[linear-gradient(145deg,transparent_35%,rgba(139,92,246,0.18)_100%)]" aria-hidden="true" />
             <div className="absolute inset-x-5 top-5 flex items-center justify-between rounded-2xl border border-white/30 bg-white/55 px-4 py-3 backdrop-blur-xl dark:border-white/10 dark:bg-void/45">
               <div className="flex items-center gap-2 font-mono text-[0.68rem] uppercase tracking-[0.16em] text-slate-600 dark:text-slate-300">
-                <TerminalSquare className="h-4 w-4 text-electric dark:text-ion" /> {t("hero.current_focus")}
+                <TerminalSquare className="h-4 w-4 text-primary" /> {t("hero.current_focus")}
               </div>
               <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_0_5px_rgba(52,211,153,0.12)]" />
             </div>

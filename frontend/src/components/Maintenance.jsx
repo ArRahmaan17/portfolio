@@ -51,7 +51,7 @@ export default function Maintenance() {
           {/* Aside */}
           <aside className="glass-panel p-6 sm:p-8 border-white/10 dark:bg-panel/80">
             <div className="flex items-center gap-3">
-              <div className="grid h-12 w-12 place-items-center rounded-2xl bg-electric text-white">
+              <div className="grid h-12 w-12 place-items-center rounded-2xl bg-primary text-primary-contrast">
                 <Wrench className="h-5 w-5" />
               </div>
               <div>

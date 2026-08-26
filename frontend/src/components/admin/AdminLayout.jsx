@@ -46,7 +46,7 @@ export default function AdminLayout({ children, theme = "Light", changeTheme }) 
       <div className="border-b border-slate-200/80 px-5 py-5 dark:border-white/10">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className="grid h-11 w-11 place-items-center rounded-2xl bg-electric text-white shadow-lg shadow-electric/30">
+            <div className="grid h-11 w-11 place-items-center rounded-2xl bg-primary text-primary-contrast shadow-lg shadow-primary/30">
               <ShieldCheck className="h-5 w-5" />
             </div>
             <div>
@@ -80,13 +80,13 @@ export default function AdminLayout({ children, theme = "Light", changeTheme }) 
                 href={href}
                 className={`flex items-center gap-3 rounded-2xl px-4 py-3 font-body text-sm font-medium transition-all ${
                   active
-                    ? "bg-electric text-white shadow-lg shadow-electric/25"
+                    ? "bg-primary text-primary-contrast shadow-lg shadow-primary/25"
                     : "text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-white/10"
                 }`}
               >
                 <Icon className="h-4 w-4 shrink-0" />
                 <span>{label}</span>
-                {active && <div className="ml-auto h-1.5 w-1.5 rounded-full bg-ion animate-electric-pulse" />}
+                {active && <div className="ml-auto h-1.5 w-1.5 rounded-full bg-primary-contrast animate-electric-pulse" />}
               </a>
             );
           })}
@@ -100,13 +100,13 @@ export default function AdminLayout({ children, theme = "Light", changeTheme }) 
           onClick={handleToggleTheme}
           className="flex w-full items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2.5 font-body text-sm font-semibold transition hover:bg-white dark:border-white/10 dark:bg-white/5 dark:text-cloud dark:hover:bg-white/10"
         >
-          {isDark ? <Sun className="h-4 w-4 text-ion" /> : <Moon className="h-4 w-4 text-electric" />}
+          {isDark ? <Sun className="h-4 w-4 text-primary" /> : <Moon className="h-4 w-4 text-primary" />}
           {isDark ? "Light mode" : "Dark mode"}
         </button>
         <button
           type="button"
           onClick={handleLogout}
-          className="flex w-full items-center justify-center gap-2 rounded-2xl bg-electric px-4 py-2.5 font-body text-sm font-semibold text-white shadow-sm shadow-electric/20 transition hover:bg-violet-500"
+          className="flex w-full items-center justify-center gap-2 rounded-2xl bg-primary px-4 py-2.5 font-body text-sm font-semibold text-primary-contrast shadow-sm shadow-primary/20 transition hover:bg-primary-hover"
         >
           <LogOut className="h-4 w-4" />
           Logout
@@ -154,10 +154,10 @@ export default function AdminLayout({ children, theme = "Light", changeTheme }) 
                 onClick={handleToggleTheme}
                 className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1 font-mono text-xs font-semibold transition hover:bg-slate-50 dark:border-white/10 dark:bg-white/10 dark:text-cloud"
               >
-                {isDark ? <Sun className="h-3.5 w-3.5 text-ion" /> : <Moon className="h-3.5 w-3.5 text-electric" />}
+                {isDark ? <Sun className="h-3.5 w-3.5 text-primary" /> : <Moon className="h-3.5 w-3.5 text-primary" />}
                 {isDark ? "Light" : "Dark"}
               </button>
-              <div className="rounded-full bg-electric px-3 py-1 font-mono text-xs font-semibold text-white">
+              <div className="rounded-full bg-primary px-3 py-1 font-mono text-xs font-semibold text-primary-contrast">
                 Secure
               </div>
             </div>

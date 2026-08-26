@@ -62,8 +62,8 @@ function ProjectCard({ project, featured = false }) {
         </div>
         <div className={`flex flex-1 flex-col ${featured ? "p-2 lg:p-5" : "px-2 pb-2 pt-5"}`}>
           <div className="flex items-start justify-between gap-4">
-            <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-electric dark:text-ion">{featured ? "Featured system" : "Selected project"}</p>
-            {project.link ? <ExternalLink className="h-4 w-4 shrink-0 text-slate-400 transition group-hover:text-electric" /> : null}
+            <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-primary">{featured ? "Featured system" : "Selected project"}</p>
+            {project.link ? <ExternalLink className="h-4 w-4 shrink-0 text-slate-400 transition group-hover:text-primary" /> : null}
           </div>
           <h3 className={`${featured ? "mt-8 text-3xl lg:text-4xl" : "mt-4 text-xl"} font-display font-semibold leading-tight tracking-tight text-slate-950 dark:text-cloud`}>{project.name}</h3>
           {project.description ? <p className={`${featured ? "mt-5 text-base leading-7" : "mt-3 text-sm leading-6"} font-body text-slate-600 dark:text-slate-400`}>{project.description}</p> : null}
@@ -115,7 +115,7 @@ export default function Portfolio() {
 
   return (
     <section id="portfolio" className="section-shell relative overflow-hidden">
-      <div className="pointer-events-none absolute right-[-10rem] top-24 h-[32rem] w-[32rem] rounded-full bg-electric/10 blur-3xl dark:bg-electric/10" aria-hidden="true" />
+      <div className="pointer-events-none absolute right-[-10rem] top-24 h-[32rem] w-[32rem] rounded-full bg-primary/10 blur-3xl" aria-hidden="true" />
       <div className="relative mx-auto max-w-7xl">
         <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
           <SectionHeading eyebrow={t("portfolio")} title={t("portfolio_section.title", { defaultValue: "Work shaped around real constraints." })} description={t("portfolio_section.description", { defaultValue: "Selected products and experiments spanning operations, communication, commerce, and developer tooling." })} />

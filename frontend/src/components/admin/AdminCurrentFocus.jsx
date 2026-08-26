@@ -111,7 +111,7 @@ export default function AdminCurrentFocus() {
     }
   };
 
-  const fieldClass = "w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 font-body text-sm text-slate-900 outline-none transition focus:border-electric focus:bg-white dark:border-white/10 dark:bg-white/5 dark:text-cloud dark:focus:border-ion dark:focus:bg-white/10";
+  const fieldClass = "w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 font-body text-sm text-slate-900 outline-none transition focus:border-primary focus:bg-white dark:border-white/10 dark:bg-white/5 dark:text-cloud dark:focus:bg-white/10";
 
   return (
     <div className="space-y-6 font-body">
@@ -135,7 +135,7 @@ export default function AdminCurrentFocus() {
           <SpotlightCard className="border border-slate-200/70 p-5 dark:border-white/10 sm:p-6" spotlightColor="rgba(139,92,246,0.10)">
             <div className="flex items-center justify-between gap-3">
               <div><p className="section-kicker">Editor</p><h2 className="mt-2 font-display text-xl font-semibold text-slate-900 dark:text-cloud">{editingId ? "Edit phrase" : "Add phrase"}</h2></div>
-              <div className="grid h-11 w-11 place-items-center rounded-2xl bg-electric/10 text-electric dark:text-ion">{editingId ? <Edit3 className="h-5 w-5" /> : <Plus className="h-5 w-5" />}</div>
+              <div className="grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary">{editingId ? <Edit3 className="h-5 w-5" /> : <Plus className="h-5 w-5" />}</div>
             </div>
             <form onSubmit={handleSubmit} className="mt-6 space-y-4">
               <label className="block"><span className="mb-2 block font-mono text-[0.65rem] uppercase tracking-[0.16em] text-slate-500">Key</span><input className={fieldClass} name="key" value={form.key} onChange={handleChange} placeholder="product-interfaces" /></label>

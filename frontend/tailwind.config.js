@@ -11,6 +11,9 @@ module.exports = {
         electric: '#8B5CF6',
         plasma:   '#D946EF',
         cloud:    '#E8EEF9',
+        primary: 'rgb(var(--color-primary) / <alpha-value>)',
+        'primary-hover': 'rgb(var(--color-primary-hover) / <alpha-value>)',
+        'primary-contrast': 'rgb(var(--color-primary-contrast) / <alpha-value>)',
       },
       fontFamily: {
         display: ['Sora', 'ui-sans-serif', 'system-ui', 'sans-serif'],
@@ -57,6 +60,7 @@ module.exports = {
     'from-ion', 'to-electric', 'to-plasma',
     'text-ion', 'text-electric', 'text-plasma', 'text-cloud',
     'border-ion', 'border-electric', 'border-plasma',
+    'bg-primary', 'text-primary', 'border-primary', 'text-primary-contrast',
   ],
   plugins: [],
 }

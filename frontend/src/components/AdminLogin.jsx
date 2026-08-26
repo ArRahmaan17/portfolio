@@ -44,7 +44,7 @@ export default function AdminLogin({ theme = "Light", changeTheme }) {
   };
 
   const inputClass =
-    "w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 font-body text-sm text-slate-950 outline-none transition focus:border-electric focus:bg-white dark:border-white/10 dark:bg-white/5 dark:text-cloud dark:placeholder:text-slate-500 dark:focus:border-ion dark:focus:bg-white/10";
+    "w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 font-body text-sm text-slate-950 outline-none transition focus:border-primary focus:bg-white dark:border-white/10 dark:bg-white/5 dark:text-cloud dark:placeholder:text-slate-500 dark:focus:bg-white/10";
 
   return (
     <div className="min-h-screen overflow-hidden bg-cloud/20 dark:bg-void px-6 py-8">
@@ -54,7 +54,7 @@ export default function AdminLogin({ theme = "Light", changeTheme }) {
         <div className="glass-panel p-8 bg-white/80 dark:bg-panel/80 border-white/20 dark:border-white/10 shadow-2xl shadow-slate-300/20 dark:shadow-black/40">
           {/* Header */}
           <div className="flex items-center gap-3 mb-8">
-            <div className="grid h-12 w-12 place-items-center rounded-2xl bg-electric text-white shadow-lg shadow-electric/30">
+            <div className="grid h-12 w-12 place-items-center rounded-2xl bg-primary text-primary-contrast shadow-lg shadow-primary/30">
               <Sparkles className="h-5 w-5" />
             </div>
             <div className="flex-grow">
@@ -116,7 +116,7 @@ export default function AdminLogin({ theme = "Light", changeTheme }) {
               type="submit"
               id="admin-login-submit"
               disabled={loading}
-              className="mt-2 inline-flex items-center justify-center rounded-2xl bg-electric px-4 py-3 font-body text-sm font-semibold text-white shadow-lg shadow-electric/30 transition hover:bg-violet-500 disabled:cursor-not-allowed disabled:opacity-60"
+              className="mt-2 inline-flex items-center justify-center rounded-2xl bg-primary px-4 py-3 font-body text-sm font-semibold text-primary-contrast shadow-lg shadow-primary/30 transition hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-60"
             >
               {loading ? "Signing in…" : "Enter dashboard"}
             </button>

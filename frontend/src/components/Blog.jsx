@@ -110,11 +110,11 @@ export default function Blog({ theme, changeTheme, lang, changeLanguage }) {
                   <button key={blog.id} onClick={() => openBlog(blog)} className="group grid w-full gap-5 py-8 text-left transition sm:grid-cols-[3rem_1fr_auto] sm:items-start">
                     <span className="font-mono text-[0.66rem] text-slate-400">{String(index + 1).padStart(2, "0")}</span>
                     <span>
-                      <span className="font-display text-2xl font-semibold tracking-tight text-slate-900 transition group-hover:text-electric dark:text-cloud dark:group-hover:text-ion">{blog.title}</span>
+                      <span className="font-display text-2xl font-semibold tracking-tight text-slate-900 transition group-hover:text-primary dark:text-cloud">{blog.title}</span>
                       <span className="mt-3 block max-w-2xl font-body text-sm leading-6 text-slate-600 dark:text-slate-400">{markdownToPlainText(blog.content).slice(0, 180)}{markdownToPlainText(blog.content).length > 180 ? "…" : ""}</span>
                       <span className="mt-4 flex gap-4 font-mono text-[0.62rem] uppercase tracking-[0.12em] text-slate-400"><span>{formatDate(blog.published_at || blog.createdAt)}</span><span>{getReadMinutes(blog.content)} min</span></span>
                     </span>
-                    <span className="icon-action group-hover:border-electric group-hover:text-electric"><ArrowUpRight className="h-4 w-4" /></span>
+                    <span className="icon-action group-hover:border-primary group-hover:text-primary"><ArrowUpRight className="h-4 w-4" /></span>
                   </button>
                 ))}
               </AnimatedContent>

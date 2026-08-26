@@ -51,7 +51,7 @@ export default function Skill({ lang }) {
           <AnimatedContent from="right" className="grid gap-px overflow-hidden rounded-[2rem] border border-slate-200 bg-slate-200 dark:border-white/10 dark:bg-white/10 sm:grid-cols-3">
             {capabilities.map(({ icon: Icon, title, copy }) => (
               <SpotlightCard key={title} className="rounded-none border-0 p-5 sm:p-6" spotlightColor="rgba(85,230,255,0.12)">
-                <Icon className="h-5 w-5 text-electric dark:text-ion" />
+                <Icon className="h-5 w-5 text-primary" />
                 <h3 className="mt-8 font-display text-lg font-semibold text-slate-900 dark:text-cloud">{title}</h3>
                 <p className="mt-2 font-body text-sm leading-6 text-slate-600 dark:text-slate-400">{copy}</p>
               </SpotlightCard>

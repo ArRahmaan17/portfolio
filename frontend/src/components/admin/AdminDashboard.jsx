@@ -60,7 +60,7 @@ export default function AdminDashboard() {
             <div className="pointer-events-none absolute inset-0 -z-10 bg-signal-field opacity-30 dark:opacity-60" aria-hidden="true" />
             <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
               <div className="max-w-2xl">
-                <div className="inline-flex items-center gap-2 rounded-full border border-slate-200/70 bg-white/80 px-3 py-1 font-mono text-xs font-semibold uppercase tracking-[0.24em] text-electric backdrop-blur dark:border-white/10 dark:bg-panel/80 dark:text-ion">
+                <div className="inline-flex items-center gap-2 rounded-full border border-slate-200/70 bg-white/80 px-3 py-1 font-mono text-xs font-semibold uppercase tracking-[0.24em] text-primary backdrop-blur dark:border-white/10 dark:bg-panel/80">
                   <ShieldCheck className="h-3.5 w-3.5" />
                   Admin overview
                 </div>
@@ -95,7 +95,7 @@ export default function AdminDashboard() {
                   <div className="mt-3 font-display text-4xl font-bold dark:text-cloud text-slate-900">{loading ? "—" : value}</div>
                   <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{description}</p>
                 </div>
-                <div className="grid h-11 w-11 place-items-center rounded-2xl border border-white/10 bg-electric/10 text-electric dark:text-ion">
+                <div className="grid h-11 w-11 place-items-center rounded-2xl border border-white/10 bg-primary/10 text-primary">
                   <Icon className="h-5 w-5" />
                 </div>
               </div>
@@ -145,7 +145,7 @@ export default function AdminDashboard() {
                   {recentMessages.map((msg) => (
                     <div
                       key={msg.id}
-                      className="rounded-2xl border border-slate-200 bg-slate-50 p-4 transition hover:border-electric/40 dark:border-white/10 dark:bg-white/5 dark:hover:border-ion/30"
+                      className="rounded-2xl border border-slate-200 bg-slate-50 p-4 transition hover:border-primary/40 dark:border-white/10 dark:bg-white/5"
                     >
                       <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                         <div className="min-w-0">
@@ -178,7 +178,7 @@ export default function AdminDashboard() {
                 <a
                   key={label}
                   href={href}
-                  className="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm font-medium transition hover:border-electric/40 hover:bg-white dark:border-white/10 dark:bg-white/5 dark:text-cloud dark:hover:border-ion/30 dark:hover:bg-white/10"
+                  className="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm font-medium transition hover:border-primary/40 hover:bg-white dark:border-white/10 dark:bg-white/5 dark:text-cloud dark:hover:bg-white/10"
                 >
                   <span>{label}</span>
                   <ArrowRight className="h-4 w-4 text-slate-400 transition-transform group-hover:translate-x-1" />
@@ -186,8 +186,8 @@ export default function AdminDashboard() {
               ))}
             </div>
 
-            <div className="mt-6 rounded-2xl bg-electric/10 dark:bg-electric/5 border border-electric/20 p-4">
-              <div className="flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-[0.18em] text-electric dark:text-ion">
+            <div className="mt-6 rounded-2xl border border-primary/20 bg-primary/10 p-4 dark:bg-primary/5">
+              <div className="flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-[0.18em] text-primary">
                 <Sparkles className="h-4 w-4" />
                 Focus
               </div>
