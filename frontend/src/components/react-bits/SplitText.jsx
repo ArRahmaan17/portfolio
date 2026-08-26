@@ -1,9 +1,9 @@
 /**
  * SplitText – Character/word-level entrance animation using GSAP.
  * Vendored from React Bits (free JS/Tailwind variant).
- * Modified for: React VDOM purity, reduced-motion, gradient text inheritance.
+ * Modified for: React VDOM purity, reduced-motion, individual unit gradient clipping.
  *
- * Attribution: reactbits.dev  /  MIT licence
+ * Attribution: reactbits.dev / MIT licence
  */
 import { useEffect, useRef, memo } from "react";
 import { gsap } from "gsap";
@@ -55,17 +55,17 @@ function SplitText({
   }
 
   return (
-    <Tag ref={containerRef} className={`inline-block ${className}`}>
+    <Tag ref={containerRef} className="inline-block">
       {units.map((unit, i) => {
         if (unit === " ") {
           return (
-            <span key={i} className="split-unit inline-block">
+            <span key={i} className={`split-unit inline-block ${className}`}>
               &nbsp;
             </span>
           );
         }
         return (
-          <span key={i} className="split-unit inline-block">
+          <span key={i} className={`split-unit inline-block ${className}`}>
             {by === "word" && i < units.length - 1 ? unit + "\u00A0" : unit}
           </span>
         );

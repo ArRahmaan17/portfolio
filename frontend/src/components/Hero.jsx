@@ -5,7 +5,7 @@ import RotatingText from "./react-bits/RotatingText";
 import SplitText from "./react-bits/SplitText";
 import AnimatedContent from "./react-bits/AnimatedContent";
 
-const Aurora = lazy(() => import("./react-bits/Aurora"));
+const Topography = lazy(() => import("./react-bits/Topography"));
 
 const HeroFallback = ({ isDark }) => (
   <div
@@ -19,23 +19,22 @@ export default function Hero({ theme }) {
   const { t } = useTranslation();
   const isDark = theme === "Dark";
 
-  const auroraColors = isDark
-    ? ["#55E6FF", "#8B5CF6", "#D946EF"] // ion, electric, plasma
-    : ["#0284c7", "#7c3aed", "#c026d3"]; // cyan-600, violet-600, magenta-600
+  const lineColor = isDark ? "#55E6FF" : "#0284c7";
+  const bgColor = isDark ? "#050816" : "#F8FAFC";
 
   return (
     <section
       id="home"
       className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 py-24"
     >
-      {/* WebGL Soft Aurora backdrop – lazy loaded */}
+      {/* WebGL Topography backdrop – lazy loaded */}
       <Suspense fallback={<HeroFallback isDark={isDark} />}>
-        <Aurora
+        <Topography
           isDark={isDark}
-          colorStops={auroraColors}
-          speed={1.0}
-          amplitude={1.0}
-          blend={0.8}
+          color={lineColor}
+          bgColor={bgColor}
+          speed={0.8}
+          linesCount={18.0}
           className="absolute inset-0 h-full w-full"
         />
       </Suspense>

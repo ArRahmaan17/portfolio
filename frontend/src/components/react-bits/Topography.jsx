@@ -1,7 +1,7 @@
 /**
- * Aurora – WebGL Soft Aurora mesh gradient backdrop.
+ * Topography – WebGL Topographic contour lines background component.
  * Vendored from React Bits (free JS/Tailwind variant).
- * Modified for: GLSL ES 1.00 driver compatibility, custom colorStops, light/dark mode, reduced-motion, IntersectionObserver pause.
+ * Modified for: custom line & bg colors, light/dark mode support, reduced-motion, IntersectionObserver pause.
  *
  * Attribution: reactbits.dev / MIT licence
  */
@@ -25,10 +25,10 @@ precision mediump float;
 
   uniform float uTime;
   uniform vec2  uResolution;
-  uniform vec3  uColorStops[3];
+  uniform vec3  uColor;
+  uniform vec3  uBgColor;
   uniform float uSpeed;
-  uniform float uAmplitude;
-  uniform float uBlend;
+  uniform float uLinesCount;
   uniform float uDark;
 
   varying vec2 vUv;
@@ -64,25 +64,19 @@ precision mediump float;
   }
 
   void main() {
-    vec2 uv = vUv;
-    float time = uTime * uSpeed * 0.0004;
+    vec2 st = (gl_FragCoord.xy - 0.5 * uResolution.xy) / min(uResolution.x, uResolution.y);
+    float t = uTime * uSpeed * 0.0003;
 
-    float n1 = snoise(uv * 1.8 + vec2(time * 0.7, time * 0.4));
-    float n2 = snoise(uv * 2.5 - vec2(time * 0.3, time * 0.6));
+    float n = snoise(st * 2.2 + vec2(t * 0.4, t * 0.25)) * 0.5 + 0.5;
+    n += snoise(st * 4.5 - vec2(t * 0.15, t * 0.35)) * 0.25;
 
-    float wave  = sin(uv.x * 5.0 + n1 * uAmplitude + time) * 0.5 + 0.5;
-    float wave2 = cos(uv.y * 3.5 + n2 * uAmplitude - time * 0.7) * 0.5 + 0.5;
+    float lines = sin(n * uLinesCount * 3.14159);
+    float lineMask = pow(clamp(1.0 - abs(lines), 0.0, 1.0), 7.0);
 
-    float factor = mix(wave, wave2, 0.5);
+    float alpha = mix(0.2, 0.45, uDark);
+    vec3 finalColor = mix(uBgColor, uColor, lineMask * alpha);
 
-    vec3 col = mix(uColorStops[0], uColorStops[1], factor);
-    col = mix(col, uColorStops[2], sin(factor * 3.14159) * uBlend);
-
-    // Alpha intensity & dark/light surface integration
-    float alpha = mix(0.15, 0.45, uDark) * (0.6 + 0.4 * factor);
-    vec3 bg = mix(vec3(0.97, 0.98, 0.99), vec3(0.02, 0.03, 0.08), uDark);
-
-    gl_FragColor = vec4(mix(bg, col, alpha), 1.0);
+    gl_FragColor = vec4(finalColor, 1.0);
   }
 `;
 
@@ -102,9 +96,7 @@ function compileShader(gl, type, src) {
   gl.compileShader(sh);
   if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) {
     const log = gl.getShaderInfoLog(sh);
-    if (log) {
-      console.warn("Aurora shader compile log:", log);
-    }
+    if (log) console.warn("Topography shader compile log:", log);
     gl.deleteShader(sh);
     return null;
   }
@@ -122,9 +114,7 @@ function createProgram(gl, vertSrc, fragSrc) {
   gl.linkProgram(prog);
   if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
     const log = gl.getProgramInfoLog(prog);
-    if (log) {
-      console.warn("Aurora program link log:", log);
-    }
+    if (log) console.warn("Topography program link log:", log);
     gl.deleteProgram(prog);
     return null;
   }
@@ -143,11 +133,11 @@ function StaticFallback({ isDark }) {
   );
 }
 
-function AuroraCanvas({
-  colorStops,
+function TopographyCanvas({
+  color,
+  bgColor,
   speed,
-  amplitude,
-  blend,
+  linesCount,
   isDark,
 }) {
   const canvasRef = useRef(null);
@@ -193,14 +183,14 @@ function AuroraCanvas({
       gl.STATIC_DRAW
     );
 
-    const posLoc   = gl.getAttribLocation(program, "a_position");
-    const timeLoc  = gl.getUniformLocation(program, "uTime");
-    const resLoc   = gl.getUniformLocation(program, "uResolution");
-    const stopsLoc = gl.getUniformLocation(program, "uColorStops");
-    const speedLoc = gl.getUniformLocation(program, "uSpeed");
-    const ampLoc   = gl.getUniformLocation(program, "uAmplitude");
-    const blendLoc = gl.getUniformLocation(program, "uBlend");
-    const darkLoc  = gl.getUniformLocation(program, "uDark");
+    const posLoc      = gl.getAttribLocation(program, "a_position");
+    const timeLoc     = gl.getUniformLocation(program, "uTime");
+    const resLoc      = gl.getUniformLocation(program, "uResolution");
+    const colorLoc    = gl.getUniformLocation(program, "uColor");
+    const bgColorLoc  = gl.getUniformLocation(program, "uBgColor");
+    const speedLoc    = gl.getUniformLocation(program, "uSpeed");
+    const linesLoc    = gl.getUniformLocation(program, "uLinesCount");
+    const darkLoc     = gl.getUniformLocation(program, "uDark");
 
     const resize = () => {
       canvas.width  = canvas.clientWidth || 300;
@@ -224,17 +214,10 @@ function AuroraCanvas({
 
       gl.uniform1f(timeLoc, t);
       gl.uniform2f(resLoc, canvas.width, canvas.height);
-
-      const rgbArray = new Float32Array([
-        ...hexToRgb(colorStops[0]),
-        ...hexToRgb(colorStops[1]),
-        ...hexToRgb(colorStops[2]),
-      ]);
-      gl.uniform3fv(stopsLoc, rgbArray);
-
+      gl.uniform3fv(colorLoc, new Float32Array(hexToRgb(color)));
+      gl.uniform3fv(bgColorLoc, new Float32Array(hexToRgb(bgColor)));
       gl.uniform1f(speedLoc, speed);
-      gl.uniform1f(ampLoc, amplitude);
-      gl.uniform1f(blendLoc, blend);
+      gl.uniform1f(linesLoc, linesCount);
       gl.uniform1f(darkLoc, isDark ? 1.0 : 0.0);
 
       gl.drawArrays(gl.TRIANGLES, 0, 3);
@@ -263,7 +246,7 @@ function AuroraCanvas({
         if (ext) ext.loseContext();
       } catch (e) {}
     };
-  }, [colorStops, speed, amplitude, blend, isDark]);
+  }, [color, bgColor, speed, linesCount, isDark]);
 
   if (failed) {
     return <StaticFallback isDark={isDark} />;
@@ -278,11 +261,11 @@ function AuroraCanvas({
   );
 }
 
-function Aurora({
-  colorStops = ["#55E6FF", "#8B5CF6", "#D946EF"],
-  speed = 1.0,
-  amplitude = 1.0,
-  blend = 0.8,
+function Topography({
+  color = "#55E6FF",
+  bgColor = "#050816",
+  speed = 0.8,
+  linesCount = 18.0,
   isDark = false,
   children,
   className = "",
@@ -299,11 +282,11 @@ function Aurora({
   return (
     <div className={`relative isolate overflow-hidden ${className}`}>
       {useWebGL ? (
-        <AuroraCanvas
-          colorStops={colorStops}
+        <TopographyCanvas
+          color={color}
+          bgColor={bgColor}
           speed={speed}
-          amplitude={amplitude}
-          blend={blend}
+          linesCount={linesCount}
           isDark={isDark}
         />
       ) : (
@@ -314,4 +297,4 @@ function Aurora({
   );
 }
 
-export default memo(Aurora);
+export default memo(Topography);
