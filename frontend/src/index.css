@@ -122,12 +122,18 @@
 
   /* Signal gradient (used by hero section / page headings) */
   .signal-gradient {
-    background: var(--color-ion);
+    background: linear-gradient(135deg, #0284c7 0%, #7c3aed 50%, #c026d3 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .dark .signal-gradient {
     background: linear-gradient(135deg, var(--color-ion) 0%, var(--color-electric) 50%, var(--color-plasma) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+
 
   /* Premium gradient (kept for backward-compat with admin pages) */
   .premium-gradient {

@@ -1,7 +1,7 @@
 /**
  * SplitText – Character/word-level entrance animation using GSAP.
  * Vendored from React Bits (free JS/Tailwind variant).
- * Modified for: reduced-motion support.
+ * Modified for: React VDOM purity, reduced-motion, gradient text inheritance.
  *
  * Attribution: reactbits.dev  /  MIT licence
  */
@@ -13,50 +13,63 @@ function SplitText({
   className = "",
   tag: Tag = "span",
   delay = 0,
-  stagger = 0.03,
-  by = "word",  /* "char" | "word" */
+  stagger = 0.025,
+  by = "char", /* "char" | "word" */
 }) {
-  const wrapRef = useRef(null);
+  const containerRef = useRef(null);
   const prefersReducedMotion =
     typeof window !== "undefined" &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  const rawText = typeof children === "string" ? children : String(children || "");
+  const text = rawText.replace(/\s+/g, " ").trim();
+  const units = by === "char" ? Array.from(text) : text.split(" ");
+
   useEffect(() => {
-    const el = wrapRef.current;
+    const el = containerRef.current;
     if (!el || prefersReducedMotion) return;
 
-    /* Split text into spans */
-    const text = el.textContent || "";
-    const parts = by === "char" ? [...text] : text.split(" ").filter(Boolean);
-
-    el.textContent = "";
-    const spans = parts.map((part, i) => {
-      const s = document.createElement("span");
-      s.style.display = "inline-block";
-      s.style.opacity = "0";
-      s.style.transform = "translateY(20px)";
-      s.textContent = by === "word" && i < parts.length - 1 ? part + "\u00A0" : part;
-      el.appendChild(s);
-      return s;
-    });
+    const targets = el.querySelectorAll(".split-unit");
+    if (!targets.length) return;
 
     const ctx = gsap.context(() => {
-      gsap.to(spans, {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        stagger,
-        delay,
-        ease: "power3.out",
-      });
-    });
+      gsap.fromTo(
+        targets,
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          stagger,
+          delay,
+          ease: "power3.out",
+        }
+      );
+    }, containerRef);
 
     return () => ctx.revert();
-  }, [children, by, delay, stagger, prefersReducedMotion]);
+  }, [text, by, delay, stagger, prefersReducedMotion]);
+
+  if (prefersReducedMotion) {
+    return <Tag className={className}>{text}</Tag>;
+  }
 
   return (
-    <Tag ref={wrapRef} className={className}>
-      {children}
+    <Tag ref={containerRef} className={`inline-block ${className}`}>
+      {units.map((unit, i) => {
+        if (unit === " ") {
+          return (
+            <span key={i} className="split-unit inline-block">
+              &nbsp;
+            </span>
+          );
+        }
+        return (
+          <span key={i} className="split-unit inline-block">
+            {by === "word" && i < units.length - 1 ? unit + "\u00A0" : unit}
+          </span>
+        );
+      })}
     </Tag>
   );
 }
