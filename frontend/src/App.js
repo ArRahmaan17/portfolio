@@ -18,9 +18,24 @@ import AdminCurrentFocus from "./components/admin/AdminCurrentFocus";
 import Blog from "./components/Blog";
 import Maintenance from "./components/Maintenance";
 import Footer from "./components/Footer";
+import { CURRENT_FOCUS_URL } from "./constants";
+
+const CURRENT_FOCUS_CACHE_KEY = "portfolio_current_focus";
+
+function readCurrentFocusCache() {
+  try {
+    const cached = sessionStorage.getItem(CURRENT_FOCUS_CACHE_KEY);
+    if (!cached) return null;
+    const parsed = JSON.parse(cached);
+    return Array.isArray(parsed) ? parsed : null;
+  } catch (_error) {
+    return null;
+  }
+}
 
 function PublicApp({ theme, changeTheme, lang, changeLanguage }) {
   const [classNavbar, setClassNavbar] = useState("bg-transparent");
+  const [currentFocuses, setCurrentFocuses] = useState(readCurrentFocusCache);
 
   useEffect(() => {
     const headerOffscreen = () => {
@@ -32,6 +47,31 @@ function PublicApp({ theme, changeTheme, lang, changeLanguage }) {
     };
     window.addEventListener("scroll", headerOffscreen);
     return () => window.removeEventListener("scroll", headerOffscreen);
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadCurrentFocuses = async () => {
+      try {
+        const response = await fetch(CURRENT_FOCUS_URL);
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error(payload.message || `Failed to fetch current focus (${response.status})`);
+        }
+
+        const nextFocuses = Array.isArray(payload.currentFocuses) ? payload.currentFocuses : [];
+        if (!cancelled) {
+          setCurrentFocuses(nextFocuses);
+          sessionStorage.setItem(CURRENT_FOCUS_CACHE_KEY, JSON.stringify(nextFocuses));
+        }
+      } catch (_error) {
+        // Keep the cached or translated fallback content when the public API is unavailable.
+      }
+    };
+
+    loadCurrentFocuses();
+    return () => { cancelled = true; };
   }, []);
 
   const params = {
@@ -46,7 +86,7 @@ function PublicApp({ theme, changeTheme, lang, changeLanguage }) {
     <div className="select-none flex flex-col font-body">
       <Navbar {...params} />
       <main role="main">
-        <Hero theme={theme} />
+        <Hero theme={theme} currentFocuses={currentFocuses} />
         <Skill {...params} />
         <Portfolio {...params} />
         <Contact {...params} />

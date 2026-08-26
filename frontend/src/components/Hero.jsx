@@ -1,11 +1,10 @@
-import { Suspense, lazy, useEffect, useMemo, useState } from "react";
+import { Suspense, lazy, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-scroll";
 import { ArrowDownRight, MapPin, TerminalSquare } from "lucide-react";
 import AnimatedContent from "./react-bits/AnimatedContent";
 import RotatingText from "./react-bits/RotatingText";
 import SplitText from "./react-bits/SplitText";
-import { CURRENT_FOCUS_URL } from "../constants";
 
 const Topography = lazy(() => import("./react-bits/Topography"));
 
@@ -13,26 +12,9 @@ function HeroFallback({ isDark }) {
   return <div className={`absolute inset-0 ${isDark ? "bg-[#071020]" : "bg-[#eaf2fb]"}`} aria-hidden="true" />;
 }
 
-export default function Hero({ theme }) {
+export default function Hero({ theme, currentFocuses }) {
   const { t, i18n } = useTranslation();
   const isDark = theme === "Dark";
-  const [currentFocuses, setCurrentFocuses] = useState(null);
-
-  useEffect(() => {
-    let cancelled = false;
-    const loadCurrentFocuses = async () => {
-      try {
-        const response = await fetch(CURRENT_FOCUS_URL);
-        const payload = await response.json().catch(() => ({}));
-        if (!response.ok) throw new Error(payload.message || `Failed to fetch current focus (${response.status})`);
-        if (!cancelled) setCurrentFocuses(Array.isArray(payload.currentFocuses) ? payload.currentFocuses : []);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    loadCurrentFocuses();
-    return () => { cancelled = true; };
-  }, []);
 
   const focusStrings = useMemo(() => {
     const localeField = (i18n.resolvedLanguage || i18n.language || "en").startsWith("id") ? "title_id" : "title_en";
