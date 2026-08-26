@@ -1,50 +1,85 @@
+import { Suspense, lazy } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-scroll";
+import RotatingText from "./react-bits/RotatingText";
+import SplitText from "./react-bits/SplitText";
+import AnimatedContent from "./react-bits/AnimatedContent";
 
-const Hero = (props) => {
+const DarkVeil = lazy(() => import("./react-bits/DarkVeil"));
+
+const HeroFallback = ({ isDark }) => (
+  <div
+    className="absolute inset-0 bg-signal-field"
+    style={{ opacity: isDark ? 1 : 0.4 }}
+    aria-hidden="true"
+  />
+);
+
+export default function Hero({ theme }) {
   const { t } = useTranslation();
+  const isDark = theme === "Dark";
 
   return (
-    <div class="dark:bg-black">
-      <div className="relative isolate mx-50 max-w-auto md:mx-20 md:py-16 lg:mx-5 px-6 py-16 lg:px-8 lg:py-56">
-        <div
-          className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
-          aria-hidden="true"
-        >
-          <div
-            className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
-            style={props.customStyle}
-          ></div>
-        </div>
-        <div className="mx-auto max-w-4xl py-32 sm:py-48 lg:py-56">
-          <div className="text-left lg:text-center">
-            <h1 className="text-lg font-bold sm:text-2xl dark:text-gray-100">
-              {t("im")}
-            </h1>
-            <div className="flex justify-start lg:justify-center min-h-16 mt-2">
-              <h1
-                className="text-2xl font-bold text-rose-600 dark:text-indigo-500 sm:text-5xl"
-                ref={props.node}
-              >
-                {""}
-              </h1>
-            </div>
-            <p className="text-sm text-md mt-2 leading-8 sm:text-sm/9 dark:text-gray-100">
-              {t("short_intro")}
-            </p>
-          </div>
-        </div>
-        <div
-          className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
-          aria-hidden="true"
-        >
-          <div
-            className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
-            style={props.customStyle}
-          ></div>
-        </div>
-      </div>
-    </div>
-  );
-};
+    <section
+      id="home"
+      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 py-24"
+    >
+      {/* WebGL backdrop – lazy loaded */}
+      <Suspense fallback={<HeroFallback isDark={isDark} />}>
+        <DarkVeil isDark={isDark} className="absolute inset-0 h-full w-full" />
+      </Suspense>
 
-export default Hero;
+      {/* Content */}
+      <AnimatedContent className="relative z-10 mx-auto max-w-4xl text-center" delay={0.1}>
+        {/* Greeting */}
+        <p className="font-mono text-sm font-medium uppercase tracking-[0.3em] text-ion mb-4">
+          {t("im")}
+        </p>
+
+        {/* Name */}
+        <h1 className="font-display text-5xl font-bold leading-tight tracking-tight sm:text-7xl lg:text-8xl dark:text-cloud text-slate-900 mb-4">
+          <SplitText by="char" stagger={0.025} className="signal-gradient">
+            Ardhi Rahmaan
+          </SplitText>
+        </h1>
+
+        {/* Role cycling (replaces typed.js) */}
+        <div className="font-display text-2xl font-semibold sm:text-3xl min-h-[2.5rem] mb-8 text-electric dark:text-electric">
+          <RotatingText
+            strings={["Software Engineer", "Full-Stack Developer", "Open Source Enthusiast"]}
+            interval={3000}
+          />
+        </div>
+
+        {/* Short intro */}
+        <p className="font-body mx-auto max-w-xl text-base sm:text-lg leading-relaxed text-slate-600 dark:text-slate-300 mb-12">
+          {t("short_intro")}
+        </p>
+
+        {/* CTAs */}
+        <div className="flex flex-wrap justify-center gap-4">
+          <Link
+            to="portfolio"
+            smooth
+            className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-electric px-7 py-3 font-body text-sm font-semibold text-white shadow-lg shadow-electric/30 transition-all duration-300 hover:bg-violet-500 hover:shadow-violet-400/40 focus-visible:outline-electric"
+          >
+            {t("portfolio")}
+          </Link>
+          <Link
+            to="contact"
+            smooth
+            className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-ion/40 bg-white/10 px-7 py-3 font-body text-sm font-semibold text-ion backdrop-blur-sm transition-all duration-300 hover:border-ion hover:bg-ion/10 focus-visible:outline-ion dark:bg-void/20"
+          >
+            {t("contact")}
+          </Link>
+        </div>
+      </AnimatedContent>
+
+      {/* Scroll indicator */}
+      <div className="absolute bottom-10 left-1/2 z-10 -translate-x-1/2 animate-bounce opacity-50" aria-hidden="true">
+        <div className="h-6 w-px bg-gradient-to-b from-ion to-transparent mx-auto" />
+        <div className="mt-1 h-1.5 w-1.5 rounded-full bg-ion mx-auto" />
+      </div>
+    </section>
+  );
+}

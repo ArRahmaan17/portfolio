@@ -3,7 +3,8 @@ import { Link, animateScroll as scroll } from "react-scroll";
 import { LANGUAGES, themes } from "../constants";
 import { useTranslation } from "react-i18next";
 import logo from "../assets/logo.webp";
-import { SunDim, SunMoon } from "lucide-react";
+import { SunDim, SunMoon, X, Menu } from "lucide-react";
+import PillNav from "./react-bits/PillNav";
 
 const Navbar = (props) => {
   const { i18n, t } = useTranslation();
@@ -21,9 +22,7 @@ const Navbar = (props) => {
     await props.changeTheme(_theme);
   };
 
-  const toggleOffCanvas = () => {
-    setStateOffCanvas((open) => !open);
-  };
+  const toggleOffCanvas = () => setStateOffCanvas((open) => !open);
 
   const handleScrollTop = () => {
     if (window.location.pathname !== "/") {
@@ -55,9 +54,7 @@ const Navbar = (props) => {
 
   const handleSelectTheme = async (label, closeOffCanvas = false) => {
     setStateThemeDropdown(false);
-    if (closeOffCanvas) {
-      setStateOffCanvas(false);
-    }
+    if (closeOffCanvas) setStateOffCanvas(false);
     await changeTheme(label);
   };
 
@@ -66,274 +63,168 @@ const Navbar = (props) => {
     await handleSelectTheme(nextTheme, true);
   };
 
-  const desktopNavItemClass =
-    "cursor-pointer text-sm font-semibold leading-6 text-slate-700 transition-colors hover:text-blue-600 dark:text-indigo-100 dark:hover:text-indigo-300";
-  const mobileNavItemClass =
-    "-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-slate-800 transition-colors hover:bg-slate-300 hover:text-black dark:text-indigo-100 dark:hover:bg-slate-800 dark:hover:text-indigo-300";
+  const navLinkClass =
+    "cursor-pointer font-body text-sm font-semibold leading-6 text-slate-700 transition-colors duration-200 hover:text-electric dark:text-slate-200 dark:hover:text-ion px-3 py-1.5 rounded-full hover:bg-electric/10 dark:hover:bg-ion/10";
+
+  const mobileItemClass =
+    "-mx-3 block cursor-pointer rounded-xl px-3 py-2.5 font-body text-base font-semibold leading-7 text-slate-800 transition-colors hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10";
 
   return (
-    <header role="banner" className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${props.classNavbar.includes("bg-transparent") ? "" : "p-4"}`}>
-      <nav
-        role="navigation"
-        id="navbar-menu"
-        className={`flex items-center justify-between px-6 py-3 lg:px-8 transition-all duration-300 ${props.classNavbar} border border-white/10 shadow-lg shadow-black/10`}
-        aria-label="Global"
-      >
-        <div className="flex cursor-pointer lg:flex-1">
-          <div
-            onClick={() => {
-              handleScrollTop();
-            }}
-            className="-m-1.5 p-1.5"
+    <header role="banner" className="fixed inset-x-0 top-0 z-50">
+      <div className={`mx-auto px-4 transition-all duration-300 ${props.classNavbar.includes("bg-transparent") ? "pt-4 max-w-7xl" : "pt-3 max-w-6xl"}`}>
+        <PillNav className="w-full justify-between">
+          {/* Logo */}
+          <button
+            onClick={handleScrollTop}
+            className="cursor-pointer p-1 -m-1 rounded-full focus-visible:ring-2 focus-visible:ring-ion"
+            aria-label="Go to top"
           >
             <img
-              fetchPriority="high"
-              className="h-12 lg:h-16 w-auto grayscale-0 hover:grayscale-0 dark:grayscale"
+              fetchpriority="high"
+              className="h-10 w-auto dark:grayscale hover:dark:grayscale-0 transition-all duration-300"
               src={logo}
               alt="logo"
             />
+          </button>
+
+          {/* Desktop nav links */}
+          <div className="hidden lg:flex lg:items-center lg:gap-1">
+            <div onClick={handleScrollTop} className={navLinkClass}>{t("home")}</div>
+            {window.location.pathname === "/" && (
+              <>
+                <Link smooth to="stack" className={navLinkClass}>Stack</Link>
+                <Link smooth to="portfolio" className={navLinkClass}>{t("portfolio")}</Link>
+                <Link smooth to="contact" className={navLinkClass}>{t("contact")}</Link>
+              </>
+            )}
+            <a href="/blog" className={navLinkClass}>Blog</a>
           </div>
-        </div>
-        <div className="flex lg:hidden">
+
+          {/* Desktop controls */}
+          <div className="hidden lg:flex lg:items-center lg:gap-2">
+            {/* Language picker */}
+            <div className="relative">
+              <button
+                onClick={toggleLangDropdown}
+                className="inline-flex h-8 min-w-12 items-center justify-center rounded-full bg-slate-100/80 px-3 font-mono text-xs font-semibold uppercase text-electric transition hover:bg-slate-200 dark:bg-white/10 dark:text-ion dark:hover:bg-white/20"
+                aria-label="Language selector"
+                aria-expanded={stateLangDropdown}
+              >
+                {props.lang.toUpperCase()}
+              </button>
+              {stateLangDropdown && (
+                <div className="absolute right-0 mt-2 w-40 rounded-2xl border border-white/10 bg-white/90 py-1 shadow-xl backdrop-blur-xl dark:bg-panel/90">
+                  {LANGUAGES.map(({ code, label }) => (
+                    <button
+                      key={code}
+                      onClick={() => handleSelectLanguage(code)}
+                      className="block w-full px-4 py-2 text-left font-body text-sm font-semibold text-slate-800 hover:text-electric dark:text-slate-200 dark:hover:text-ion hover:bg-slate-50 dark:hover:bg-white/10 transition"
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Theme toggle */}
+            <div className="relative">
+              <button
+                onClick={toggleThemeDropdown}
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100/80 text-amber-500 transition hover:bg-slate-200 dark:bg-white/10 dark:text-ion dark:hover:bg-white/20"
+                aria-label="Toggle theme"
+                aria-expanded={stateThemeDropdown}
+              >
+                {props.theme === "Dark" ? <SunMoon className="h-4 w-4" /> : <SunDim className="h-4 w-4" />}
+              </button>
+              {stateThemeDropdown && (
+                <div className="absolute right-0 mt-2 w-40 rounded-2xl border border-white/10 bg-white/90 py-1 shadow-xl backdrop-blur-xl dark:bg-panel/90">
+                  {themes.map(({ icon, label }) => (
+                    <button
+                      key={label}
+                      onClick={() => handleSelectTheme(label)}
+                      className="flex w-full items-center gap-2 px-4 py-2 font-body text-sm font-semibold text-slate-800 hover:text-electric dark:text-slate-200 dark:hover:text-ion hover:bg-slate-50 dark:hover:bg-white/10 transition"
+                    >
+                      {icon} {label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Mobile hamburger */}
           <button
             onClick={toggleOffCanvas}
             type="button"
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-slate-800 dark:text-indigo-300"
+            className="flex lg:hidden h-8 w-8 items-center justify-center rounded-full bg-slate-100/80 text-slate-700 transition hover:bg-slate-200 dark:bg-white/10 dark:text-slate-200 dark:hover:bg-white/20"
+            aria-label="Open menu"
           >
-            <span className="sr-only">Open main menu</span>
-            <svg
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-              />
-            </svg>
+            <Menu className="h-4 w-4" />
           </button>
-        </div>
-        <div
-          className={`hidden p-5 transition-all duration-300 ease-in-out lg:flex lg:gap-x-12`}
-        >
-          <div
-            onClick={() => {
-              handleScrollTop();
-            }}
-            className={desktopNavItemClass}
-          >
-            {t("home")}
-          </div>
-          {window.location.pathname === "/" && (
-            <>
-              <Link
-                smooth={true}
-                to="stack"
-                className={desktopNavItemClass}
-              >
-                Stack
-              </Link>
-              <Link
-                smooth={true}
-                to="portfolio"
-                className={desktopNavItemClass}
-              >
-                {t("portfolio")}
-              </Link>
-              <Link
-                smooth={true}
-                to="contact"
-                className={desktopNavItemClass}
-              >
-                {t("contact")}
-              </Link>
-            </>
-          )}
-          <a
-            href="/blog"
-            className={desktopNavItemClass}
-          >
-            Blog
-          </a>
-        </div>
-        <div className="hidden gap-x-3 lg:flex lg:flex-1 lg:justify-end">
-          <div
-            className="inline-flex h-10 min-w-14 items-center justify-center rounded-full bg-slate-100/80 px-3 text-sm font-semibold uppercase leading-none text-blue-700 transition-colors hover:bg-slate-200 dark:bg-slate-800/80 dark:text-indigo-300 dark:hover:bg-slate-700"
-            onClick={toggleLangDropdown}
-          >
-            {props.lang.toUpperCase()}
-          </div>
-          {/* dropdown */}
-          <div
-            className={`right-6 z-10 mt-8 ${stateLangDropdown ? "absolute" : "hidden"} ${props.classNavbar} w-48 origin-top-left rounded-md py-1 shadow-md shadow-slate-200/15 ring-1 ring-black ring-opacity-5 hover:outline-none`}
-            role="menu"
-            aria-orientation="vertical"
-            aria-labelledby="user-menu-button"
-            tabIndex="-1"
-          >
-            {LANGUAGES.map(({ code, label }) => (
-              <div
-                onClick={() => {
-                  handleSelectLanguage(code);
-                }}
-                className="block cursor-pointer px-4 py-2 font-semibold text-slate-800 hover:bg-slate-100 dark:text-indigo-300 hover:dark:bg-slate-700 hover:dark:text-indigo-300"
-                role="menuitem"
-                tabIndex="-1"
-                key={code}
-              >
-                {label}
-              </div>
-            ))}
-          </div>
-          <div
-            className="cursor-pointer rounded-full bg-slate-100/80 p-2 text-amber-500 transition-colors hover:bg-slate-200 dark:bg-slate-800/80 dark:text-indigo-300 dark:hover:bg-slate-700"
-            onClick={toggleThemeDropdown}
-          >
-            {props.theme === "Dark" ? <SunMoon /> : <SunDim />}
-          </div>
-          {/* dropdown */}
-          <div
-            className={`right-6 z-10 mt-8 ${stateThemeDropdown ? "absolute" : "hidden"} ${props.classNavbar} w-48 origin-top-left rounded-md py-1 shadow-md shadow-slate-200/15 ring-1 ring-black ring-opacity-5 hover:outline-none`}
-            role="menu"
-            aria-orientation="vertical"
-            aria-labelledby="user-menu-button"
-            tabIndex="-1"
-          >
-            {themes.map(({ icon, label }) => (
-              <div
-                onClick={() => {
-                  handleSelectTheme(label);
-                }}
-                className="block cursor-pointer px-4 py-2 font-semibold text-slate-800 hover:bg-slate-100 dark:text-indigo-300 hover:dark:bg-slate-700 hover:dark:text-indigo-300"
-                role="menuitem"
-                tabIndex="-1"
-                key={label}
-              >
-                <div className="flex gap-x-1">
-                  {icon} {label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </nav>
-      {/* offcanvas */}
+        </PillNav>
+      </div>
+
+      {/* Mobile off-canvas */}
       {stateOffCanvas && (
-        <div
-          id="offcanvas-menu"
-          className="lg:hidden transition-all delay-0 duration-300"
-          role="dialog"
-          aria-modal="true"
-        >
-          <div className="fixed inset-0 z-50"></div>
-          <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 dark:bg-black">
-            <div className="flex items-center justify-between">
-              <button className="-m-1.5 cursor-default p-1.5 opacity-100 sm:opacity-0">
-                <img className="h-8 w-auto" src={logo} alt="logo"></img>
-              </button>
+        <div id="offcanvas-menu" className="lg:hidden" role="dialog" aria-modal="true" aria-label="Mobile menu">
+          <div className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm" onClick={toggleOffCanvas} />
+          <div className="fixed inset-y-0 right-0 z-50 w-72 overflow-y-auto bg-white/95 px-6 py-6 shadow-2xl backdrop-blur-xl dark:bg-void/95">
+            <div className="flex items-center justify-between mb-8">
+              <img className="h-8 w-auto dark:grayscale" src={logo} alt="logo" />
               <button
                 onClick={toggleOffCanvas}
-                type="button"
-                className="-m-2.5 rounded-md p-2.5 text-slate-800 dark:text-indigo-300"
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-700 transition hover:bg-slate-200 dark:bg-white/10 dark:text-slate-200 dark:hover:bg-white/20"
+                aria-label="Close menu"
               >
-                <span className="sr-only">Close menu</span>
-                <svg
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
+                <X className="h-4 w-4" />
               </button>
             </div>
-            <div className="mt-6 flow-root">
-              <div className="-my-6">
-                <div className="cursor-pointer space-y-2 py-6">
-                  <div
-                    className={mobileNavItemClass}
-                    onClick={() => {
-                      handleScrollTop();
-                      setStateOffCanvas(false);
-                    }}
+
+            <nav className="space-y-1">
+              <button
+                onClick={() => { handleScrollTop(); setStateOffCanvas(false); }}
+                className={mobileItemClass}
+              >
+                {t("home")}
+              </button>
+              {window.location.pathname === "/" && (
+                <>
+                  <Link to="stack" smooth className={mobileItemClass} onClick={toggleOffCanvas}>Stack</Link>
+                  <Link to="portfolio" smooth className={mobileItemClass} onClick={toggleOffCanvas}>{t("portfolio")}</Link>
+                  <Link to="contact" smooth className={mobileItemClass} onClick={toggleOffCanvas}>{t("contact")}</Link>
+                </>
+              )}
+              <a href="/blog" className={mobileItemClass}>Blog</a>
+
+              {/* Theme toggle */}
+              <button
+                onClick={handleToggleMobileTheme}
+                className="-mx-3 flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 font-body text-base font-semibold leading-7 text-slate-800 transition hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10"
+              >
+                {props.theme === "Dark" ? <SunMoon className="h-5 w-5" /> : <SunDim className="h-5 w-5" />}
+                {props.theme ?? "Light"} mode
+              </button>
+            </nav>
+
+            {/* Language section */}
+            <div className="mt-6 pt-6 border-t border-slate-200 dark:border-white/10">
+              <button
+                onClick={() => setStateLangOffCanvas((o) => !o)}
+                className="w-full rounded-xl bg-slate-100/80 py-2.5 font-mono text-sm font-semibold uppercase tracking-widest text-electric transition hover:bg-slate-200 dark:bg-white/10 dark:text-ion dark:hover:bg-white/20"
+              >
+                {props.lang.toUpperCase()}
+              </button>
+              <div className={`transition-all duration-300 overflow-hidden ${stateLangOffCanvas ? "max-h-32 mt-2" : "max-h-0"}`}>
+                {LANGUAGES.map(({ code, label }) => (
+                  <button
+                    key={code}
+                    onClick={() => handleSelectLanguage(code, true)}
+                    className="block w-full px-4 py-2 text-left font-body text-sm text-slate-600 transition hover:text-electric dark:text-slate-300 dark:hover:text-ion hover:bg-slate-50 dark:hover:bg-white/10 rounded-xl"
                   >
-                    Home
-                  </div>
-                    {window.location.pathname === "/" && (
-                      <>
-                        <Link
-                          to="stack"
-                          smooth={true}
-                          className={mobileNavItemClass}
-                          onClick={toggleOffCanvas}
-                        >
-                          Stack
-                        </Link>
-                        <Link
-                          to="portfolio"
-                          smooth={true}
-                          className={mobileNavItemClass}
-                          onClick={toggleOffCanvas}
-                        >
-                          Portfolio
-                        </Link>
-                        <Link
-                          to="contact"
-                          smooth={true}
-                          className={mobileNavItemClass}
-                          onClick={toggleOffCanvas}
-                        >
-                          Contact
-                        </Link>
-                      </>
-                    )}
-                  <a
-                    href="/blog"
-                    className={mobileNavItemClass}
-                  >
-                    Blog
-                  </a>
-                  <div
-                    onClick={handleToggleMobileTheme}
-                    className="-mx-3 flex items-center gap-2 rounded-lg px-3 py-2 text-base font-semibold leading-7 text-slate-800 transition-colors hover:bg-slate-300 hover:text-black dark:text-indigo-100 dark:hover:bg-slate-800 dark:hover:text-indigo-300"
-                  >
-                    {props.theme === "Dark" ? <SunMoon /> : <SunDim />}
-                    {props.theme ?? "Light"}
-                  </div>
-                </div>
-                <div className="cursor-pointer pt-3">
-                  <div
-                    onClick={() => {
-                      setStateLangOffCanvas((open) => !open);
-                    }}
-                    className="-mx-3 flex min-h-11 items-center justify-center rounded-lg bg-slate-100/80 px-3 py-2.5 text-base font-semibold uppercase leading-none text-blue-700 transition-colors hover:bg-slate-200 dark:bg-slate-800/80 dark:text-indigo-300 dark:hover:bg-slate-700"
-                  >
-                    {props.lang.toUpperCase()}
-                  </div>
-                  {LANGUAGES.map(({ code, label }) => (
-                    <div
-                      onClick={() => {
-                        handleSelectLanguage(code, true);
-                      }}
-                      className={`${stateLangOffCanvas ? "translate-y-6 opacity-100" : "-translate-y-1/4 opacity-0"} transform px-4 py-2 text-sm text-slate-500 delay-100 duration-500 ease-out hover:rounded-lg hover:bg-slate-300 hover:text-black dark:text-indigo-300 dark:hover:bg-slate-800 dark:hover:text-indigo-300`}
-                      role="menuitem"
-                      tabIndex="-1"
-                      key={code}
-                    >
-                      {label}
-                    </div>
-                  ))}
-                </div>
+                    {label}
+                  </button>
+                ))}
               </div>
             </div>
           </div>

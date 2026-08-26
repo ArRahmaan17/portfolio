@@ -2,3 +2,11 @@
 .vscode
 .idea
 .codex
+
+# Ignore planning / context / audit markdown files
+*PLAN*.md
+*plan*.md
+*CONTEXT*.md
+*context*.md
+*AUDIT*.md
+*audit*.md

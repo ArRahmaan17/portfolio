@@ -2,11 +2,14 @@ import { useTranslation } from "react-i18next";
 import moment from "moment/min/moment-with-locales";
 import { useEffect, useState } from "react";
 import { SKILLS_URL } from "../constants";
- import { API_BASE_URL } from "../constants/api";
+import { API_BASE_URL } from "../constants/api";
+import AnimatedContent from "./react-bits/AnimatedContent";
+import SpotlightCard from "./react-bits/SpotlightCard";
 
-const Skill = (props) => {
+export default function Skill({ lang }) {
   const { t } = useTranslation();
   const [skills, setSkills] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
@@ -15,87 +18,85 @@ const Skill = (props) => {
       try {
         const response = await fetch(SKILLS_URL);
         const payload = await response.json().catch(() => ({}));
-        if (!response.ok) {
-          throw new Error(payload.message || `Failed to fetch skills (${response.status})`);
-        }
-
-        const nextSkills = Array.isArray(payload.skills) ? payload.skills : [];
-        if (!cancelled) {
-          setSkills(nextSkills);
-        }
+        if (!response.ok) throw new Error(payload.message || `Failed to fetch skills (${response.status})`);
+        if (!cancelled) setSkills(Array.isArray(payload.skills) ? payload.skills : []);
       } catch (err) {
         console.error(err);
+      } finally {
+        if (!cancelled) setLoading(false);
       }
     };
 
     loadSkills();
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, []);
 
   return (
-    <div className="dark:bg-black" id="stack">
-      <div className="relative isolate px-6 py-16 lg:px-8 lg:py-56">
-        <div
-          className="sm:-top-70 absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl"
-          aria-hidden="true"
-        >
-          <div
-            className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
-            style={props.customStyle}
-          ></div>
-        </div>
-        <div className="mx-50 max-w-auto py-8 md:mx-20 md:py-16 lg:mx-5">
-          <p className="pb-10 pt-8 text-center text-2xl md:text-4xl lg:text-6xl dark:text-white">
-            {t("stack")}
-          </p>
-          <div className="grid grid-cols-1 gap-x-4 gap-y-5 pb-36 pt-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {skills.map((item) => {
-              const startDate = item.start_date ?? item.start;
-              const experienceLabel = startDate
-                ? `${moment(startDate).locale(props.lang).fromNow(true)} ${t("experience")}`
-                : "";
+    <section
+      id="stack"
+      className="relative overflow-hidden px-6 py-28 lg:px-8 lg:py-36 dark:bg-panel/50 bg-slate-50/80"
+    >
+      {/* Ambient glow */}
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-signal-field opacity-40" aria-hidden="true" />
 
-              return (
-                <div
-                  key={item.id ?? item.name}
-                  className="delay-50 group cursor-pointer rounded-md bg-slate-100 p-3 outline outline-offset-0 outline-slate-300 transition-all duration-100 ease-linear  hover:outline-offset-4 hover:outline-indigo-200 hover:transition-all hover:duration-100 dark:bg-slate-700/90 dark:outline-slate-400/70 hover:dark:bg-slate-100/40 hover:dark:outline-indigo-500/80 hover:ease-linear"
-                >
-                  <div className="flex min-w-0 gap-x-4">
-                    <img
-                      loading="lazy"
-                      className="h-12 w-12 flex-none scale-100 transition duration-500 group-hover:scale-125 md:grayscale group-hover:md:grayscale-0 group-hover:duration-500"
-                      src={item.icon ? `${API_BASE_URL}${item.icon}` : item.imageUrl}
-                      alt={item.name}
-                    />
-                    <div className="min-w-0 flex-auto">
-                      <p className="translate-y-2 md:translate-y-4 text-xs md:text-md font-semibold leading-6 transition-all group-hover:translate-y-1 dark:text-white group-hover:dark:text-gray-300">
-                        {item.name}
-                      </p>
-                      {experienceLabel && (
-                        <p className="mt-1 block md:hidden md:scale-y-0 truncate text-xs leading-5 transition-all delay-1000 duration-300 ease-in-out md:group-hover:block md:group-hover:scale-y-100 md:group-hover:transition-transform md:group-hover:delay-1000 md:group-hover:duration-1000 md:group-hover:ease-in-out dark:text-gray-300">
-                          {experienceLabel}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+      <div className="mx-auto max-w-6xl">
+        <AnimatedContent>
+          <h2 className="font-display text-center text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl mb-2 dark:text-cloud text-slate-900">
+            {t("stack")}
+          </h2>
+          <p className="font-mono text-center text-sm uppercase tracking-widest text-ion mb-12">
+            Technologies &amp; Tools
+          </p>
+        </AnimatedContent>
+
+        {loading ? (
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+            {Array.from({ length: 10 }).map((_, i) => (
+              <div key={i} className="h-20 animate-pulse rounded-2xl bg-slate-200 dark:bg-white/5" />
+            ))}
           </div>
-        </div>
-        <div
-          className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
-          aria-hidden="true"
-        >
-          <div
-            className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
-            style={props.customStyle}
-          ></div>
-        </div>
+        ) : skills.length === 0 ? (
+          <div className="py-16 text-center text-slate-400 font-body">No skills data available.</div>
+        ) : (
+          <AnimatedContent delay={0.15}>
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+              {skills.map((item) => {
+                const startDate = item.start_date ?? item.start;
+                const experienceLabel = startDate
+                  ? `${moment(startDate).locale(lang).fromNow(true)} ${t("experience")}`
+                  : "";
+
+                return (
+                  <SpotlightCard
+                    key={item.id ?? item.name}
+                    className="group cursor-default border border-slate-200 dark:border-white/10 p-4 transition-shadow hover:shadow-lg hover:shadow-electric/10"
+                    spotlightColor="rgba(139,92,246,0.12)"
+                  >
+                    <div className="flex flex-col items-start gap-3">
+                      <img
+                        loading="lazy"
+                        className="h-10 w-10 object-contain scale-100 transition-transform duration-500 group-hover:scale-110"
+                        src={item.icon ? `${API_BASE_URL}${item.icon}` : item.imageUrl}
+                        alt={item.name}
+                      />
+                      <div>
+                        <p className="font-body text-sm font-semibold dark:text-cloud text-slate-800">
+                          {item.name}
+                        </p>
+                        {experienceLabel && (
+                          <p className="font-mono text-xs text-slate-400 dark:text-slate-500 mt-0.5">
+                            {experienceLabel}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </SpotlightCard>
+                );
+              })}
+            </div>
+          </AnimatedContent>
+        )}
       </div>
-    </div>
+    </section>
   );
-};
-export default Skill;
+}

@@ -7,254 +7,170 @@ import dogTable from "../assets/portfolio/dog-table.webp";
 import { useTranslation } from "react-i18next";
 import { useEffect, useMemo, useState } from "react";
 import { backendAssetUrl, PORTFOLIOS_URL } from "../constants";
+import { ExternalLink } from "lucide-react";
+import AnimatedContent from "./react-bits/AnimatedContent";
+import ElectricBorder from "./react-bits/ElectricBorder";
 
 const FALLBACK_PROJECTS = [
-  {
-    id: 1,
-    name: "SIM PKL",
-    link: "https://github.com/ArRahmaan17/sim_pkl",
-    image: simpkl,
-    types: ["Laravel", "Bootstrap"],
-  },
-  {
-    id: 2,
-    name: "Frontend Public Chat",
-    link: "https://github.com/ArRahmaan17/frontend-sim-pkl",
-    image: notfound,
-    types: ["Node Js", "React Js"],
-  },
-  {
-    id: 3,
-    name: "Backend Public Chat",
-    link: "https://github.com/ArRahmaan17/backend-sim-pkl",
-    image: notfound,
-    types: ["Node Js", "Express Js"],
-  },
-  {
-    id: 4,
-    name: "Wa Services Presensi PKL",
-    link: "https://github.com/ArRahmaan17/simpkl-whatsappblast-services",
-    image: notfound,
-    types: ["Node Js", "Express Js"],
-  },
-  {
-    id: 5,
-    name: "Todos - Live Demo",
-    link: "https://todos.rahmaanms.my.id",
-    image: todos,
-    types: ["Laravel", "Tailwind Css"],
-  },
-  {
-    id: 6,
-    name: "DOGLEXABLE POINT OF SALE",
-    link: "https://dpos.rahmaanms.my.id",
-    image: pos,
-    types: ["Laravel", "Reverb", "Docker", "Tailwind Css"],
-  },
-  {
-    id: 7,
-    name: "Filestream",
-    link: "https://filestream.rahmaanms.my.id",
-    image: filestream,
-    types: ["Laravel", "Docker", "Tailwind Css"],
-  },
-  {
-    id: 8,
-    name: "Dog Table",
-    link: "https://arrahmaan17.github.io/dog-table",
-    image: dogTable,
-    types: ["JavaScript", "Library", "HTML/CSS"],
-  },
+  { id: 1, name: "SIM PKL", link: "https://github.com/ArRahmaan17/sim_pkl", image: simpkl, types: ["Laravel", "Bootstrap"] },
+  { id: 2, name: "Frontend Public Chat", link: "https://github.com/ArRahmaan17/frontend-sim-pkl", image: notfound, types: ["Node Js", "React Js"] },
+  { id: 3, name: "Backend Public Chat", link: "https://github.com/ArRahmaan17/backend-sim-pkl", image: notfound, types: ["Node Js", "Express Js"] },
+  { id: 4, name: "Wa Services Presensi PKL", link: "https://github.com/ArRahmaan17/simpkl-whatsappblast-services", image: notfound, types: ["Node Js", "Express Js"] },
+  { id: 5, name: "Todos - Live Demo", link: "https://todos.rahmaanms.my.id", image: todos, types: ["Laravel", "Tailwind Css"] },
+  { id: 6, name: "DOGLEXABLE POINT OF SALE", link: "https://dpos.rahmaanms.my.id", image: pos, types: ["Laravel", "Reverb", "Docker", "Tailwind Css"] },
+  { id: 7, name: "Filestream", link: "https://filestream.rahmaanms.my.id", image: filestream, types: ["Laravel", "Docker", "Tailwind Css"] },
+  { id: 8, name: "Dog Table", link: "https://arrahmaan17.github.io/dog-table", image: dogTable, types: ["JavaScript", "Library", "HTML/CSS"] },
 ];
 
-export default function Portfolio(props) {
+function extractPortfolioTypes(portfolio) {
+  const candidates = [
+    portfolio?.Skills, portfolio?.skills, portfolio?.Skill, portfolio?.skill,
+    portfolio?.Stacks, portfolio?.stacks, portfolio?.StackPortfolios, portfolio?.stackPortfolios,
+  ];
+  const names = candidates.flatMap((c) => {
+    if (!c) return [];
+    if (Array.isArray(c)) return c.flatMap((item) => {
+      if (!item) return [];
+      if (typeof item === "string") return [item];
+      const direct = item.name ?? item.label;
+      if (direct) return [direct];
+      const nested = item.Skill?.name ?? item.skill?.name ?? item.Stack?.name ?? item.stack?.name;
+      return nested ? [nested] : [];
+    });
+    if (typeof c === "string") return c.split(",").map((v) => v.trim()).filter(Boolean);
+    return [];
+  });
+  return [...new Set(names.map((n) => String(n).trim()).filter(Boolean))];
+}
+
+function resolveProjectImage(imagePath) {
+  if (!imagePath) return "";
+  if (/^https?:\/\//i.test(imagePath)) return imagePath;
+  if (typeof imagePath === "string" && imagePath.startsWith("/storage/")) return backendAssetUrl(imagePath);
+  return imagePath;
+}
+
+export default function Portfolio({ theme }) {
   const { t } = useTranslation();
   const [portfolios, setPortfolios] = useState([]);
-
-  const extractPortfolioTypes = (portfolio) => {
-    const relationCandidates = [
-      portfolio?.Skills,
-      portfolio?.skills,
-      portfolio?.Skill,
-      portfolio?.skill,
-      portfolio?.Stacks,
-      portfolio?.stacks,
-      portfolio?.StackPortfolios,
-      portfolio?.stackPortfolios,
-    ];
-
-    const names = relationCandidates.flatMap((candidate) => {
-      if (!candidate) {
-        return [];
-      }
-
-      if (Array.isArray(candidate)) {
-        return candidate.flatMap((item) => {
-          if (!item) {
-            return [];
-          }
-
-          if (typeof item === "string") {
-            return [item];
-          }
-
-          const directName = item.name ?? item.label;
-          if (directName) {
-            return [directName];
-          }
-
-          const nestedName =
-            item.Skill?.name ??
-            item.skill?.name ??
-            item.Stack?.name ??
-            item.stack?.name;
-
-          return nestedName ? [nestedName] : [];
-        });
-      }
-
-      if (typeof candidate === "string") {
-        return candidate
-          .split(",")
-          .map((value) => value.trim())
-          .filter(Boolean);
-      }
-
-      return [];
-    });
-
-    return [...new Set(names.map((name) => String(name).trim()).filter(Boolean))];
-  };
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
-
     const loadPortfolios = async () => {
       try {
         const response = await fetch(PORTFOLIOS_URL);
         const payload = await response.json().catch(() => ({}));
-        if (!response.ok) {
-          throw new Error(payload.message || `Failed to fetch portfolios (${response.status})`);
-        }
-
-        const nextPortfolios = Array.isArray(payload.portfolios) ? payload.portfolios : [];
-        if (!cancelled) {
-          setPortfolios(nextPortfolios);
-        }
+        if (!response.ok) throw new Error(payload.message || `Failed to fetch portfolios (${response.status})`);
+        if (!cancelled) setPortfolios(Array.isArray(payload.portfolios) ? payload.portfolios : []);
       } catch (err) {
         console.error(err);
+      } finally {
+        if (!cancelled) setLoading(false);
       }
     };
-
     loadPortfolios();
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, []);
 
   const projects = useMemo(() => {
-    if (!portfolios || portfolios.length === 0) {
-      return FALLBACK_PROJECTS;
-    }
-
-    return portfolios.map((portfolio) => {
-      const types = extractPortfolioTypes(portfolio);
-
-      return {
-        id: portfolio.id,
-        name: portfolio.name,
-        link: portfolio.link || "",
-        image: portfolio.picture,
-        types,
-      };
-    });
+    if (!portfolios || portfolios.length === 0) return FALLBACK_PROJECTS;
+    return portfolios.map((p) => ({
+      id: p.id,
+      name: p.name,
+      link: p.link || "",
+      image: p.picture,
+      types: extractPortfolioTypes(p),
+    }));
   }, [portfolios]);
 
-  const resolveProjectImage = (imagePath) => {
-    if (!imagePath) {
-      return "";
-    }
-
-    if (/^https?:\/\//i.test(imagePath)) {
-      return imagePath;
-    }
-
-    // API-managed assets are persisted under /storage; fallback assets are local imports.
-    if (typeof imagePath === "string" && imagePath.startsWith("/storage/")) {
-      return backendAssetUrl(imagePath);
-    }
-
-    return imagePath;
-  };
+  const isFallback = !loading && portfolios.length === 0;
 
   return (
-    <div className="dark:bg-black" id="portfolio">
-      <div className="relative isolate px-6 py-16 lg:px-8 lg:py-56">
-        <div
-          className="absolute inset-x-0 -top-40 -z-5 transform-gpu overflow-hidden blur-3xl sm:-top-70"
-          aria-hidden="true"
-        >
-          <div
-            className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
-            style={props.customStyle}
-          ></div>
-        </div>
-        <div className="mx-50 max-w-auto py-8 md:mx-20 md:py-16 lg:mx-5">
-          <p className="pb-10 pt-8 text-center text-2xl dark:text-white md:text-4xl lg:text-6xl">
+    <section
+      id="portfolio"
+      className="relative overflow-hidden px-6 py-28 lg:px-8 lg:py-36 bg-white/50 dark:bg-void/80"
+    >
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-signal-field opacity-30 dark:opacity-60" aria-hidden="true" />
+
+      <div className="mx-auto max-w-7xl">
+        <AnimatedContent>
+          <h2 className="font-display text-center text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl mb-2 dark:text-cloud text-slate-900">
             {t("portfolio")}
+          </h2>
+          <p className="font-mono text-center text-sm uppercase tracking-widest text-plasma mb-4">
+            Selected Work
           </p>
-          <div className="grid grid-cols-1 gap-x-4 gap-y-5 pb-36 pt-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {projects.map((project) => (
-              <a
-                key={project.id}
-                href={project.link || undefined}
-                target={project.link ? "_blank" : undefined}
-                rel={project.link ? "noopener noreferrer" : undefined}
-                onClick={(e) => {
-                  if (!project.link) {
-                    e.preventDefault();
-                  }
-                }}
-                className="delay-50 group min-w-32 basis-full sm:basis-1/5 shrink cursor-pointer rounded-md bg-slate-100 p-0 outline outline-offset-0 outline-slate-300 transition-all duration-100 ease-out dark:bg-slate-700/60 dark:outline-slate-700/60 hover:dark:bg-slate-700/80"
-              >
-                <div className="flex min-w-0 flex-col gap-x-1">
-                  <img
-                    loading="lazy"
-                    decoding="async"
-                    className="aspect-[1200/630] h-auto w-full rounded-md object-cover object-center md:grayscale md:group-hover:grayscale-0"
-                    src={resolveProjectImage(project.image)}
-                    alt={project.name}
-                  />
-                  <div className="md:min-h-20 flex-auto">
-                    <p className="md:translate-y-5 group-hover:md:translate-y-0 transition-all duration-500 text-lg md:text-lg lg:text-xl xl:text-3xl group-hover:md:text-md font-semibold leading-6 dark:text-gray-100 md:dark:text-gray-600 dark:group-hover:text-gray-100">
-                      {project.name}
-                    </p>
-                    <div className="md:translate-y-0 group-hover:md:translate-y-15 transition-all duration-500 flex flex-row flex-wrap gap-2 truncate text-xs leading-5">
-                      {project.types.map((type) => (
-                        <p
-                          className="font-sx mt-1 basis-1 text-sm text-gray-400 dark:text-gray-300 group-hover:text-black md:dark:text-gray-500 group-hover:dark:text-gray-100 opacity-60 md:opacity-0 group-hover:opacity-100 transform-gpu transition-all group-hover:transition-all duration-100 ease-in-out delay-100 group-hover:duration-500 group-hover:ease-in-out group-hover:transform-gpu"
-                          key={`${project.id}-${type}`}
-                        >
-                          {type}
-                        </p>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </a>
+          {isFallback && (
+            <p className="font-body text-center text-xs text-slate-400 mb-8">
+              Showing sample projects — live data unavailable.
+            </p>
+          )}
+        </AnimatedContent>
+
+        {loading ? (
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-12">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div key={i} className="aspect-[1200/630] animate-pulse rounded-3xl bg-slate-200 dark:bg-white/5" />
             ))}
           </div>
-        </div>
-        <div
-          className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
-          aria-hidden="true"
-        >
-          <div
-            className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
-            style={props.customStyle}
-          ></div>
-        </div>
+        ) : (
+          <AnimatedContent delay={0.15}>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-12">
+              {projects.map((project, idx) => {
+                const card = (
+                  <a
+                    href={project.link || undefined}
+                    target={project.link ? "_blank" : undefined}
+                    rel={project.link ? "noopener noreferrer" : undefined}
+                    onClick={(e) => { if (!project.link) e.preventDefault(); }}
+                    className="group block overflow-hidden rounded-3xl border border-slate-200 dark:border-white/10 bg-white dark:bg-panel transition-all duration-400 hover:shadow-2xl hover:shadow-electric/10 hover:-translate-y-1 focus-visible:ring-2 focus-visible:ring-electric"
+                  >
+                    <div className="relative overflow-hidden aspect-[1200/630]">
+                      <img
+                        loading="lazy"
+                        decoding="async"
+                        className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105 md:grayscale md:group-hover:grayscale-0"
+                        src={resolveProjectImage(project.image)}
+                        alt={project.name}
+                      />
+                    </div>
+                    <div className="p-4">
+                      <div className="flex items-start justify-between gap-2">
+                        <p className="font-display text-base font-semibold dark:text-cloud text-slate-900 leading-snug">
+                          {project.name}
+                        </p>
+                        {project.link && (
+                          <ExternalLink className="mt-0.5 h-3.5 w-3.5 shrink-0 text-slate-400 group-hover:text-electric transition-colors" />
+                        )}
+                      </div>
+                      <div className="mt-2 flex flex-wrap gap-1.5">
+                        {project.types.map((type) => (
+                          <span
+                            key={`${project.id}-${type}`}
+                            className="inline-block rounded-full bg-slate-100 dark:bg-white/10 px-2 py-0.5 font-mono text-[0.65rem] font-medium text-slate-600 dark:text-slate-300"
+                          >
+                            {type}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </a>
+                );
+
+                /* First card gets the featured ElectricBorder treatment */
+                return idx === 0 ? (
+                  <ElectricBorder key={project.id} radius="1.5rem">
+                    {card}
+                  </ElectricBorder>
+                ) : (
+                  <div key={project.id}>{card}</div>
+                );
+              })}
+            </div>
+          </AnimatedContent>
+        )}
       </div>
-    </div>
+    </section>
   );
 }
