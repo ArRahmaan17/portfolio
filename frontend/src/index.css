@@ -30,6 +30,8 @@
     --color-primary:          29 78 216;
     --color-primary-hover:    30 64 175;
     --color-primary-contrast: 255 255 255;
+    --color-primary-gradient-mid: 79 70 229;
+    --color-primary-gradient-end: 124 58 237;
 
     /* Focus ring */
     --ring-color:        rgba(29,78,216,0.5);
@@ -54,6 +56,8 @@
     --color-primary:          34 211 238;
     --color-primary-hover:    103 232 249;
     --color-primary-contrast: 5 8 22;
+    --color-primary-gradient-mid: 56 189 248;
+    --color-primary-gradient-end: 125 211 252;
     --ring-color:        rgba(34,211,238,0.55);
   }
 
@@ -219,13 +223,12 @@
 
   /* Signal gradient (used by hero section / page headings) */
   .signal-gradient {
-    background: linear-gradient(135deg, #0284c7 0%, #7c3aed 50%, #c026d3 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .dark .signal-gradient {
-    background: linear-gradient(135deg, var(--color-ion) 0%, var(--color-electric) 50%, var(--color-plasma) 100%);
+    background: linear-gradient(
+      120deg,
+      rgb(var(--color-primary)) 0%,
+      rgb(var(--color-primary-gradient-mid)) 52%,
+      rgb(var(--color-primary-gradient-end)) 100%
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
