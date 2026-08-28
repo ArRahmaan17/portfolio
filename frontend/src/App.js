@@ -20,14 +20,23 @@ import Maintenance from "./components/Maintenance";
 import Footer from "./components/Footer";
 import { CURRENT_FOCUS_URL } from "./constants";
 
-const CURRENT_FOCUS_CACHE_KEY = "portfolio_current_focus";
+const CURRENT_FOCUS_CACHE_KEY = "portfolio_current_focus_categories_v2";
+
+function isCurrentFocusCategoryList(value) {
+  return Array.isArray(value) && value.every((category) => (
+    category &&
+    typeof category === "object" &&
+    typeof category.key === "string" &&
+    Array.isArray(category.currentFocuses)
+  ));
+}
 
 function readCurrentFocusCache() {
   try {
     const cached = sessionStorage.getItem(CURRENT_FOCUS_CACHE_KEY);
     if (!cached) return null;
     const parsed = JSON.parse(cached);
-    return Array.isArray(parsed) ? parsed : null;
+    return isCurrentFocusCategoryList(parsed) ? parsed : null;
   } catch (_error) {
     return null;
   }
@@ -35,7 +44,7 @@ function readCurrentFocusCache() {
 
 function PublicApp({ theme, changeTheme, lang, changeLanguage }) {
   const [classNavbar, setClassNavbar] = useState("bg-transparent");
-  const [currentFocuses, setCurrentFocuses] = useState(readCurrentFocusCache);
+  const [currentFocusCategories, setCurrentFocusCategories] = useState(readCurrentFocusCache);
 
   useEffect(() => {
     const headerOffscreen = () => {
@@ -60,10 +69,13 @@ function PublicApp({ theme, changeTheme, lang, changeLanguage }) {
           throw new Error(payload.message || `Failed to fetch current focus (${response.status})`);
         }
 
-        const nextFocuses = Array.isArray(payload.currentFocuses) ? payload.currentFocuses : [];
+        if (!isCurrentFocusCategoryList(payload.currentFocusCategories)) {
+          throw new Error("Invalid current focus category response");
+        }
+        const nextCategories = payload.currentFocusCategories;
         if (!cancelled) {
-          setCurrentFocuses(nextFocuses);
-          sessionStorage.setItem(CURRENT_FOCUS_CACHE_KEY, JSON.stringify(nextFocuses));
+          setCurrentFocusCategories(nextCategories);
+          sessionStorage.setItem(CURRENT_FOCUS_CACHE_KEY, JSON.stringify(nextCategories));
         }
       } catch (_error) {
         // Keep the cached or translated fallback content when the public API is unavailable.
@@ -86,7 +98,7 @@ function PublicApp({ theme, changeTheme, lang, changeLanguage }) {
     <div className="select-none flex flex-col font-body">
       <Navbar {...params} />
       <main role="main">
-        <Hero theme={theme} currentFocuses={currentFocuses} />
+        <Hero theme={theme} currentFocusCategories={currentFocusCategories} />
         <Skill {...params} />
         <Portfolio {...params} />
         <Contact {...params} />

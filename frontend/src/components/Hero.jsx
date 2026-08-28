@@ -12,18 +12,30 @@ function HeroFallback({ isDark }) {
   return <div className={`absolute inset-0 ${isDark ? "bg-[#071020]" : "bg-[#eaf2fb]"}`} aria-hidden="true" />;
 }
 
-export default function Hero({ theme, currentFocuses }) {
+export default function Hero({ theme, currentFocusCategories }) {
   const { t, i18n } = useTranslation();
   const isDark = theme === "Dark";
 
-  const focusStrings = useMemo(() => {
+  const focusCategories = useMemo(() => {
     const localeField = (i18n.resolvedLanguage || i18n.language || "en").startsWith("id") ? "title_id" : "title_en";
-    if (currentFocuses === null) {
-      return [t("hero.focuses.0"), t("hero.focuses.1"), t("hero.focuses.2")];
+    if (currentFocusCategories === null) {
+      return [{
+        id: "fallback-programming",
+        key: "programming",
+        title: t("hero.programming"),
+        strings: [t("hero.focuses.0"), t("hero.focuses.1"), t("hero.focuses.2")],
+      }];
     }
-    const remoteStrings = currentFocuses.map((focus) => focus[localeField]).filter(Boolean);
-    return remoteStrings.length ? remoteStrings : [t("hero.focuses_empty")];
-  }, [currentFocuses, i18n.language, i18n.resolvedLanguage, t]);
+    return currentFocusCategories.map((category) => {
+      const strings = (category.currentFocuses || []).map((focus) => focus[localeField]).filter(Boolean);
+      return {
+        id: category.id,
+        key: category.key,
+        title: category[localeField] || category.title_en || category.key,
+        strings: strings.length ? strings : [t("hero.focuses_empty")],
+      };
+    });
+  }, [currentFocusCategories, i18n.language, i18n.resolvedLanguage, t]);
 
   return (
     <section id="home" className="relative min-h-screen overflow-hidden px-5 pb-14 pt-28 sm:px-8 lg:px-12 lg:pb-10 lg:pt-32">
@@ -72,12 +84,23 @@ export default function Hero({ theme, currentFocuses }) {
               <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_0_5px_rgba(52,211,153,0.12)]" />
             </div>
             <div className="absolute inset-x-5 bottom-5 rounded-[1.75rem] border border-white/30 bg-white/70 p-5 backdrop-blur-2xl dark:border-white/10 dark:bg-void/60 sm:p-6">
-              <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">{t("hero.building")}</p>
-              <div className="mt-3 min-h-8 font-display text-xl font-semibold text-slate-900 dark:text-cloud sm:text-2xl">
-                <RotatingText strings={focusStrings} interval={3200} />
-              </div>
-              <div className="mt-5 grid grid-cols-3 border-t border-slate-200/70 pt-4 dark:border-white/10">
-                {["React", "Laravel", "Node.js"].map((item) => <span key={item} className="font-mono text-[0.65rem] uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">{item}</span>)}
+              <p className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">{t("hero.activity_board", { defaultValue: "Active threads" })}</p>
+              <div
+                className="mt-4 max-h-[18rem] overflow-y-auto overscroll-contain pr-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
+                role="list"
+                tabIndex={focusCategories.length > 3 ? 0 : -1}
+                aria-label={t("hero.current_focus")}
+              >
+                {focusCategories.length ? focusCategories.map((category, index) => (
+                  <div key={category.id || category.key} role="listitem" className="grid gap-1 border-t border-slate-200/70 py-4 first:border-t-0 first:pt-0 last:pb-0 dark:border-white/10 sm:grid-cols-[minmax(7rem,0.72fr)_1.28fr] sm:items-center sm:gap-5">
+                    <p className="truncate font-mono text-[0.62rem] uppercase tracking-[0.15em] text-sky-700 dark:text-cyan-300">{category.title}</p>
+                    <div className="min-h-7 overflow-hidden font-display text-lg font-semibold leading-7 text-slate-900 dark:text-cloud sm:text-xl">
+                      <RotatingText strings={category.strings} interval={3200} delay={index * 260} />
+                    </div>
+                  </div>
+                )) : (
+                  <p className="border-t border-slate-200/70 pt-4 font-display text-lg font-semibold text-slate-900 dark:border-white/10 dark:text-cloud">{t("hero.focuses_empty")}</p>
+                )}
               </div>
             </div>
           </div>

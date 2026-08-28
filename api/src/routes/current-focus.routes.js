@@ -1,6 +1,7 @@
 const express = require("express");
 
 const CurrentFocus = require("../models/current-focus.model");
+const CurrentFocusCategory = require("../models/current-focus-category.model");
 
 const router = express.Router();
 
@@ -18,7 +19,7 @@ const normalizeBoolean = (value, fallback = true) => {
   return null;
 };
 
-function validatePayload(body, { partial = false } = {}) {
+function validateSharedPayload(body, { partial = false } = {}) {
   const fields = {};
   const errors = [];
 
@@ -53,16 +54,52 @@ function validatePayload(body, { partial = false } = {}) {
   return { fields, errors };
 }
 
-router.get("/", async (req, res, next) => {
+function validateFocusPayload(body, options) {
+  const { fields, errors } = validateSharedPayload(body, options);
+  const partial = Boolean(options?.partial);
+
+  if (!partial || body.category_id !== undefined) {
+    const categoryId = Number(body.category_id);
+    if (!Number.isInteger(categoryId) || categoryId < 1) errors.push("category_id must be a positive integer");
+    else fields.category_id = categoryId;
+  }
+
+  return { fields, errors };
+}
+
+async function keyExists(Model, key, excludedId = null) {
+  if (!key) return false;
+  const record = await Model.findOne({ where: { key } });
+  return record && Number(record.id) !== Number(excludedId);
+}
+
+async function findCategory(categoryId) {
+  if (!categoryId) return null;
+  return CurrentFocusCategory.findByPk(categoryId);
+}
+
+function focusInclude(activeOnly) {
+  return {
+    model: CurrentFocus,
+    as: "currentFocuses",
+    where: activeOnly ? { is_active: true } : undefined,
+    required: false,
+    separate: true,
+    order: [["sort_order", "ASC"], ["createdAt", "ASC"]],
+  };
+}
+
+router.get("/", async (_req, res, next) => {
   try {
-    const currentFocuses = await CurrentFocus.findAll({
+    const currentFocusCategories = await CurrentFocusCategory.findAll({
       where: { is_active: true },
+      include: [focusInclude(true)],
       order: [["sort_order", "ASC"], ["createdAt", "ASC"]],
     });
 
     return res.status(200).json({
-      message: "Current focuses fetched successfully",
-      currentFocuses,
+      message: "Current focus categories fetched successfully",
+      currentFocusCategories,
     });
   } catch (error) {
     next(error);
@@ -71,13 +108,77 @@ router.get("/", async (req, res, next) => {
 
 router.get("/manage", async (_req, res, next) => {
   try {
-    const currentFocuses = await CurrentFocus.findAll({
+    const currentFocusCategories = await CurrentFocusCategory.findAll({
+      include: [focusInclude(false)],
       order: [["sort_order", "ASC"], ["createdAt", "ASC"]],
     });
     return res.status(200).json({
-      message: "Current focuses fetched successfully",
-      currentFocuses,
+      message: "Current focus categories fetched successfully",
+      currentFocusCategories,
     });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/categories", async (req, res, next) => {
+  try {
+    const { fields, errors } = validateSharedPayload(req.body);
+    if (errors.length) return res.status(400).json({ message: errors.join(", ") });
+    if (await keyExists(CurrentFocusCategory, fields.key)) return res.status(409).json({ message: "Category key already exists" });
+
+    const currentFocusCategory = await CurrentFocusCategory.create(fields);
+    return res.status(201).json({ message: "Current focus category created successfully", currentFocusCategory });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.put("/categories/:id", async (req, res, next) => {
+  try {
+    const category = await CurrentFocusCategory.findByPk(req.params.id);
+    if (!category) return res.status(404).json({ message: "Current focus category not found" });
+
+    const { fields, errors } = validateSharedPayload(req.body);
+    if (errors.length) return res.status(400).json({ message: errors.join(", ") });
+    if (await keyExists(CurrentFocusCategory, fields.key, category.id)) return res.status(409).json({ message: "Category key already exists" });
+
+    await category.update(fields);
+    return res.status(200).json({ message: "Current focus category updated successfully", currentFocusCategory: category });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.patch("/categories/:id", async (req, res, next) => {
+  try {
+    const category = await CurrentFocusCategory.findByPk(req.params.id);
+    if (!category) return res.status(404).json({ message: "Current focus category not found" });
+
+    const { fields, errors } = validateSharedPayload(req.body, { partial: true });
+    if (errors.length) return res.status(400).json({ message: errors.join(", ") });
+    if (!Object.keys(fields).length) return res.status(400).json({ message: "At least one field is required" });
+    if (await keyExists(CurrentFocusCategory, fields.key, category.id)) return res.status(409).json({ message: "Category key already exists" });
+
+    await category.update(fields);
+    return res.status(200).json({ message: "Current focus category updated successfully", currentFocusCategory: category });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete("/categories/:id", async (req, res, next) => {
+  try {
+    const category = await CurrentFocusCategory.findByPk(req.params.id);
+    if (!category) return res.status(404).json({ message: "Current focus category not found" });
+
+    const itemCount = await CurrentFocus.count({ where: { category_id: category.id } });
+    if (itemCount > 0) {
+      return res.status(409).json({ message: "Move or delete this category's focus items before deleting it" });
+    }
+
+    await category.destroy();
+    return res.status(200).json({ message: "Current focus category deleted successfully" });
   } catch (error) {
     next(error);
   }
@@ -85,7 +186,9 @@ router.get("/manage", async (_req, res, next) => {
 
 router.get("/:id", async (req, res, next) => {
   try {
-    const currentFocus = await CurrentFocus.findByPk(req.params.id);
+    const currentFocus = await CurrentFocus.findByPk(req.params.id, {
+      include: [{ model: CurrentFocusCategory, as: "category" }],
+    });
     if (!currentFocus) return res.status(404).json({ message: "Current focus not found" });
     return res.status(200).json({ message: "Current focus fetched successfully", currentFocus });
   } catch (error) {
@@ -95,11 +198,10 @@ router.get("/:id", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   try {
-    const { fields, errors } = validatePayload(req.body);
+    const { fields, errors } = validateFocusPayload(req.body);
     if (errors.length) return res.status(400).json({ message: errors.join(", ") });
-
-    const existing = await CurrentFocus.findOne({ where: { key: fields.key } });
-    if (existing) return res.status(409).json({ message: "key already exists" });
+    if (!(await findCategory(fields.category_id))) return res.status(400).json({ message: "category_id does not reference an existing category" });
+    if (await keyExists(CurrentFocus, fields.key)) return res.status(409).json({ message: "key already exists" });
 
     const currentFocus = await CurrentFocus.create(fields);
     return res.status(201).json({ message: "Current focus created successfully", currentFocus });
@@ -113,13 +215,10 @@ router.put("/:id", async (req, res, next) => {
     const currentFocus = await CurrentFocus.findByPk(req.params.id);
     if (!currentFocus) return res.status(404).json({ message: "Current focus not found" });
 
-    const { fields, errors } = validatePayload(req.body);
+    const { fields, errors } = validateFocusPayload(req.body);
     if (errors.length) return res.status(400).json({ message: errors.join(", ") });
-
-    const duplicate = await CurrentFocus.findOne({ where: { key: fields.key } });
-    if (duplicate && Number(duplicate.id) !== Number(currentFocus.id)) {
-      return res.status(409).json({ message: "key already exists" });
-    }
+    if (!(await findCategory(fields.category_id))) return res.status(400).json({ message: "category_id does not reference an existing category" });
+    if (await keyExists(CurrentFocus, fields.key, currentFocus.id)) return res.status(409).json({ message: "key already exists" });
 
     await currentFocus.update(fields);
     return res.status(200).json({ message: "Current focus updated successfully", currentFocus });
@@ -133,16 +232,11 @@ router.patch("/:id", async (req, res, next) => {
     const currentFocus = await CurrentFocus.findByPk(req.params.id);
     if (!currentFocus) return res.status(404).json({ message: "Current focus not found" });
 
-    const { fields, errors } = validatePayload(req.body, { partial: true });
+    const { fields, errors } = validateFocusPayload(req.body, { partial: true });
     if (errors.length) return res.status(400).json({ message: errors.join(", ") });
     if (!Object.keys(fields).length) return res.status(400).json({ message: "At least one field is required" });
-
-    if (fields.key) {
-      const duplicate = await CurrentFocus.findOne({ where: { key: fields.key } });
-      if (duplicate && Number(duplicate.id) !== Number(currentFocus.id)) {
-        return res.status(409).json({ message: "key already exists" });
-      }
-    }
+    if (fields.category_id && !(await findCategory(fields.category_id))) return res.status(400).json({ message: "category_id does not reference an existing category" });
+    if (await keyExists(CurrentFocus, fields.key, currentFocus.id)) return res.status(409).json({ message: "key already exists" });
 
     await currentFocus.update(fields);
     return res.status(200).json({ message: "Current focus updated successfully", currentFocus });

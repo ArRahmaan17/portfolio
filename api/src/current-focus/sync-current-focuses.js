@@ -1,4 +1,6 @@
 const CurrentFocus = require("../models/current-focus.model");
+const CurrentFocusCategory = require("../models/current-focus-category.model");
+const { PROGRAMMING_CATEGORY } = require("./migrate-current-focuses");
 
 const DEFAULT_CURRENT_FOCUSES = [
   {
@@ -25,9 +27,18 @@ const DEFAULT_CURRENT_FOCUSES = [
 ];
 
 async function syncDefaultCurrentFocuses() {
+  const [programmingCategory] = await CurrentFocusCategory.findOrCreate({
+    where: { key: PROGRAMMING_CATEGORY.key },
+    defaults: PROGRAMMING_CATEGORY,
+  });
   const existingCount = await CurrentFocus.count();
   if (existingCount > 0) return;
-  await CurrentFocus.bulkCreate(DEFAULT_CURRENT_FOCUSES);
+  await CurrentFocus.bulkCreate(
+    DEFAULT_CURRENT_FOCUSES.map((focus) => ({
+      ...focus,
+      category_id: programmingCategory.id,
+    }))
+  );
 }
 
 module.exports = {

@@ -40,6 +40,8 @@ i18n
             start_conversation: "Start a conversation",
             current_focus: "Current focus",
             building: "Building across the stack",
+            activity_board: "Active threads",
+            programming: "Programming",
             focuses: [
               "Product interfaces",
               "Reliable APIs",
@@ -178,6 +180,8 @@ i18n
             start_conversation: "Mulai percakapan",
             current_focus: "Fokus saat ini",
             building: "Membangun di seluruh stack",
+            activity_board: "Aktivitas terkini",
+            programming: "Pemrograman",
             focuses: [
               "Antarmuka produk",
               "API yang andal",

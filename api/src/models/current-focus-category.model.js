@@ -1,25 +1,14 @@
 const { DataTypes } = require("sequelize");
 
 const sequelize = require("../config/database");
-const CurrentFocusCategory = require("./current-focus-category.model");
 
-const CurrentFocus = sequelize.define(
-  "CurrentFocus",
+const CurrentFocusCategory = sequelize.define(
+  "CurrentFocusCategory",
   {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
-    },
-    category_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: "current_focus_categories",
-        key: "id",
-      },
-      onDelete: "RESTRICT",
-      onUpdate: "CASCADE",
     },
     key: {
       type: DataTypes.STRING(100),
@@ -52,25 +41,10 @@ const CurrentFocus = sequelize.define(
     },
   },
   {
-    tableName: "current_focuses",
+    tableName: "current_focus_categories",
     timestamps: true,
-    indexes: [{
-      name: "current_focuses_category_active_order",
-      fields: ["category_id", "is_active", "sort_order"],
-    }],
+    indexes: [{ fields: ["is_active", "sort_order"] }],
   }
 );
 
-CurrentFocusCategory.hasMany(CurrentFocus, {
-  as: "currentFocuses",
-  foreignKey: "category_id",
-  onDelete: "RESTRICT",
-  onUpdate: "CASCADE",
-});
-
-CurrentFocus.belongsTo(CurrentFocusCategory, {
-  as: "category",
-  foreignKey: "category_id",
-});
-
-module.exports = CurrentFocus;
+module.exports = CurrentFocusCategory;

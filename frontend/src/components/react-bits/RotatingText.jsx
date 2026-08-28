@@ -11,6 +11,7 @@ import { gsap } from "gsap";
 function RotatingText({
   strings = [],
   interval = 2800,
+  delay = 0,
   className = "",
 }) {
   const [index, setIndex] = useState(0);
@@ -20,10 +21,15 @@ function RotatingText({
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   useEffect(() => {
+    setIndex(0);
+  }, [strings]);
+
+  useEffect(() => {
     if (prefersReducedMotion || strings.length <= 1) return;
 
     const el = elRef.current;
-    const timer = setInterval(() => {
+    let intervalTimer;
+    const rotate = () => {
       gsap.to(el, {
         opacity: 0,
         y: -12,
@@ -38,10 +44,18 @@ function RotatingText({
           );
         },
       });
-    }, interval);
+    };
 
-    return () => clearInterval(timer);
-  }, [strings, interval, prefersReducedMotion]);
+    const startTimer = setTimeout(() => {
+      intervalTimer = setInterval(rotate, interval);
+    }, delay);
+
+    return () => {
+      clearTimeout(startTimer);
+      clearInterval(intervalTimer);
+      gsap.killTweensOf(el);
+    };
+  }, [strings, interval, delay, prefersReducedMotion]);
 
   return (
     <span ref={elRef} className={`inline-block ${className}`}>

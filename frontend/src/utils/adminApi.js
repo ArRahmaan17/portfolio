@@ -135,6 +135,29 @@ export const adminApi = {
   },
   currentFocus: {
     list: (token) => authJsonFetch(`${CURRENT_FOCUS_URL}/manage`, { token }),
+    createCategory: (token, body) =>
+      authJsonFetch(`${CURRENT_FOCUS_URL}/categories`, {
+        method: "POST",
+        token,
+        body,
+      }),
+    updateCategory: (token, id, body) =>
+      authJsonFetch(`${CURRENT_FOCUS_URL}/categories/${id}`, {
+        method: "PUT",
+        token,
+        body,
+      }),
+    patchCategory: (token, id, body) =>
+      authJsonFetch(`${CURRENT_FOCUS_URL}/categories/${id}`, {
+        method: "PATCH",
+        token,
+        body,
+      }),
+    removeCategory: (token, id) =>
+      authJsonFetch(`${CURRENT_FOCUS_URL}/categories/${id}`, {
+        method: "DELETE",
+        token,
+      }),
     create: (token, body) =>
       authJsonFetch(CURRENT_FOCUS_URL, { method: "POST", token, body }),
     update: (token, id, body) =>

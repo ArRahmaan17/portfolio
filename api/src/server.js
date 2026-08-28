@@ -7,9 +7,11 @@ const sequelize = require("./config/database");
 const User = require("./models/user.model");
 const Employee = require("./models/employee.model");
 const Blog = require("./models/blog.model");
+const CurrentFocusCategory = require("./models/current-focus-category.model");
 require("./models/localization.model");
 const { syncDefaultLocalizations } = require("./localization/sync-localizations");
 const { syncDefaultCurrentFocuses } = require("./current-focus/sync-current-focuses");
+const { ensureCurrentFocusSchema } = require("./current-focus/migrate-current-focuses");
 const { generateEmployees } = require("./utils/faker.util");
 
 const port = Number(process.env.PORT) || 4000;
@@ -40,6 +42,8 @@ async function ensureBlogContentColumn() {
 async function startServer() {
   try {
     await sequelize.authenticate();
+    await CurrentFocusCategory.sync();
+    await ensureCurrentFocusSchema();
     await sequelize.sync();
     await ensureBlogContentColumn();
     await syncDefaultLocalizations();
