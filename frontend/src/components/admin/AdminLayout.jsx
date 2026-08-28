@@ -1,30 +1,46 @@
-import { useEffect, useMemo } from "react";
+import { useLayoutEffect, useMemo, useState } from "react";
 import {
-  Activity, BookOpen, Crosshair, FolderKanban, Languages, LayoutDashboard,
-  LogOut, MessagesSquare, Moon, ShieldCheck, Sun, Users, Wrench, Menu,
+  Activity,
+  BookOpen,
+  Crosshair,
+  FolderKanban,
+  Languages,
+  LayoutDashboard,
+  LogOut,
+  MessagesSquare,
+  Moon,
+  ShieldCheck,
+  Sun,
+  Users,
+  Wrench,
+  Menu,
 } from "lucide-react";
-import { requireAdminToken } from "../../utils/adminApi";
-import { useState } from "react";
+import { getAdminToken, redirectToAdminLogin } from "../../utils/adminApi";
 
-export default function AdminLayout({ children, theme = "Light", changeTheme }) {
+export default function AdminLayout({
+  children,
+  theme = "Light",
+  changeTheme,
+}) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const hasAdminToken = Boolean(getAdminToken());
 
-  useEffect(() => {
-    requireAdminToken();
-  }, []);
+  useLayoutEffect(() => {
+    if (!hasAdminToken) redirectToAdminLogin();
+  }, [hasAdminToken]);
 
   const navigation = useMemo(
     () => [
-      { href: "/admin/dashboard",    label: "Dashboard",    icon: LayoutDashboard },
-      { href: "/admin/skills",       label: "Skills",       icon: Wrench },
-      { href: "/admin/portfolios",   label: "Portfolios",   icon: FolderKanban },
-      { href: "/admin/blogs",        label: "Blogs",        icon: BookOpen },
-      { href: "/admin/current-focus",label: "Current focus",icon: Crosshair },
-      { href: "/admin/messages",     label: "Messages",     icon: MessagesSquare },
-      { href: "/admin/localizations",label: "Localizations",icon: Languages },
-      { href: "/admin/employees",    label: "Employees",    icon: Users },
+      { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
+      { href: "/admin/skills", label: "Skills", icon: Wrench },
+      { href: "/admin/portfolios", label: "Portfolios", icon: FolderKanban },
+      { href: "/admin/blogs", label: "Blogs", icon: BookOpen },
+      { href: "/admin/current-focus", label: "Current focus", icon: Crosshair },
+      { href: "/admin/messages", label: "Messages", icon: MessagesSquare },
+      { href: "/admin/localizations", label: "Localizations", icon: Languages },
+      { href: "/admin/employees", label: "Employees", icon: Users },
     ],
-    []
+    [],
   );
 
   const currentPath = window.location.pathname;
@@ -40,6 +56,8 @@ export default function AdminLayout({ children, theme = "Light", changeTheme }) 
     await changeTheme(isDark ? "Light" : "Dark");
   };
 
+  if (!hasAdminToken) return null;
+
   const Sidebar = ({ onClose }) => (
     <div className="flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/90 shadow-2xl shadow-slate-200/30 backdrop-blur-xl dark:bg-panel/90 dark:shadow-black/40">
       {/* Brand */}
@@ -50,12 +68,19 @@ export default function AdminLayout({ children, theme = "Light", changeTheme }) 
               <ShieldCheck className="h-5 w-5" />
             </div>
             <div>
-              <div className="font-display text-base font-bold dark:text-cloud text-slate-900">Admin</div>
-              <div className="font-mono text-xs text-slate-500 dark:text-slate-400">Control panel</div>
+              <div className="font-display text-base font-bold dark:text-cloud text-slate-900">
+                Admin
+              </div>
+              <div className="font-mono text-xs text-slate-500 dark:text-slate-400">
+                Control panel
+              </div>
             </div>
           </div>
           {onClose && (
-            <button onClick={onClose} className="rounded-xl p-1.5 text-slate-500 hover:bg-slate-100 dark:hover:bg-white/10 lg:hidden">
+            <button
+              onClick={onClose}
+              className="rounded-xl p-1.5 text-slate-500 hover:bg-slate-100 dark:hover:bg-white/10 lg:hidden"
+            >
               <span className="sr-only">Close</span>
               <svg className="h-4 w-4" viewBox="0 0 16 16" fill="currentColor">
                 <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
@@ -66,7 +91,10 @@ export default function AdminLayout({ children, theme = "Light", changeTheme }) 
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 overflow-y-auto px-2 py-4" aria-label="Admin navigation">
+      <nav
+        className="flex-1 overflow-y-auto px-2 py-4"
+        aria-label="Admin navigation"
+      >
         <div className="mb-3 flex items-center gap-2 px-2 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">
           <Activity className="h-3.5 w-3.5" />
           Navigation
@@ -86,7 +114,9 @@ export default function AdminLayout({ children, theme = "Light", changeTheme }) 
               >
                 <Icon className="h-4 w-4 shrink-0" />
                 <span>{label}</span>
-                {active && <div className="ml-auto h-1.5 w-1.5 rounded-full bg-primary-contrast animate-electric-pulse" />}
+                {active && (
+                  <div className="ml-auto h-1.5 w-1.5 rounded-full bg-primary-contrast animate-electric-pulse" />
+                )}
               </a>
             );
           })}
@@ -100,7 +130,11 @@ export default function AdminLayout({ children, theme = "Light", changeTheme }) 
           onClick={handleToggleTheme}
           className="flex w-full items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2.5 font-body text-sm font-semibold transition hover:bg-white dark:border-white/10 dark:bg-white/5 dark:text-cloud dark:hover:bg-white/10"
         >
-          {isDark ? <Sun className="h-4 w-4 text-primary" /> : <Moon className="h-4 w-4 text-primary" />}
+          {isDark ? (
+            <Sun className="h-4 w-4 text-primary" />
+          ) : (
+            <Moon className="h-4 w-4 text-primary" />
+          )}
           {isDark ? "Light mode" : "Dark mode"}
         </button>
         <button
@@ -117,10 +151,12 @@ export default function AdminLayout({ children, theme = "Light", changeTheme }) 
 
   return (
     <div className="min-h-screen bg-cloud/20 dark:bg-void">
-      <div className="pointer-events-none fixed inset-0 bg-signal-field opacity-20 dark:opacity-40" aria-hidden="true" />
+      <div
+        className="pointer-events-none fixed inset-0 bg-signal-field opacity-20 dark:opacity-40"
+        aria-hidden="true"
+      />
 
       <div className="relative mx-auto flex min-h-screen w-full max-w-[96rem] flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:px-8 lg:py-6 xl:px-10">
-
         {/* Desktop sidebar */}
         <aside className="hidden lg:block lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)] lg:w-72 lg:shrink-0">
           <Sidebar />
@@ -128,8 +164,16 @@ export default function AdminLayout({ children, theme = "Light", changeTheme }) 
 
         {/* Mobile sidebar overlay */}
         {mobileOpen && (
-          <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-label="Sidebar">
-            <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setMobileOpen(false)} />
+          <div
+            className="fixed inset-0 z-50 lg:hidden"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Sidebar"
+          >
+            <div
+              className="fixed inset-0 bg-black/40 backdrop-blur-sm"
+              onClick={() => setMobileOpen(false)}
+            />
             <div className="fixed inset-y-0 left-0 w-72 p-4">
               <Sidebar onClose={() => setMobileOpen(false)} />
             </div>
@@ -154,7 +198,11 @@ export default function AdminLayout({ children, theme = "Light", changeTheme }) 
                 onClick={handleToggleTheme}
                 className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1 font-mono text-xs font-semibold transition hover:bg-slate-50 dark:border-white/10 dark:bg-white/10 dark:text-cloud"
               >
-                {isDark ? <Sun className="h-3.5 w-3.5 text-primary" /> : <Moon className="h-3.5 w-3.5 text-primary" />}
+                {isDark ? (
+                  <Sun className="h-3.5 w-3.5 text-primary" />
+                ) : (
+                  <Moon className="h-3.5 w-3.5 text-primary" />
+                )}
                 {isDark ? "Light" : "Dark"}
               </button>
               <div className="rounded-full bg-primary px-3 py-1 font-mono text-xs font-semibold text-primary-contrast">

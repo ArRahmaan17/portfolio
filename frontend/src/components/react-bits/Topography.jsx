@@ -83,7 +83,10 @@ precision mediump float;
 function hexToRgb(hex) {
   let c = hex.replace("#", "");
   if (c.length === 3) {
-    c = c.split("").map((x) => x + x).join("");
+    c = c
+      .split("")
+      .map((x) => x + x)
+      .join("");
   }
   const num = parseInt(c, 16);
   return [(num >> 16) / 255, ((num >> 8) & 255) / 255, (num & 255) / 255];
@@ -133,17 +136,14 @@ function StaticFallback({ isDark }) {
   );
 }
 
-function TopographyCanvas({
-  color,
-  bgColor,
-  speed,
-  linesCount,
-  isDark,
-}) {
+function TopographyCanvas({ color, bgColor, speed, linesCount, isDark }) {
   const canvasRef = useRef(null);
-  const rafRef    = useRef(null);
-  const runRef    = useRef(false);
+  const rafRef = useRef(null);
+  const runRef = useRef(false);
+  const settingsRef = useRef({ color, bgColor, speed, linesCount, isDark });
   const [failed, setFailed] = useState(false);
+
+  settingsRef.current = { color, bgColor, speed, linesCount, isDark };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -180,20 +180,20 @@ function TopographyCanvas({
     gl.bufferData(
       gl.ARRAY_BUFFER,
       new Float32Array([-1, -1, 3, -1, -1, 3]),
-      gl.STATIC_DRAW
+      gl.STATIC_DRAW,
     );
 
-    const posLoc      = gl.getAttribLocation(program, "a_position");
-    const timeLoc     = gl.getUniformLocation(program, "uTime");
-    const resLoc      = gl.getUniformLocation(program, "uResolution");
-    const colorLoc    = gl.getUniformLocation(program, "uColor");
-    const bgColorLoc  = gl.getUniformLocation(program, "uBgColor");
-    const speedLoc    = gl.getUniformLocation(program, "uSpeed");
-    const linesLoc    = gl.getUniformLocation(program, "uLinesCount");
-    const darkLoc     = gl.getUniformLocation(program, "uDark");
+    const posLoc = gl.getAttribLocation(program, "a_position");
+    const timeLoc = gl.getUniformLocation(program, "uTime");
+    const resLoc = gl.getUniformLocation(program, "uResolution");
+    const colorLoc = gl.getUniformLocation(program, "uColor");
+    const bgColorLoc = gl.getUniformLocation(program, "uBgColor");
+    const speedLoc = gl.getUniformLocation(program, "uSpeed");
+    const linesLoc = gl.getUniformLocation(program, "uLinesCount");
+    const darkLoc = gl.getUniformLocation(program, "uDark");
 
     const resize = () => {
-      canvas.width  = canvas.clientWidth || 300;
+      canvas.width = canvas.clientWidth || 300;
       canvas.height = canvas.clientHeight || 150;
       gl.viewport(0, 0, canvas.width, canvas.height);
     };
@@ -212,13 +212,14 @@ function TopographyCanvas({
       gl.enableVertexAttribArray(posLoc);
       gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
 
+      const settings = settingsRef.current;
       gl.uniform1f(timeLoc, t);
       gl.uniform2f(resLoc, canvas.width, canvas.height);
-      gl.uniform3fv(colorLoc, new Float32Array(hexToRgb(color)));
-      gl.uniform3fv(bgColorLoc, new Float32Array(hexToRgb(bgColor)));
-      gl.uniform1f(speedLoc, speed);
-      gl.uniform1f(linesLoc, linesCount);
-      gl.uniform1f(darkLoc, isDark ? 1.0 : 0.0);
+      gl.uniform3fv(colorLoc, new Float32Array(hexToRgb(settings.color)));
+      gl.uniform3fv(bgColorLoc, new Float32Array(hexToRgb(settings.bgColor)));
+      gl.uniform1f(speedLoc, settings.speed);
+      gl.uniform1f(linesLoc, settings.linesCount);
+      gl.uniform1f(darkLoc, settings.isDark ? 1.0 : 0.0);
 
       gl.drawArrays(gl.TRIANGLES, 0, 3);
       rafRef.current = requestAnimationFrame(tick);
@@ -242,11 +243,9 @@ function TopographyCanvas({
       try {
         gl.deleteProgram(program);
         gl.deleteBuffer(buf);
-        const ext = gl.getExtension("WEBGL_lose_context");
-        if (ext) ext.loseContext();
       } catch (e) {}
     };
-  }, [color, bgColor, speed, linesCount, isDark]);
+  }, []);
 
   if (failed) {
     return <StaticFallback isDark={isDark} />;

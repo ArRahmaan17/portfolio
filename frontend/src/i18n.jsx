@@ -34,40 +34,71 @@ i18n
           hero: {
             available: "Available for thoughtful work",
             eyebrow: "Full-stack software engineer",
-            summary: "I design and build dependable web products—from the interface people use to the systems that keep them running.",
+            summary:
+              "I design and build dependable web products—from the interface people use to the systems that keep them running.",
             view_work: "Explore selected work",
             start_conversation: "Start a conversation",
             current_focus: "Current focus",
             building: "Building across the stack",
-            focuses: ["Product interfaces", "Reliable APIs", "Maintainable systems"],
+            focuses: [
+              "Product interfaces",
+              "Reliable APIs",
+              "Maintainable systems",
+            ],
             focuses_empty: "Exploring the next useful problem",
           },
           stack_section: {
             title: "Tools are useful. Judgment makes them matter.",
-            description: "I work across product interfaces, backend services, and delivery—choosing technology around the problem, not the trend.",
+            description:
+              "I work across product interfaces, backend services, and delivery—choosing technology around the problem, not the trend.",
             empty: "The live technology list is temporarily unavailable.",
             capabilities: {
-              interfaces: ["Interfaces", "Responsive React experiences with clear interaction and accessible states."],
-              applications: ["Applications", "Maintainable backends, data flows, authentication, and integrations."],
-              delivery: ["Delivery", "Practical architecture, containers, and release-minded engineering."],
+              interfaces: [
+                "Interfaces",
+                "Responsive React experiences with clear interaction and accessible states.",
+              ],
+              applications: [
+                "Applications",
+                "Maintainable backends, data flows, authentication, and integrations.",
+              ],
+              delivery: [
+                "Delivery",
+                "Practical architecture, containers, and release-minded engineering.",
+              ],
             },
           },
           portfolio_section: {
             title: "Work shaped around real constraints.",
-            description: "Selected products and experiments spanning operations, communication, commerce, and developer tooling.",
+            description:
+              "Selected products and experiments spanning operations, communication, commerce, and developer tooling.",
           },
           contact_section: {
             title: "Let’s make the next useful thing.",
             name_placeholder: "How should I address you?",
-            message_placeholder: "Tell me about the problem, the people using it, and what success looks like.",
-            sending: "Sending…",
+            message_placeholder:
+              "Tell me about the problem, the people using it, and what success looks like.",
+            sending: "Starting the conversation…",
             error: "The message could not be sent. Please try again.",
+            validation: {
+              name_required: "Please enter your name.",
+              name_short: "Your name must contain at least 2 characters.",
+              name_long: "Your name must contain 100 characters or fewer.",
+              email_required: "Please enter your email address.",
+              email_invalid: "Enter a valid email address.",
+              email_long: "Your email must contain 254 characters or fewer.",
+              message_required:
+                "Please tell me what you would like to discuss.",
+              message_short:
+                "Please add a little more detail—at least 10 characters.",
+              message_long:
+                "Your message must contain 2,000 characters or fewer.",
+            },
           },
           name: "Full Name",
           email: "Email Address",
           message: "Your Message",
-          send: "Send Message",
-          message_sent: "Your message has been sent successfully!",
+          send: "Start a conversation",
+          message_sent: "Conversation started—I’ll get back to you soon.",
           admin: {
             common: {
               refresh: "Refresh",
@@ -104,7 +135,7 @@ i18n
               loading: "Loading portfolios...",
               no_match: "No matching portfolios",
               no_match_hint: "Clear the search or create a new project card.",
-              confirm_delete: "Delete portfolio \"{{name}}\"?",
+              confirm_delete: 'Delete portfolio "{{name}}"?',
               error_load: "Failed to load portfolios",
               error_save: "Failed to save portfolio",
               error_delete: "Failed to delete portfolio",
@@ -141,40 +172,68 @@ i18n
           hero: {
             available: "Terbuka untuk proyek yang bermakna",
             eyebrow: "Software engineer full-stack",
-            summary: "Saya merancang dan membangun produk web yang andal—dari antarmuka yang digunakan orang hingga sistem yang menjaganya tetap berjalan.",
+            summary:
+              "Saya merancang dan membangun produk web yang andal—dari antarmuka yang digunakan orang hingga sistem yang menjaganya tetap berjalan.",
             view_work: "Lihat karya pilihan",
             start_conversation: "Mulai percakapan",
             current_focus: "Fokus saat ini",
             building: "Membangun di seluruh stack",
-            focuses: ["Antarmuka produk", "API yang andal", "Sistem terpelihara"],
+            focuses: [
+              "Antarmuka produk",
+              "API yang andal",
+              "Sistem terpelihara",
+            ],
             focuses_empty: "Mengeksplorasi masalah berguna berikutnya",
           },
           stack_section: {
             title: "Teknologi itu berguna. Pertimbangan membuatnya berarti.",
-            description: "Saya bekerja pada antarmuka produk, layanan backend, dan delivery—memilih teknologi berdasarkan masalah, bukan tren.",
+            description:
+              "Saya bekerja pada antarmuka produk, layanan backend, dan delivery—memilih teknologi berdasarkan masalah, bukan tren.",
             empty: "Daftar teknologi langsung sedang tidak tersedia.",
             capabilities: {
-              interfaces: ["Antarmuka", "Pengalaman React responsif dengan interaksi jelas dan state yang aksesibel."],
-              applications: ["Aplikasi", "Backend, alur data, autentikasi, dan integrasi yang mudah dipelihara."],
-              delivery: ["Delivery", "Arsitektur praktis, container, dan engineering yang siap dirilis."],
+              interfaces: [
+                "Antarmuka",
+                "Pengalaman React responsif dengan interaksi jelas dan state yang aksesibel.",
+              ],
+              applications: [
+                "Aplikasi",
+                "Backend, alur data, autentikasi, dan integrasi yang mudah dipelihara.",
+              ],
+              delivery: [
+                "Delivery",
+                "Arsitektur praktis, container, dan engineering yang siap dirilis.",
+              ],
             },
           },
           portfolio_section: {
             title: "Karya yang dibentuk oleh kebutuhan nyata.",
-            description: "Pilihan produk dan eksperimen untuk operasional, komunikasi, perdagangan, dan alat pengembang.",
+            description:
+              "Pilihan produk dan eksperimen untuk operasional, komunikasi, perdagangan, dan alat pengembang.",
           },
           contact_section: {
             title: "Mari membuat hal berguna berikutnya.",
             name_placeholder: "Bagaimana saya sebaiknya menyapa Anda?",
-            message_placeholder: "Ceritakan masalahnya, siapa penggunanya, dan seperti apa hasil yang diharapkan.",
-            sending: "Mengirim…",
+            message_placeholder:
+              "Ceritakan masalahnya, siapa penggunanya, dan seperti apa hasil yang diharapkan.",
+            sending: "Memulai percakapan…",
             error: "Pesan tidak dapat dikirim. Silakan coba lagi.",
+            validation: {
+              name_required: "Silakan masukkan nama Anda.",
+              name_short: "Nama harus terdiri dari minimal 2 karakter.",
+              name_long: "Nama harus terdiri dari maksimal 100 karakter.",
+              email_required: "Silakan masukkan alamat email Anda.",
+              email_invalid: "Masukkan alamat email yang valid.",
+              email_long: "Email harus terdiri dari maksimal 254 karakter.",
+              message_required: "Ceritakan hal yang ingin Anda diskusikan.",
+              message_short: "Tambahkan sedikit detail, minimal 10 karakter.",
+              message_long: "Pesan harus terdiri dari maksimal 2.000 karakter.",
+            },
           },
           name: "Nama Lengkap",
           email: "Alamat Email",
           message: "Pesan Anda",
-          send: "Kirim Pesan",
-          message_sent: "Pesan Anda berhasil dikirim!",
+          send: "Mulai percakapan",
+          message_sent: "Percakapan dimulai—saya akan segera menghubungi Anda.",
           admin: {
             common: {
               refresh: "Muat ulang",
@@ -211,7 +270,7 @@ i18n
               loading: "Memuat portofolio...",
               no_match: "Tidak ada portofolio yang cocok",
               no_match_hint: "Kosongkan pencarian atau buat kartu proyek baru.",
-              confirm_delete: "Hapus portofolio \"{{name}}\"?",
+              confirm_delete: 'Hapus portofolio "{{name}}"?',
               error_load: "Gagal memuat portofolio",
               error_save: "Gagal menyimpan portofolio",
               error_delete: "Gagal menghapus portofolio",
@@ -239,7 +298,9 @@ async function hydrateLocalizationsFromDatabase() {
     const response = await fetch(LOCALIZATIONS_URL);
     const payload = await response.json().catch(() => ({}));
     if (!response.ok) {
-      throw new Error(payload.message || `Failed to fetch localizations (${response.status})`);
+      throw new Error(
+        payload.message || `Failed to fetch localizations (${response.status})`,
+      );
     }
 
     const tables = payload.localizations || {};
