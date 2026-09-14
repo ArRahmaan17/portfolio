@@ -13,6 +13,7 @@ import {
 export const getAdminToken = () => {
   if (typeof window === "undefined") return "";
   return (
+    sessionStorage.getItem("admin_token") ||
     sessionStorage.getItem("admin_session") ||
     localStorage.getItem("admin_token") ||
     ""
@@ -21,6 +22,7 @@ export const getAdminToken = () => {
 
 export const redirectToAdminLogin = async () => {
   if (typeof window !== "undefined") {
+    sessionStorage.removeItem("admin_token");
     sessionStorage.removeItem("admin_session");
     localStorage.removeItem("admin_token");
     try {

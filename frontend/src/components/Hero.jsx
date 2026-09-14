@@ -51,7 +51,10 @@ export default function Hero({ theme, currentFocusCategories }) {
           </div>
 
           <p className="section-kicker mb-5">{t("hero.eyebrow", { defaultValue: "Full-stack software engineer" })}</p>
-          <h1 className="max-w-4xl font-display text-[clamp(3.4rem,8vw,7.6rem)] font-bold leading-[0.88] tracking-[-0.065em] text-slate-950 dark:text-cloud">
+          <h1
+            aria-label={`Ardhi Rahmaan — ${t("hero.eyebrow", { defaultValue: "Full-stack software engineer" })}`}
+            className="max-w-4xl font-display text-[clamp(3.4rem,8vw,7.6rem)] font-bold leading-[0.88] tracking-[-0.065em] text-slate-950 dark:text-cloud"
+          >
             <span className="block">Ardhi</span>
             <SplitText by="word" stagger={0.08} className="signal-gradient">Rahmaan.</SplitText>
           </h1>

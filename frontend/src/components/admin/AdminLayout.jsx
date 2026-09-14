@@ -30,8 +30,10 @@ export default function AdminLayout({
       redirectToAdminLogin();
       return;
     }
-    adminApi.auth.me().catch(() => {
-      redirectToAdminLogin();
+    adminApi.auth.me().catch((err) => {
+      if (err?.message === "Unauthorized") {
+        redirectToAdminLogin();
+      }
     });
   }, [hasAdminToken]);
 
@@ -53,6 +55,9 @@ export default function AdminLayout({
   const isDark = theme === "Dark";
 
   const handleLogout = async () => {
+    sessionStorage.removeItem("admin_token");
+    sessionStorage.removeItem("admin_session");
+    localStorage.removeItem("admin_token");
     await adminApi.auth.logout();
     window.location.href = "/admin/login";
   };

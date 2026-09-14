@@ -34,8 +34,11 @@ export default function AdminLogin({ theme = "Light", changeTheme }) {
       const payload = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(payload.message || `Login failed with status ${response.status}`);
 
-      // Clear legacy localStorage token and record session state
+      // Clear legacy localStorage token and record session state in sessionStorage
       localStorage.removeItem("admin_token");
+      if (payload.token) {
+        sessionStorage.setItem("admin_token", payload.token);
+      }
       sessionStorage.setItem("admin_session", "active");
       window.location.href = "/admin/dashboard";
     } catch (err) {
