@@ -135,7 +135,7 @@ export default function Navbar({
             <img
               className="h-9 w-9 rounded-full object-contain transition-transform group-hover:rotate-[-6deg]"
               src={logo}
-              alt=""
+              alt="Ardhi Rahmaan Logo"
             />
             <span className="hidden font-display text-xs font-semibold tracking-tight text-slate-900 dark:text-cloud sm:block">
               Ardhi Rahmaan

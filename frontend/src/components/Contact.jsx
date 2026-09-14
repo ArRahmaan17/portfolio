@@ -12,8 +12,8 @@ import { MESSAGES_URL } from "../constants";
 import AnimatedContent from "./react-bits/AnimatedContent";
 import ElectricBorder from "./react-bits/ElectricBorder";
 
-const INITIAL_FORM = { name: "", email: "", message: "" };
-const FIELD_ORDER = ["name", "email", "message"];
+const INITIAL_FORM = { name: "", email: "", message: "", consent: false };
+const FIELD_ORDER = ["name", "email", "message", "consent"];
 
 function createContactSchema(t) {
   return z.object({
@@ -35,6 +35,11 @@ function createContactSchema(t) {
       .min(1, { error: t("contact_section.validation.message_required") })
       .min(10, { error: t("contact_section.validation.message_short") })
       .max(2000, { error: t("contact_section.validation.message_long") }),
+    consent: z.literal(true, {
+      error: t("contact_section.validation.consent_required", {
+        defaultValue: "Please agree to the privacy policy before submitting.",
+      }),
+    }),
   });
 }
 
@@ -52,6 +57,17 @@ export default function Contact() {
       if (!current[name]) return current;
       const next = { ...current };
       delete next[name];
+      return next;
+    });
+  };
+
+  const handleConsentChange = (event) => {
+    const checked = event.target.checked;
+    setForm((current) => ({ ...current, consent: checked }));
+    setFieldErrors((current) => {
+      if (!current.consent) return current;
+      const next = { ...current };
+      delete next.consent;
       return next;
     });
   };
@@ -149,7 +165,7 @@ export default function Contact() {
           <div className="rounded-[2rem] border border-slate-200/80 bg-white/80 p-5 shadow-[0_28px_80px_-48px_rgba(15,23,42,0.6)] dark:border-white/10 dark:bg-panel/80 sm:p-8">
             <form onSubmit={handleSubmit} noValidate className="grid gap-5">
               <div className="grid gap-5 sm:grid-cols-2">
-                <label className="form-field">
+                <label htmlFor="contact-name" className="form-field">
                   <span>{t("name")}</span>
                   <input
                     type="text"
@@ -175,7 +191,7 @@ export default function Contact() {
                     </p>
                   ) : null}
                 </label>
-                <label className="form-field">
+                <label htmlFor="contact-email" className="form-field">
                   <span>{t("email")}</span>
                   <input
                     type="email"
@@ -200,7 +216,7 @@ export default function Contact() {
                   ) : null}
                 </label>
               </div>
-              <label className="form-field">
+              <label htmlFor="contact-message" className="form-field">
                 <span>{t("message")}</span>
                 <textarea
                   name="message"
@@ -226,6 +242,51 @@ export default function Contact() {
                   </p>
                 ) : null}
               </label>
+
+              <div className="flex flex-col gap-1.5 pt-1">
+                <div className="flex items-start gap-3">
+                  <input
+                    type="checkbox"
+                    name="consent"
+                    id="contact-consent"
+                    checked={form.consent}
+                    onChange={handleConsentChange}
+                    aria-invalid={Boolean(fieldErrors.consent)}
+                    aria-describedby={
+                      fieldErrors.consent ? "contact-consent-error" : undefined
+                    }
+                    className="mt-1 h-4 w-4 cursor-pointer rounded border-slate-300 text-primary transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:border-white/20 dark:bg-white/5 dark:focus-visible:ring-offset-panel"
+                  />
+                  <label
+                    htmlFor="contact-consent"
+                    className="cursor-pointer font-body text-xs leading-relaxed text-slate-600 dark:text-slate-400"
+                  >
+                    {t("contact_section.consent_label_prefix", {
+                      defaultValue: "I acknowledge and agree to the",
+                    })}{" "}
+                    <a
+                      href="/privacy"
+                      className="font-medium text-primary underline underline-offset-2 hover:text-primary-hover"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {t("legal.privacy", { defaultValue: "Privacy Policy" })}
+                    </a>{" "}
+                    {t("contact_section.consent_label_suffix", {
+                      defaultValue:
+                        "and consent to the processing of my contact information for this inquiry.",
+                    })}
+                  </label>
+                </div>
+                {fieldErrors.consent ? (
+                  <p
+                    id="contact-consent-error"
+                    className="font-body text-xs leading-5 text-red-600 dark:text-red-400"
+                  >
+                    {fieldErrors.consent}
+                  </p>
+                ) : null}
+              </div>
 
               <ElectricBorder radius="1rem">
                 <button

@@ -18,6 +18,10 @@ import AdminCurrentFocus from "./components/admin/AdminCurrentFocus";
 import Blog from "./components/Blog";
 import Maintenance from "./components/Maintenance";
 import Footer from "./components/Footer";
+import CookieNotice from "./components/CookieNotice";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import TermsPage from "./pages/TermsPage";
+import CookiePolicyPage from "./pages/CookiePolicyPage";
 import { CURRENT_FOCUS_URL } from "./constants";
 
 const CURRENT_FOCUS_CACHE_KEY = "portfolio_current_focus_categories_v2";
@@ -104,6 +108,7 @@ function PublicApp({ theme, changeTheme, lang, changeLanguage }) {
         <Contact {...params} />
       </main>
       <Footer />
+      <CookieNotice />
     </div>
   );
 }
@@ -169,8 +174,37 @@ function App() {
   if (path === "/admin/current-focus") {
     return <div className={themeClass}><AdminLayout changeTheme={changeTheme} theme={theme}><AdminCurrentFocus /></AdminLayout></div>;
   }
+  if (path === "/privacy" || path === "/privacy-policy") {
+    return (
+      <div className={themeClass}>
+        <PrivacyPolicyPage changeTheme={changeTheme} theme={theme} lang={lang} changeLanguage={changeLanguage} />
+        <CookieNotice />
+      </div>
+    );
+  }
+  if (path === "/terms" || path === "/terms-of-service") {
+    return (
+      <div className={themeClass}>
+        <TermsPage changeTheme={changeTheme} theme={theme} lang={lang} changeLanguage={changeLanguage} />
+        <CookieNotice />
+      </div>
+    );
+  }
+  if (path === "/cookie-policy" || path === "/cookies") {
+    return (
+      <div className={themeClass}>
+        <CookiePolicyPage changeTheme={changeTheme} theme={theme} lang={lang} changeLanguage={changeLanguage} />
+        <CookieNotice />
+      </div>
+    );
+  }
   if (path === "/blog" || path.startsWith("/blog/")) {
-    return <div className={themeClass}><Blog changeTheme={changeTheme} theme={theme} lang={lang} changeLanguage={changeLanguage} /></div>;
+    return (
+      <div className={themeClass}>
+        <Blog changeTheme={changeTheme} theme={theme} lang={lang} changeLanguage={changeLanguage} />
+        <CookieNotice />
+      </div>
+    );
   }
   if (process.env.REACT_APP_MAINTENANCE_MODE === "true") {
     return <Maintenance />;

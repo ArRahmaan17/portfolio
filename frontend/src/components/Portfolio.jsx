@@ -146,7 +146,7 @@ function ProjectImage({ project }) {
       decoding="async"
       className="absolute inset-0 h-full w-full object-cover transition duration-700 ease-signal group-hover:scale-[1.035]"
       src={source}
-      alt=""
+      alt={project?.name ? `${project.name} preview screenshot` : "Project preview screenshot"}
       onError={() => {
         if (source !== notfound) setSource(notfound);
       }}
@@ -209,7 +209,8 @@ function ProjectCard({ project, index, total }) {
       href={project.link}
       target="_blank"
       rel="noopener noreferrer"
-      className="block h-full rounded-[2rem] focus-visible:outline-none"
+      aria-label={`${project.name} - View project (opens in new tab)`}
+      className="block h-full rounded-[2rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 dark:focus-visible:ring-offset-void"
     >
       {content}
     </a>

@@ -19,7 +19,7 @@ function AnimatedContent({
   const ref = useRef(null);
   const prefersReducedMotion =
     typeof window !== "undefined" &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    Boolean(window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches);
 
   useEffect(() => {
     const el = ref.current;
