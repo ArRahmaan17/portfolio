@@ -188,8 +188,8 @@ export default function CookiePolicyPage({
                         </td>
                         <td className="px-4 py-3 sm:px-6">
                           {isId
-                            ? "Cookie sesi terenkripsi (HttpOnly, Secure, SameSite) yang HANYA digunakan oleh pemilik situs untuk manajemen dashboard /admin/*. Terlindungi dari akses JavaScript (proteksi XSS) dan tidak pernah dipasang pada pengunjung umum."
-                            : "Cryptographically signed session cookie (HttpOnly, Secure, SameSite) used EXCLUSIVELY by the site administrator for /admin/* dashboard management. Protected against JavaScript access/XSS and never set for public visitors."}
+                            ? "Cookie sesi terenkripsi (HttpOnly, Secure, SameSite) yang HANYA digunakan oleh pemilik situs untuk manajemen dashboard terotorisasi dan pemeliharaan internal. Terlindungi dari akses JavaScript (proteksi XSS) dan tidak pernah dipasang pada pengunjung umum."
+                            : "Cryptographically signed session cookie (HttpOnly, Secure, SameSite) used EXCLUSIVELY by the site administrator for authorized dashboard management and internal maintenance. Protected against JavaScript access/XSS and never set for public visitors."}
                         </td>
                         <td className="px-4 py-3 font-mono text-xs sm:px-6">
                           {isId ? "1 jam / Hingga logout" : "1 hour / Until logout"}
