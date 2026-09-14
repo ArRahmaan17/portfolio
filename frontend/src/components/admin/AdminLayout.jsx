@@ -15,7 +15,7 @@ import {
   Wrench,
   Menu,
 } from "lucide-react";
-import { getAdminToken, redirectToAdminLogin } from "../../utils/adminApi";
+import { adminApi, getAdminToken, redirectToAdminLogin } from "../../utils/adminApi";
 
 export default function AdminLayout({
   children,
@@ -26,7 +26,13 @@ export default function AdminLayout({
   const hasAdminToken = Boolean(getAdminToken());
 
   useLayoutEffect(() => {
-    if (!hasAdminToken) redirectToAdminLogin();
+    if (!hasAdminToken) {
+      redirectToAdminLogin();
+      return;
+    }
+    adminApi.auth.me().catch(() => {
+      redirectToAdminLogin();
+    });
   }, [hasAdminToken]);
 
   const navigation = useMemo(
@@ -46,8 +52,8 @@ export default function AdminLayout({
   const currentPath = window.location.pathname;
   const isDark = theme === "Dark";
 
-  const handleLogout = () => {
-    localStorage.removeItem("admin_token");
+  const handleLogout = async () => {
+    await adminApi.auth.logout();
     window.location.href = "/admin/login";
   };
 

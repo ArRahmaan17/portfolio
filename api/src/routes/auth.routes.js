@@ -37,10 +37,51 @@ router.post("/login", async (req, res, next) => {
       { expiresIn: "1h" }
     );
 
+    const isProduction = process.env.NODE_ENV === "production";
+    res.cookie("admin_token", token, {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? "strict" : "lax",
+      maxAge: 60 * 60 * 1000,
+      path: "/",
+    });
+
     const safeUser = user.get({ plain: true });
     delete safeUser.password;
 
     return res.status(200).json({ message: "Login successful", user: safeUser, token: token });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/logout", (req, res) => {
+  const isProduction = process.env.NODE_ENV === "production";
+  res.clearCookie("admin_token", {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? "strict" : "lax",
+    path: "/",
+  });
+  return res.status(200).json({ message: "Logged out successfully" });
+});
+
+router.get("/me", async (req, res, next) => {
+  try {
+    const authPayload = req.auth || req.user;
+    if (!authPayload || !authPayload.userId) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const user = await User.findByPk(authPayload.userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.status(200).json({
+      authenticated: true,
+      user,
+    });
   } catch (error) {
     next(error);
   }

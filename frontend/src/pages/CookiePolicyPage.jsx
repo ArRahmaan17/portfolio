@@ -91,8 +91,8 @@ export default function CookiePolicyPage({
                   </h2>
                   <p className="mt-1 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
                     {isId
-                      ? "Situs ini beroperasi tanpa piksel pelacak iklan (seperti Meta Pixel atau Google Ads) dan tanpa cookie profil pihak ketiga. Kami hanya menggunakan penyimpanan lokal browser (localStorage & sessionStorage) untuk fungsionalitas murni situs."
-                      : "This site operates without third-party advertising pixels (such as Meta Pixel or Google Ads) and without invasive profiling cookies. We only use client browser storage (localStorage and sessionStorage) strictly to deliver expected site functionality."}
+                      ? "Situs ini beroperasi tanpa piksel pelacak iklan (seperti Meta Pixel atau Google Ads) dan tanpa cookie profil pihak ketiga. Kami hanya menggunakan penyimpanan lokal browser (localStorage & sessionStorage) serta cookie sesi aman (HttpOnly) untuk fungsionalitas murni situs."
+                      : "This site operates without third-party advertising pixels (such as Meta Pixel or Google Ads) and without invasive profiling cookies. We only use client browser storage (localStorage and sessionStorage) and secure session cookies (HttpOnly) strictly to deliver expected site functionality."}
                   </p>
                 </div>
               </div>
@@ -184,15 +184,15 @@ export default function CookiePolicyPage({
                           admin_token
                         </td>
                         <td className="px-4 py-3 font-mono text-xs sm:px-6">
-                          localStorage
+                          HttpOnly Cookie
                         </td>
                         <td className="px-4 py-3 sm:px-6">
                           {isId
-                            ? "Token sesi JWT yang HANYA digunakan oleh pemilik situs untuk mengakses panel admin (/admin/*). Tidak ada pada pengunjung umum."
-                            : "Authentication bearer token used EXCLUSIVELY by the site administrator for /admin/* dashboard management. Never set for public visitors."}
+                            ? "Cookie sesi terenkripsi (HttpOnly, Secure, SameSite) yang HANYA digunakan oleh pemilik situs untuk manajemen dashboard /admin/*. Terlindungi dari akses JavaScript (proteksi XSS) dan tidak pernah dipasang pada pengunjung umum."
+                            : "Cryptographically signed session cookie (HttpOnly, Secure, SameSite) used EXCLUSIVELY by the site administrator for /admin/* dashboard management. Protected against JavaScript access/XSS and never set for public visitors."}
                         </td>
                         <td className="px-4 py-3 font-mono text-xs sm:px-6">
-                          {isId ? "Hingga logout" : "Until logout"}
+                          {isId ? "1 jam / Hingga logout" : "1 hour / Until logout"}
                         </td>
                       </tr>
                       <tr className="hover:bg-slate-50 dark:hover:bg-white/[0.02]">

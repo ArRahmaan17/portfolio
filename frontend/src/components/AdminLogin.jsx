@@ -28,13 +28,15 @@ export default function AdminLogin({ theme = "Light", changeTheme }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
+        credentials: "include",
       });
 
       const payload = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(payload.message || `Login failed with status ${response.status}`);
-      if (!payload.token) throw new Error("Login response missing token");
 
-      localStorage.setItem("admin_token", payload.token);
+      // Clear legacy localStorage token and record session state
+      localStorage.removeItem("admin_token");
+      sessionStorage.setItem("admin_session", "active");
       window.location.href = "/admin/dashboard";
     } catch (err) {
       setError(err?.message || "Login failed");

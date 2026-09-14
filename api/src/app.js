@@ -1,8 +1,10 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const multer = require("multer");
 const rateLimit = require("express-rate-limit");
+const cookieParser = require("cookie-parser");
 var { expressjwt: jwt } = require("express-jwt");
 
 const apiRoutes = require("./routes");
@@ -12,6 +14,7 @@ const JWT_EXCLUDED_PATHS = [
   "/",
   "/api/auth/login",
   "/api/auth/register",
+  "/api/auth/logout",
   "/storage",
   "/api/health",
   { url: /^\/api\/blog(\/.*)?$/, methods: ["GET"] },
@@ -61,7 +64,32 @@ function isJwtExcludedRoute(req) {
   });
 }
 
-app.use(cors());
+const getJwtToken = (req) => {
+  if (req.cookies && req.cookies.admin_token) {
+    return req.cookies.admin_token;
+  }
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.split(" ")[0] === "Bearer"
+  ) {
+    return req.headers.authorization.split(" ")[1];
+  }
+  if (req.headers.cookie) {
+    const match = req.headers.cookie.match(/(?:^|;\s*)admin_token=([^;]+)/);
+    if (match) {
+      return decodeURIComponent(match[1]);
+    }
+  }
+  return null;
+};
+
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
+app.use(cookieParser());
 app.use(express.json());
 app.use("/storage", express.static(path.resolve(__dirname, "../storage")));
 app.use(globalLimiter);
@@ -73,7 +101,11 @@ app.use((req, res, next) => {
   return publicLimiter(req, res, next);
 });
 app.use(
-  jwt({ secret: process.env.JWT_SECRET, algorithms: ["HS256"] }).unless({
+  jwt({
+    secret: process.env.JWT_SECRET,
+    algorithms: ["HS256"],
+    getToken: getJwtToken,
+  }).unless({
     path: JWT_EXCLUDED_PATHS,
   })
 );

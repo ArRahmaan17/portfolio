@@ -1,4 +1,6 @@
 import {
+  ADMIN_LOGOUT_URL,
+  ADMIN_ME_URL,
   BLOGS_URL,
   CURRENT_FOCUS_URL,
   EMPLOYEES_URL,
@@ -8,12 +10,30 @@ import {
   SKILLS_URL,
 } from "../constants";
 
-export const getAdminToken = () => localStorage.getItem("admin_token") || "";
+export const getAdminToken = () => {
+  if (typeof window === "undefined") return "";
+  return (
+    sessionStorage.getItem("admin_session") ||
+    localStorage.getItem("admin_token") ||
+    ""
+  );
+};
 
-export const redirectToAdminLogin = () => {
-  localStorage.removeItem("admin_token");
-  if (window.location.pathname !== "/admin/login") {
-    window.location.replace("/admin/login");
+export const redirectToAdminLogin = async () => {
+  if (typeof window !== "undefined") {
+    sessionStorage.removeItem("admin_session");
+    localStorage.removeItem("admin_token");
+    try {
+      await fetch(ADMIN_LOGOUT_URL, {
+        method: "POST",
+        credentials: "include",
+      });
+    } catch {
+      // ignore network errors during redirect
+    }
+    if (window.location.pathname !== "/admin/login") {
+      window.location.replace("/admin/login");
+    }
   }
 };
 
@@ -26,10 +46,13 @@ export const requireAdminToken = () => {
   return token;
 };
 
-const withAuthHeaders = (token, headers = {}) => ({
-  ...headers,
-  Authorization: `Bearer ${token}`,
-});
+const withAuthHeaders = (token, headers = {}) => {
+  const nextHeaders = { ...headers };
+  if (token && token !== "active" && token !== "session-active") {
+    nextHeaders.Authorization = `Bearer ${token}`;
+  }
+  return nextHeaders;
+};
 
 export const authJsonFetch = async (
   url,
@@ -39,6 +62,7 @@ export const authJsonFetch = async (
     method,
     headers: withAuthHeaders(token, { "Content-Type": "application/json" }),
     body: body ? JSON.stringify(body) : undefined,
+    credentials: "include",
   });
 
   const payload = await response.json().catch(() => ({}));
@@ -63,6 +87,7 @@ export const authFormFetch = async (
     method,
     headers: withAuthHeaders(token),
     body: formData,
+    credentials: "include",
   });
 
   const payload = await response.json().catch(() => ({}));
@@ -80,6 +105,23 @@ export const authFormFetch = async (
 };
 
 export const adminApi = {
+  auth: {
+    me: () => authJsonFetch(ADMIN_ME_URL),
+    logout: async () => {
+      if (typeof window !== "undefined") {
+        sessionStorage.removeItem("admin_session");
+        localStorage.removeItem("admin_token");
+      }
+      try {
+        await fetch(ADMIN_LOGOUT_URL, {
+          method: "POST",
+          credentials: "include",
+        });
+      } catch {
+        // ignore network error
+      }
+    },
+  },
   skills: {
     list: (token) => authJsonFetch(SKILLS_URL, { token }),
     create: (token, formData) => authFormFetch(SKILLS_URL, { token, formData }),

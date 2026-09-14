@@ -2,6 +2,8 @@
 export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "";
 
 export const ADMIN_LOGIN_URL = `${API_BASE_URL}/api/auth/login`;
+export const ADMIN_LOGOUT_URL = `${API_BASE_URL}/api/auth/logout`;
+export const ADMIN_ME_URL = `${API_BASE_URL}/api/auth/me`;
 export const SKILLS_URL = `${API_BASE_URL}/api/skills`;
 export const PORTFOLIOS_URL = `${API_BASE_URL}/api/portfolios`;
 export const MESSAGES_URL = `${API_BASE_URL}/api/messages`;
